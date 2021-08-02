@@ -16,7 +16,9 @@
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <!--
                 <RowDefinition Height="30px" />
+                -->
             </Grid.RowDefinitions>
             <reactiveUi:RoutedViewHost 
                 Grid.Row="0" 

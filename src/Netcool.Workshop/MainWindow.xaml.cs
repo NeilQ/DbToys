@@ -18,6 +18,7 @@ namespace Netcool.Workshop
             {
                 this.OneWayBind(ViewModel, x => x.Router, x => x.RoutedViewHost.Router).DisposeWith(d);
             });
+            ViewModel = new MainWindowViewModel();
         }
 
         static MainWindow()
