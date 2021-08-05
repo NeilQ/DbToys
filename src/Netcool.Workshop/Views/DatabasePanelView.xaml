@@ -1,0 +1,48 @@
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="viewModels:DatabasePanelViewModel" x:Class="Netcool.Workshop.Views.DatabasePanelView"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                                xmlns:local="clr-namespace:Netcool.Workshop.Views"
+                                xmlns:reactiveUi="http://reactiveui.net"
+                                xmlns:viewModels="clr-namespace:Netcool.Workshop.ViewModels"
+                                xmlns:hc="https://handyorg.github.io/handycontrol"
+                                xmlns:database="clr-namespace:Netcool.Workshop.Database"
+                                mc:Ignorable="d" 
+                                d:DesignHeight="700" d:DesignWidth="400">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <hc:SplitButton Style="{StaticResource SplitButtonPrimary}" Margin="8,0" Content="New connection" HitMode="Hover" HorizontalAlignment="Left">
+            <hc:SplitButton.DropDownContent>
+                <StackPanel>
+                    <MenuItem x:Name="SqlServer" Header="Sql Server" CommandParameter="SqlServer"/>
+                    <MenuItem x:Name="MySql" Header="MySql" CommandParameter="MySql"/>
+                    <MenuItem x:Name="PostgreSql" Header="PostgreSql" CommandParameter="PostgreSql"/>
+                </StackPanel>
+            </hc:SplitButton.DropDownContent>
+        </hc:SplitButton>
+        <TreeView x:Name="ConnectionTree" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <TreeView.Resources>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemBaseStyle}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                </Style>
+            </TreeView.Resources>
+
+            <TreeView.ItemTemplate>  
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type viewModels:TreeItem}">  
+                    <reactiveUi:ViewModelViewHost ViewModel="{Binding ViewModel}"/>
+                </HierarchicalDataTemplate>  
+            </TreeView.ItemTemplate>  
+        </TreeView>
+
+    </Grid>
+
+
+</reactiveUi:ReactiveUserControl>

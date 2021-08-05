@@ -17,13 +17,9 @@
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" CornerRadius="10" Margin="8,8,3,8" Background="{DynamicResource RegionBrush}" Effect="{StaticResource EffectShadow4}">
             <hc:TransitioningContentControl>
-                 <TabControl Style="{StaticResource TabControlInLine}" Margin="3">
+                <TabControl Style="{StaticResource TabControlInLine}" Margin="3">
                     <TabItem Header="Database">
-                        <Border>
-                            <TextBlock Style="{StaticResource TextBlockLargeBold}">
-                                <Run Text="1"/>
-                            </TextBlock>
-                        </Border>
+                        <local:DatabasePanelView></local:DatabasePanelView>
                     </TabItem>
                     <TabItem Header="Code templates" >
                         <Border >

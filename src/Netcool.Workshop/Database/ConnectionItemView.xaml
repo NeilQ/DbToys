@@ -1,0 +1,13 @@
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="local:ConnectionItem" x:Class="Netcool.Workshop.Database.ConnectionItemView"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                                xmlns:local="clr-namespace:Netcool.Workshop.Database"
+                                xmlns:reactiveUi="http://reactiveui.net"
+                                mc:Ignorable="d" 
+                                d:DesignHeight="100" d:DesignWidth="300">
+    <StackPanel>
+        <TextBlock Name="ConnectionName" Text="11"/>
+    </StackPanel>
+</reactiveUi:ReactiveUserControl>
