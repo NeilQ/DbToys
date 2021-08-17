@@ -27,11 +27,7 @@
             </hc:SplitButton.DropDownContent>
         </hc:SplitButton>
         <TreeView x:Name="ConnectionTree" Grid.Row="1"   
-                  VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Recycling"
-                  VirtualizingStackPanel.CacheLength="100,100"
-                  VirtualizingStackPanel.CacheLengthUnit="Item"
-                  VirtualizingPanel.ScrollUnit="Item">
+                  VirtualizingPanel.IsVirtualizing="False">
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemBaseStyle}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
