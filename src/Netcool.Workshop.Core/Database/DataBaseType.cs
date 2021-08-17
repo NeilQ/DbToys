@@ -1,4 +1,4 @@
-﻿namespace Netcool.Workshop.Core
+﻿namespace Netcool.Workshop.Core.Database
 {
     public enum DataBaseType
     {

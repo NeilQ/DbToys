@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reactive;
-using System.Reactive.Linq;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Npgsql;
@@ -11,10 +10,6 @@ namespace Netcool.Workshop.ViewModels
 {
     public class PostgreSqlLoginViewModel : ReactiveObject
     {
-        public Action CloseAction { get; set; }
-
-        public Action<NpgsqlConnectionStringBuilder> ConnectSuccessAction { get; set; }
-
         [Reactive] public string ServerIp { get; set; } = "127.0.0.1";
 
         [Reactive] public int Port { get; set; } = 5432;
@@ -33,7 +28,6 @@ namespace Netcool.Workshop.ViewModels
         {
             Cancel = ReactiveCommand.Create(() =>
             {
-                CloseAction?.Invoke();
             });
 
             var canConnect = this.WhenAnyValue(t => t.ServerIp, t => t.Port, t => t.Username, t => t.IsConnecting,
@@ -58,10 +52,7 @@ namespace Netcool.Workshop.ViewModels
                 Growl.Success("PostgreSql Connected");
                 return builder;
             }, canConnect);
-            Connect.Subscribe(builder =>
-            {
-                ConnectSuccessAction?.Invoke(builder);
-            });
+
             Connect.ThrownExceptions.Subscribe(ex =>
             {
                 IsConnecting = false;

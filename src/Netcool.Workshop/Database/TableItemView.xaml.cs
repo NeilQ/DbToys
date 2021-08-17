@@ -4,11 +4,11 @@ using ReactiveUI;
 namespace Netcool.Workshop.Database
 {
     /// <summary>
-    /// Interaction logic for ConnectionItemView.xaml
+    /// Interaction logic for TableItemView.xaml
     /// </summary>
-    public partial class ConnectionItemView
+    public partial class TableItemView
     {
-        public ConnectionItemView()
+        public TableItemView()
         {
             InitializeComponent();
             this.WhenActivated(d =>

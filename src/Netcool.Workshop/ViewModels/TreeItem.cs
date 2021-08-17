@@ -1,19 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace Netcool.Workshop.ViewModels
 {
-    public abstract class TreeItem : ReactiveObject
+    public abstract class TreeItem : ReactiveObject, IActivatableViewModel
     {
         public abstract object ViewModel { get; }
+
+        public ViewModelActivator Activator { get; }
+
+        [Reactive]
+        public string Name { get; set; }
 
         [Reactive]
         public IObservableCollection<TreeItem> Children { get; set; }
 
-        [Reactive]
-        public bool IsExpanded { get; set; }
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                if (!value && !Children.Any())
+                {
+                    return;
+                }
+                this.RaiseAndSetIfChanged(ref _isExpanded, value);
+            }
+        }
 
         [Reactive]
         public bool IsSelected { get; set; }
@@ -21,11 +40,12 @@ namespace Netcool.Workshop.ViewModels
 
         private TreeItem _parent;
 
-        protected TreeItem(IEnumerable<TreeItem> children = null)
+        protected TreeItem(string name, IEnumerable<TreeItem> children = null)
         {
+            Name = name;
+            Activator = new ViewModelActivator();
             Children = new ObservableCollectionExtended<TreeItem>();
             if (children == null) return;
-            //Children.Load(children);
             foreach (var child in children)
             {
                 AddChild(child);

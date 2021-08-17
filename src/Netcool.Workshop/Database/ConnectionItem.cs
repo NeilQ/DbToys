@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Netcool.Workshop.Core.Database;
 using Netcool.Workshop.ViewModels;
 using ReactiveUI.Fody.Helpers;
 
@@ -6,16 +7,17 @@ namespace Netcool.Workshop.Database
 {
     public class ConnectionItem : TreeItem
     {
-        [Reactive]
-        public string Name { get; set; }
-
         public override object ViewModel => this;
 
-        public ConnectionItem(string name, IEnumerable<TreeItem> children = null) : base(children)
+    
+
+        [Reactive]
+        public DataBaseType DataBaseType { get; set; }
+
+        public ConnectionItem(string name, DataBaseType databaseType,  IEnumerable<TreeItem> children = null) : base(name, children)
         {
-            Name = name;
+            DataBaseType = databaseType;
         }
 
-        public ConnectionItem() { }
     }
 }

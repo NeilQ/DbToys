@@ -1,8 +1,11 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Reactive;
 using System.Windows;
 using DynamicData.Binding;
 using HandyControl.Controls;
-using HandyControl.Tools.Extension;
+using Netcool.Workshop.Core.Database;
 using Netcool.Workshop.Database;
 using Netcool.Workshop.Views;
 using ReactiveUI;
@@ -21,30 +24,44 @@ namespace Netcool.Workshop.ViewModels
 
         public ReactiveCommand<string, Unit> NewConnectionCommand { get; set; }
 
-        private PostgreSqlLoginViewModel _postgreSqlLoginViewModel = new PostgreSqlLoginViewModel();
+        private PostgreSqlLoginViewModel _postgreSqlLoginViewModel;
 
         public DatabasePanelViewModel()
         {
-            var item = new ConnectionItem("first", new[] { new ConnectionItem("second", new[] { new ConnectionItem("three") }) });
-            item.CollapsePath();
-            ConnectionItems.Load(new[] { item });
-
-            NewConnectionCommand = ReactiveCommand.Create<string>((value) =>
-            {
-                Growl.Info(value);
-
-                if (value == "PostgreSql")
-                {
-                    var window = new PostgreSqlLoginView
-                    {
-                        Owner = Application.Current.MainWindow,
-                        ViewModel = _postgreSqlLoginViewModel
-                    };
-                    _postgreSqlLoginViewModel.CloseAction = () => { window.Close(); };
-                    window.Show();
-                }
-            });
+            NewConnectionCommand = ReactiveCommand.Create<string>(OpenConnectWindow);
         }
+
+        private void OpenConnectWindow(string value)
+        {
+            Growl.Info(value);
+
+            if (value == "PostgreSql")
+            {
+                _postgreSqlLoginViewModel ??= new PostgreSqlLoginViewModel();
+                var window = new PostgreSqlLoginView { Owner = Application.Current.MainWindow, ViewModel = _postgreSqlLoginViewModel };
+                _postgreSqlLoginViewModel.Cancel.Subscribe(_ => { window.Close(); });
+                _postgreSqlLoginViewModel.Connect.Subscribe(builder =>
+                {
+                    window.Close();
+                    LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
+                });
+
+                window.Show();
+            }
+        }
+
+        private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DataBaseType dbType)
+        {
+            var item = new ConnectionItem(schemaReader.GetServerName(), dbType, new List<TreeItem>());
+            var dbs = schemaReader.ReadDatabases();
+            foreach (var db in dbs)
+            {
+                item.AddChild(new DatabaseItem(db, schemaReader));
+            }
+            item.ExpandPath();
+            ConnectionItems.Load(new[] { item });
+        }
+
 
     }
 }

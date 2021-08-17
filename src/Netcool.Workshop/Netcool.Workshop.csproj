@@ -14,7 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Netcool.Workshop.Core\Netcool.Workshop.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Images\cloud.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BindingConverters\" />
   </ItemGroup>
 
 </Project>
