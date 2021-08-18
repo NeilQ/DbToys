@@ -22,32 +22,37 @@ namespace Netcool.Workshop.ViewModels
         [Reactive]
         public TreeItem SelectedItem { get; set; }
 
-        private Window _loginWindow;
+        private PostgreSqlLoginView _postgreSqlLoginView;
 
         public ReactiveCommand<string, Unit> NewConnectionCommand { get; set; }
 
         public DatabasePanelViewModel()
         {
             NewConnectionCommand = ReactiveCommand.Create<string>(OpenConnectWindow);
+
         }
 
         private void OpenConnectWindow(string value)
         {
-            if (_loginWindow != null) return;
             if (value == "PostgreSql")
             {
-                var window = new PostgreSqlLoginView() { Owner = Application.Current.MainWindow };
-                _loginWindow = window;
-                 window.ViewModel?.Connect.Subscribe(builder =>
+                if (_postgreSqlLoginView == null)
                 {
-                    LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
-                });
-                window.Closed += (_, _) =>
-                {
-                    _loginWindow = null;
-                };
+                    _postgreSqlLoginView = new PostgreSqlLoginView() { Owner = Application.Current.MainWindow };
 
-                window.Show();
+                    if (_postgreSqlLoginView.ViewModel != null)
+                    {
+                        _postgreSqlLoginView.ViewModel?.Connect.Subscribe(builder =>
+                        {
+                            LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
+                        });
+                        _postgreSqlLoginView.ViewModel.CloseAction = () =>
+                        {
+                            _postgreSqlLoginView.Hide();
+                        };
+                    }
+                }
+                _postgreSqlLoginView.Show();
             }
         }
 
