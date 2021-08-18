@@ -12,33 +12,18 @@ namespace Netcool.Workshop.Database
 {
     public class DatabaseItem : TreeItem
     {
-        public override object ViewModel => this;
 
         private readonly ISchemaReader _schemaReader;
 
         public TableCollection Tables { get; set; }
 
-        public DatabaseItem(string name, ISchemaReader schemaReader, IEnumerable<TreeItem> children = null) : base(name, children)
+        public DatabaseItem(string name, ISchemaReader schemaReader) : base(name, true)
         {
             Name = name;
             _schemaReader = schemaReader;
-
-            this.WhenActivated(d =>
-            {
-                this.WhenAnyValue(t => t.IsExpanded)
-                    .Where(t => t)
-                    .Subscribe(_ =>
-                    {
-                        if (!Children.Any())
-                        {
-                            LoadChildren();
-                        }
-                    })
-                    .DisposeWith(d);
-            });
         }
 
-        private void LoadChildren()
+        protected override void LoadChildren()
         {
             var tables = _schemaReader.ReadTables(Name);
             Tables = tables;

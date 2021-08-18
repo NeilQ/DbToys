@@ -7,14 +7,10 @@ namespace Netcool.Workshop.Database
 {
     public class ConnectionItem : TreeItem
     {
-        public override object ViewModel => this;
-
-    
-
         [Reactive]
         public DataBaseType DataBaseType { get; set; }
 
-        public ConnectionItem(string name, DataBaseType databaseType,  IEnumerable<TreeItem> children = null) : base(name, children)
+        public ConnectionItem(string name, DataBaseType databaseType) : base(name, false)
         {
             DataBaseType = databaseType;
         }

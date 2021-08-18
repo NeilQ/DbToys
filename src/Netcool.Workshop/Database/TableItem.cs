@@ -5,10 +5,8 @@ namespace Netcool.Workshop.Database
 {
     public class TableItem : TreeItem
     {
-        public TableItem(string name, IEnumerable<TreeItem> children = null) : base(name, children)
+        public TableItem(string name, IEnumerable<TreeItem> children = null) : base(name, false)
         {
         }
-
-        public override object ViewModel => this;
     }
 }

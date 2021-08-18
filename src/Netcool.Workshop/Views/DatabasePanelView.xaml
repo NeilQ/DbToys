@@ -27,19 +27,57 @@
             </hc:SplitButton.DropDownContent>
         </hc:SplitButton>
         <TreeView x:Name="ConnectionTree" Grid.Row="1"   
-                  VirtualizingPanel.IsVirtualizing="False">
+                  VirtualizingPanel.IsVirtualizing="False" Margin="5">
             <TreeView.Resources>
-                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemBaseStyle}">
+                <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
                 </Style>
+
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type database:ConnectionItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="Transparent" Height="20" Padding="3" Width="20">
+                            <Path Fill="{DynamicResource PrimaryTextBrush}" Stretch="Uniform">
+                                <Path.Style>
+                                    <Style TargetType="{x:Type Path}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DataBaseType, Mode=TwoWay}" Value="2">
+                                                <Setter Property="Data" Value="{StaticResource PostgreSqlGeometry}"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                        </Border>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type database:DatabaseItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="Transparent" Height="20" Padding="3" Width="20">
+                            <Path Fill="{DynamicResource PrimaryTextBrush}" Stretch="Uniform" Data="{StaticResource DatabaseGeometry}">
+                            </Path>
+                        </Border>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <DataTemplate  DataType="{x:Type database:TableItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="Transparent" Height="20" Padding="3" Width="20">
+                            <Path Fill="{DynamicResource PrimaryTextBrush}" Stretch="Uniform" Data="{StaticResource TableGeometry}">
+                            </Path>
+                        </Border>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
             </TreeView.Resources>
 
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type viewModels:TreeItem}">
-                    <reactiveUi:ViewModelViewHost ViewModel="{Binding ViewModel}"/>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemBaseStyle}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
         </TreeView>
 
     </Grid>

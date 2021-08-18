@@ -19,9 +19,6 @@ namespace Netcool.Workshop.ViewModels
 
         public void RegisterDependencies()
         {
-            Locator.CurrentMutable.Register(() => new ConnectionItemView(), typeof(IViewFor<ConnectionItem>));
-            Locator.CurrentMutable.Register(() => new DatabaseItemView(), typeof(IViewFor<DatabaseItem>));
-            Locator.CurrentMutable.Register(() => new TableItemView(), typeof(IViewFor<TableItem>));
             DbProviderFactories.RegisterFactory("Npgsql", Npgsql.NpgsqlFactory.Instance);
 
             RxApp.DefaultExceptionHandler = Observer.Create<Exception>(ex =>

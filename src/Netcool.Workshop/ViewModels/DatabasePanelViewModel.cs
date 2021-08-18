@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Windows;
-using DynamicData.Binding;
+using DynamicData;
 using HandyControl.Controls;
 using Netcool.Workshop.Core.Database;
 using Netcool.Workshop.Database;
 using Netcool.Workshop.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Splat;
 using Window = System.Windows.Window;
 
 
@@ -19,7 +17,7 @@ namespace Netcool.Workshop.ViewModels
     public class DatabasePanelViewModel : ReactiveObject
     {
         [Reactive]
-        public IObservableCollection<TreeItem> ConnectionItems { get; set; } = new ObservableCollectionExtended<TreeItem>();
+        public ObservableCollection<TreeItem> ConnectionItems { get; set; } = new ObservableCollection<TreeItem>();
 
         [Reactive]
         public TreeItem SelectedItem { get; set; }
@@ -35,36 +33,35 @@ namespace Netcool.Workshop.ViewModels
 
         private void OpenConnectWindow(string value)
         {
-            Growl.Info(value);
-
             if (_loginWindow != null) return;
             if (value == "PostgreSql")
             {
+                var window = new PostgreSqlLoginView() { Owner = Application.Current.MainWindow };
+                _loginWindow = window;
+                 window.ViewModel?.Connect.Subscribe(builder =>
                 {
-                    var window = new PostgreSqlLoginView()
-                    { ViewModel = new PostgreSqlLoginViewModel(), Owner = Application.Current.MainWindow };
-                    window.Closed += (_, _) => { _loginWindow = null; };
-                    _loginWindow = window;
-                    window.ViewModel?.Connect.Subscribe(builder =>
-                    {
-                        LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
-                    });
+                    LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
+                });
+                window.Closed += (_, _) =>
+                {
+                    _loginWindow = null;
+                };
 
-                    window.Show();
-                }
+                window.Show();
             }
         }
 
         private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DataBaseType dbType)
         {
-            var item = new ConnectionItem(schemaReader.GetServerName(), dbType, new List<TreeItem>());
+            var item = new ConnectionItem(schemaReader.GetServerName(), dbType);
             var dbs = schemaReader.ReadDatabases();
             foreach (var db in dbs)
             {
                 item.AddChild(new DatabaseItem(db, schemaReader));
             }
             item.ExpandPath();
-            ConnectionItems.Load(new[] { item });
+            ConnectionItems.Clear();
+            ConnectionItems.AddRange(new[] { item });
         }
 
 
