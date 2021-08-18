@@ -14,9 +14,9 @@ namespace Netcool.Workshop.Views
         public DatabasePanelView()
         {
             InitializeComponent();
+            ViewModel = new DatabasePanelViewModel();
             this.WhenActivated(d =>
             {
-                ViewModel ??= new DatabasePanelViewModel();
                 this.OneWayBind(ViewModel, vm => vm.ConnectionItems, v => v.ConnectionTree.ItemsSource).DisposeWith(d);
                 this.WhenAnyValue(x => x.ConnectionTree.SelectedItem).BindTo(this, x => x.ViewModel.SelectedItem);
                 this.BindCommand(ViewModel, vm => vm.NewConnectionCommand, v => v.PostgreSql).DisposeWith(d);

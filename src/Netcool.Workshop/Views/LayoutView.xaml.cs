@@ -1,4 +1,6 @@
 ﻿
+using Netcool.Workshop.ViewModels;
+
 namespace Netcool.Workshop.Views
 {
     /// <summary>
@@ -9,6 +11,7 @@ namespace Netcool.Workshop.Views
         public LayoutView()
         {
             InitializeComponent();
+            ViewModel = new LayoutViewModel();
         }
     }
 }

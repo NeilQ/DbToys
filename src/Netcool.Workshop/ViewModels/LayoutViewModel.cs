@@ -3,14 +3,11 @@ using Splat;
 
 namespace Netcool.Workshop.ViewModels
 {
-    public class LayoutViewModel : ReactiveObject, IRoutableViewModel
+    public class LayoutViewModel : ReactiveObject
     {
-        public string UrlPathSegment => "layout";
-        public IScreen HostScreen { get; }
 
-        public LayoutViewModel(IScreen screen = null)
+        public LayoutViewModel()
         {
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
         }
 
     }

@@ -14,6 +14,8 @@ namespace Netcool.Workshop.ViewModels
 
         [Reactive] public int Port { get; set; } = 5432;
 
+        public Action CloseAction { get; set; }
+
         [Reactive] public string Username { get; set; } = "postgres";
 
         [Reactive] public string Password { get; set; }
@@ -28,11 +30,14 @@ namespace Netcool.Workshop.ViewModels
         {
             Cancel = ReactiveCommand.Create(() =>
             {
+                CloseAction?.Invoke();
             });
 
+            /*
             var canConnect = this.WhenAnyValue(t => t.ServerIp, t => t.Port, t => t.Username, t => t.IsConnecting,
                 (ip, port, username, isConnecting) =>
                     !string.IsNullOrEmpty(ip) && !string.IsNullOrEmpty(username) && port > 0 && !isConnecting);
+            */
 
             Connect = ReactiveCommand.Create(() =>
             {
@@ -50,8 +55,9 @@ namespace Netcool.Workshop.ViewModels
                 sqlConn.Open();
                 IsConnecting = false;
                 Growl.Success("PostgreSql Connected");
+                CloseAction?.Invoke();
                 return builder;
-            }, canConnect);
+            });
 
             Connect.ThrownExceptions.Subscribe(ex =>
             {

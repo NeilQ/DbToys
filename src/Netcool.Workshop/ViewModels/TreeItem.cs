@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -17,7 +16,7 @@ namespace Netcool.Workshop.ViewModels
         public string Name { get; set; }
 
         [Reactive]
-        public IObservableCollection<TreeItem> Children { get; set; }
+        public ObservableCollection<TreeItem> Children { get; set; }
 
 
         private bool _isExpanded;
@@ -44,7 +43,7 @@ namespace Netcool.Workshop.ViewModels
         {
             Name = name;
             Activator = new ViewModelActivator();
-            Children = new ObservableCollectionExtended<TreeItem>();
+            Children = new ObservableCollection<TreeItem>();
             if (children == null) return;
             foreach (var child in children)
             {

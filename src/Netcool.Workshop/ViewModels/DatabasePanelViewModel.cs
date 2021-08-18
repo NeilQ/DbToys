@@ -10,6 +10,8 @@ using Netcool.Workshop.Database;
 using Netcool.Workshop.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Splat;
+using Window = System.Windows.Window;
 
 
 namespace Netcool.Workshop.ViewModels
@@ -22,9 +24,9 @@ namespace Netcool.Workshop.ViewModels
         [Reactive]
         public TreeItem SelectedItem { get; set; }
 
-        public ReactiveCommand<string, Unit> NewConnectionCommand { get; set; }
+        private Window _loginWindow;
 
-        private PostgreSqlLoginViewModel _postgreSqlLoginViewModel;
+        public ReactiveCommand<string, Unit> NewConnectionCommand { get; set; }
 
         public DatabasePanelViewModel()
         {
@@ -35,18 +37,21 @@ namespace Netcool.Workshop.ViewModels
         {
             Growl.Info(value);
 
+            if (_loginWindow != null) return;
             if (value == "PostgreSql")
             {
-                _postgreSqlLoginViewModel ??= new PostgreSqlLoginViewModel();
-                var window = new PostgreSqlLoginView { Owner = Application.Current.MainWindow, ViewModel = _postgreSqlLoginViewModel };
-                _postgreSqlLoginViewModel.Cancel.Subscribe(_ => { window.Close(); });
-                _postgreSqlLoginViewModel.Connect.Subscribe(builder =>
                 {
-                    window.Close();
-                    LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
-                });
+                    var window = new PostgreSqlLoginView()
+                    { ViewModel = new PostgreSqlLoginViewModel(), Owner = Application.Current.MainWindow };
+                    window.Closed += (_, _) => { _loginWindow = null; };
+                    _loginWindow = window;
+                    window.ViewModel?.Connect.Subscribe(builder =>
+                    {
+                        LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
+                    });
 
-                window.Show();
+                    window.Show();
+                }
             }
         }
 

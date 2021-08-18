@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using DynamicData;
 using Netcool.Workshop.Core.Database;
 using Netcool.Workshop.ViewModels;
 using ReactiveUI;
@@ -41,7 +42,11 @@ namespace Netcool.Workshop.Database
         {
             var tables = _schemaReader.ReadTables(Name);
             Tables = tables;
-            Children.Load(tables.Select(t => new TableItem(t.DisplayName)));
+            Children.Clear();
+            foreach (var table in Tables)
+            {
+                AddChild(new TableItem(table.DisplayName) { IsExpanded = true });
+            }
         }
     }
 }
