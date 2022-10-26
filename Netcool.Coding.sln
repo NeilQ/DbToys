@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{49686435-7B2A-4CFA-8D91-3007E2622255}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netcool.Coding.Core", "src\Netcool.Coding.Core\Netcool.Coding.Core.csproj", "{7088C295-FA7D-4764-ABBE-2B98E803A191}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netcool.Coding", "src\Netcool.Coding\Netcool.Coding.csproj", "{476CFCC8-6CF7-42B9-854B-902778D68A87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7088C295-FA7D-4764-ABBE-2B98E803A191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7088C295-FA7D-4764-ABBE-2B98E803A191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7088C295-FA7D-4764-ABBE-2B98E803A191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7088C295-FA7D-4764-ABBE-2B98E803A191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{476CFCC8-6CF7-42B9-854B-902778D68A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{476CFCC8-6CF7-42B9-854B-902778D68A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{476CFCC8-6CF7-42B9-854B-902778D68A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{476CFCC8-6CF7-42B9-854B-902778D68A87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61387981-0D70-46A2-A2EC-D3320031E6EF}
+	EndGlobalSection
+EndGlobal

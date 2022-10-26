@@ -1,4 +1,4 @@
-#  Netcool.Workshop
+#  Netcool.Coding
 
 Under developing...
 
