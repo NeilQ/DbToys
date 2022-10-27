@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Npgsql;
 
 namespace Netcool.Coding.Core.Database
@@ -43,9 +44,9 @@ namespace Netcool.Coding.Core.Database
             return dbs;
         }
 
-        public override TableCollection ReadTables(string dbName)
+        public override List<Table> ReadTables(string dbName)
         {
-            var result = new TableCollection();
+            var result = new List<Table>();
 
             ConnectionStringBuilder.Database = dbName;
             using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);

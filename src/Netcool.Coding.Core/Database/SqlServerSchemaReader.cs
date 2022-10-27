@@ -26,9 +26,9 @@ namespace Netcool.Coding.Core.Database
         }
 
 
-        public override TableCollection ReadTables(string dbName)
+        public override List<Table> ReadTables(string dbName)
         {
-            var result = new TableCollection();
+            var result = new List<Table>();
 
             ConnectionStringBuilder.DataSource = dbName;
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);

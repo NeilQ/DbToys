@@ -1,4 +1,6 @@
-﻿using System.Reactive;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reactive;
 using Netcool.Coding.Core.Database;
 using Netcool.Coding.ViewModels;
 using ReactiveUI;
@@ -10,7 +12,7 @@ namespace Netcool.Coding.Database
 
         private readonly ISchemaReader _schemaReader;
 
-        public TableCollection Tables { get; set; }
+        public List<Table> Tables { get; set; }
 
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; set; }
 
@@ -23,8 +25,8 @@ namespace Netcool.Coding.Database
 
         protected override void LoadChildren()
         {
-            var tables = _schemaReader.ReadTables(Name);
-            Tables = tables;
+            var tables = _schemaReader.ReadTables(Name).OrderBy(t=>t.DisplayName);
+            Tables = tables.ToList();
             Children.Clear();
             foreach (var table in Tables)
             {

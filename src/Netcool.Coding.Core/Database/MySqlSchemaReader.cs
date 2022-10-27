@@ -35,10 +35,10 @@ namespace Netcool.Coding.Core.Database
             return dbs;
         }
 
-        public override TableCollection ReadTables(string dbName)
+        public override  List<Table>  ReadTables(string dbName)
         {
             ConnectionStringBuilder.Database = dbName;
-            var result = new TableCollection();
+            var result = new  List<Table> ();
 
             using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new MySqlCommand()

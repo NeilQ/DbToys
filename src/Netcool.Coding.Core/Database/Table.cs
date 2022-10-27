@@ -51,17 +51,4 @@ namespace Netcool.Coding.Core.Database
         public string DefaultValue { get; set; }
     }
 
-    public class TableCollection : List<Table>
-    {
-        public TableCollection()
-        {
-        }
-
-        public Table GetTable(string tableName)
-        {
-            return this.Single(x => string.Compare(x.Name, tableName, StringComparison.OrdinalIgnoreCase) == 0);
-        }
-
-        public Table this[string tableName] => GetTable(tableName);
-    }
 }

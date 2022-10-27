@@ -11,7 +11,7 @@ namespace Netcool.Coding.Core.Database
 
         List<string> ReadDatabases();
 
-        TableCollection ReadTables(string dbName);
+        List<Table> ReadTables(string dbName);
 
         List<Column> ReadColumns(string tableName);
     }
@@ -38,7 +38,7 @@ namespace Netcool.Coding.Core.Database
         public abstract List<string> ReadDatabases();
         public abstract List<Column> ReadColumns(string tableName);
 
-        public abstract TableCollection ReadTables(string dbName);
+        public abstract List<Table> ReadTables(string dbName);
 
         /// <summary>
         /// Convert value to Pascal case.
