@@ -36,11 +36,11 @@ namespace Netcool.Coding.ViewModels
             {
                 if (_postgreSqlLoginView == null)
                 {
-                    _postgreSqlLoginView = new PostgreSqlLoginView() { Owner = Application.Current.MainWindow };
+                    _postgreSqlLoginView = new PostgreSqlLoginView { Owner = Application.Current.MainWindow };
 
                     if (_postgreSqlLoginView.ViewModel != null)
                     {
-                        _postgreSqlLoginView.ViewModel?.Connect.Subscribe(builder =>
+                        _postgreSqlLoginView.ViewModel.Connect.Subscribe(builder =>
                         {
                             LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
                         });
