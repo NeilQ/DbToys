@@ -18,7 +18,7 @@ namespace Netcool.Coding.ViewModels
 
         [Reactive] public string Username { get; set; } = "postgres";
 
-        [Reactive] public string Password { get; set; }
+      public string Password { get; set; }
 
         [Reactive] public bool IsConnecting { get; set; }
 

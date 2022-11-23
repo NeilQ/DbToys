@@ -25,8 +25,8 @@
                 </StackPanel>
             </hc:SplitButton.DropDownContent>
         </hc:SplitButton>
-        <TreeView x:Name="ConnectionTree" Grid.Row="1"   
-                  VirtualizingPanel.IsVirtualizing="False" Margin="5">
+        <TreeView x:Name="ConnectionTree" Grid.Row="1" Margin="5" 
+                  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>

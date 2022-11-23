@@ -10,6 +10,11 @@ namespace Netcool.Coding.Core.Database
     {
         public SqlConnectionStringBuilder ConnectionStringBuilder { get; set; }
 
+        public SqlServerSchemaReader(SqlConnectionStringBuilder builder)
+        {
+            ConnectionStringBuilder = builder;
+        }
+
         public override string GetServerName()
         {
             return $"{ConnectionStringBuilder.DataSource}({ConnectionStringBuilder.UserID})";
@@ -19,8 +24,10 @@ namespace Netcool.Coding.Core.Database
         {
             var result = new List<string>();
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
+            connection.Open();
 
             result.AddRange(from DataRow row in connection.GetSchema(SqlClientMetaDataCollectionNames.Databases).Rows select row[0].ToString());
+            connection.Close();
 
             return result;
         }
@@ -30,7 +37,7 @@ namespace Netcool.Coding.Core.Database
         {
             var result = new List<Table>();
 
-            ConnectionStringBuilder.DataSource = dbName;
+            ConnectionStringBuilder.InitialCatalog = dbName;
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new SqlCommand { Connection = connection, CommandText = TABLE_SQL };
 
