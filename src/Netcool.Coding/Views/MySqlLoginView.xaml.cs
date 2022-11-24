@@ -7,14 +7,14 @@ using ReactiveUI;
 namespace Netcool.Coding.Views
 {
     /// <summary>
-    /// Interaction logic for PostgreSqlLoginView.xaml
+    /// Interaction logic for MySqlLoginView.xaml
     /// </summary>
-    public partial class PostgreSqlLoginView
+    public partial class MySqlLoginView
     {
-        public PostgreSqlLoginView()
+        public MySqlLoginView()
         {
             InitializeComponent();
-            ViewModel = new PostgreSqlLoginViewModel {CloseAction = Close};
+            ViewModel = new MySqlLoginViewModel { CloseAction = Close };
             this.WhenActivated(d =>
             {
                 this.Bind(ViewModel, vm => vm.ServerIp, v => v.ServerIp.Text).DisposeWith(d);

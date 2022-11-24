@@ -25,6 +25,7 @@ namespace Netcool.Coding.ViewModels
 
         private PostgreSqlLoginView _postgreSqlLoginView;
         private SqlServerLoginView _sqlServiceLoginView;
+        private MySqlLoginView _mySqlLoginView;
 
         public ReactiveCommand<string, Unit> NewConnectionCommand { get; set; }
 
@@ -66,7 +67,7 @@ namespace Netcool.Coding.ViewModels
                             .ObserveOn(RxApp.MainThreadScheduler)
                             .Subscribe(builder =>
                         {
-                            LoadDatabaseTreeNode(new SqlServerSchemaReader(builder), DataBaseType.PostgreSql);
+                            LoadDatabaseTreeNode(new SqlServerSchemaReader(builder), DataBaseType.SqlServer);
                         });
                         _sqlServiceLoginView.ViewModel.CloseAction = _sqlServiceLoginView.Hide;
                     }
@@ -75,7 +76,21 @@ namespace Netcool.Coding.ViewModels
             }
             else if (value == "MySql")
             {
-
+                if (_mySqlLoginView == null)
+                {
+                    _mySqlLoginView = new MySqlLoginView { Owner = Application.Current.MainWindow };
+                    if (_mySqlLoginView.ViewModel != null)
+                    {
+                        _mySqlLoginView.ViewModel.Connect
+                            .ObserveOn(RxApp.MainThreadScheduler)
+                            .Subscribe(builder =>
+                            {
+                                LoadDatabaseTreeNode(new MySqlSchemaReader(builder), DataBaseType.Mysql);
+                            });
+                        _mySqlLoginView.ViewModel.CloseAction = _mySqlLoginView.Hide;
+                    }
+                }
+                _mySqlLoginView.Show();
             }
         }
 

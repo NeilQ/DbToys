@@ -9,6 +9,11 @@ namespace Netcool.Coding.Core.Database
     {
         public MySqlConnectionStringBuilder ConnectionStringBuilder { get; set; }
 
+        public MySqlSchemaReader(MySqlConnectionStringBuilder builder)
+        {
+            ConnectionStringBuilder = builder;
+        }
+
         public override string GetServerName()
         {
             return $"{ConnectionStringBuilder.Server}({ConnectionStringBuilder.UserID})";

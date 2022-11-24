@@ -1,0 +1,23 @@
+﻿<reactiveUi:ReactiveWindow x:TypeArguments="viewModels:MySqlLoginViewModel" x:Class="Netcool.Coding.Views.MySqlLoginView"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                           xmlns:local="clr-namespace:Netcool.Coding.Views"
+                           xmlns:reactiveUi="http://reactiveui.net"
+                           xmlns:hc="https://handyorg.github.io/handycontrol"
+                           xmlns:viewModels="clr-namespace:Netcool.Coding.ViewModels"
+                           mc:Ignorable="d"  WindowStyle="None"
+                           Title="MySql" WindowStartupLocation="CenterScreen"
+                           Height="320" Width="450">
+    <hc:SimpleStackPanel Margin="16">
+        <hc:TextBox x:Name="ServerIp" Width="380" hc:TitleElement.TitleWidth="80" hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="Server IP" Margin="0,16,0,0" />
+        <hc:NumericUpDown x:Name="Port" Width="380" hc:TitleElement.TitleWidth="80" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.Title="Port" Margin="0,16,0,0" Style="{StaticResource NumericUpDownPlus}" />
+        <hc:TextBox x:Name="Username" Width="380" hc:TitleElement.TitleWidth="80" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Title="Username" Margin="0,16,0,0" />
+        <PasswordBox x:Name="Password" Width="380"  PasswordChanged="Password_OnPasswordChanged"  hc:TitleElement.TitleWidth="80" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Title="Password" Margin="0,16,0,0" Style="{StaticResource PasswordBoxExtend}"/>
+        <hc:UniformSpacingPanel Spacing="50" HorizontalAlignment="Center" Margin="0,16,0,0">
+            <Button x:Name="ConnectButton" IsDefault="True" Content="Connect" Style="{StaticResource ButtonPrimary}"/>
+            <Button x:Name="CancelButton" Content="Cancel" />
+        </hc:UniformSpacingPanel>
+    </hc:SimpleStackPanel>
+  </reactiveUi:ReactiveWindow>
