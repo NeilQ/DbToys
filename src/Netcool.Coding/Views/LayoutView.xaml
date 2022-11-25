@@ -36,6 +36,10 @@
                       ResizeBehavior="PreviousAndNext" />
         <Border Grid.Column="2" CornerRadius="10" Margin="3,8,8,8" Background="{DynamicResource RegionBrush}" Effect="{StaticResource EffectShadow4}">
             <hc:TransitioningContentControl>
+                <reactiveUi:RoutedViewHost 
+                    x:Name="RoutedViewHost"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch" />
             </hc:TransitioningContentControl>
         </Border>
 

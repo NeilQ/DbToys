@@ -12,11 +12,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <hc:SplitButton Style="{StaticResource SplitButtonPrimary}" Margin="8,0" Content="New connection" HitMode="Hover" HorizontalAlignment="Left">
+        <hc:SplitButton Style="{StaticResource SplitButtonPrimary}" Margin="8,0" Content="Connect" HitMode="Hover" HorizontalAlignment="Left">
             <hc:SplitButton.DropDownContent>
                 <StackPanel>
                     <MenuItem x:Name="SqlServer" Header="Sql Server" CommandParameter="SqlServer"/>
