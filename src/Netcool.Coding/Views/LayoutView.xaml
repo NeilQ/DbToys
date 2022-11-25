@@ -9,39 +9,40 @@
                                 xmlns:views="clr-namespace:Netcool.Coding.Views"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="768" d:DesignWidth="1440">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"></ColumnDefinition>
-            <ColumnDefinition Width="2"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" CornerRadius="10" Margin="8,8,3,8" Background="{DynamicResource RegionBrush}" Effect="{StaticResource EffectShadow4}">
-            <hc:TransitioningContentControl>
-                <TabControl Style="{StaticResource TabControlInLine}" Margin="3">
-                    <TabItem Header="Database">
-                        <views:DatabasePanelView></views:DatabasePanelView>
-                    </TabItem>
-                    <TabItem Header="Code templates" >
-                        <Border >
-                            <TextBlock Style="{StaticResource TextBlockLargeBold}">
-                                <Run Text="2"/>
-                            </TextBlock>
-                        </Border>
-                    </TabItem>
-                </TabControl>
-            </hc:TransitioningContentControl>
-        </Border>
-        <GridSplitter Background="Transparent" Margin="0" ResizeDirection="Columns" Grid.Column="1" 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                      ResizeBehavior="PreviousAndNext" />
-        <Border Grid.Column="2" CornerRadius="10" Margin="3,8,8,8" Background="{DynamicResource RegionBrush}" Effect="{StaticResource EffectShadow4}">
-            <hc:TransitioningContentControl>
-                <reactiveUi:RoutedViewHost 
+    <Border Background="#FF37A0EA" Effect="{StaticResource EffectShadow4}" CornerRadius="16" Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border CornerRadius="16,0,0,16">
+                <StackPanel Margin="10,5,10,5">
+                    <!--
+                <Image Source="{StaticResource Cortana}" Width="28" Height="28" Margin="0,20,0,0"/>
+                 -->
+                    <Button Foreground="{DynamicResource RegionBrush}" Width="42" Height="42" Margin="0,20,0,5" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{DynamicResource DatabaseGeometry}" hc:BorderElement.CornerRadius="6"/>
+                    <Button Foreground="{DynamicResource RegionBrush}" Width="42" Height="42" Margin="0,0,0,5" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{DynamicResource CodeGeometry}" hc:BorderElement.CornerRadius="6"/>
+                </StackPanel>
+            </Border>
+            <!--
+            <GridSplitter ResizeBehavior="PreviousAndNext" Grid.Column="0" Width="2" BorderThickness="2" BorderBrush="{DynamicResource BackgroundBrush}"  VerticalAlignment="Stretch" />
+            -->
+            <Border Background="{DynamicResource RegionBrush}" Padding="10,30,0,0" CornerRadius="16,0,0,16" Grid.Column="1">
+                <hc:TransitioningContentControl>
+                    <views:DatabasePanelView></views:DatabasePanelView>
+                </hc:TransitioningContentControl>
+            </Border>
+            <GridSplitter Grid.Column="1" Width="2" BorderThickness="2" BorderBrush="{DynamicResource BackgroundBrush}" VerticalAlignment="Stretch" />
+            <Border Background="{DynamicResource RegionBrush}" Grid.Column="2">
+                <hc:TransitioningContentControl>
+                    <reactiveUi:RoutedViewHost 
                     x:Name="RoutedViewHost"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch" />
-            </hc:TransitioningContentControl>
-        </Border>
+                </hc:TransitioningContentControl>
+            </Border>
 
-    </Grid>
+        </Grid>
+    </Border>
 </reactiveUi:ReactiveUserControl>
