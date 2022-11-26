@@ -6,43 +6,35 @@
                                 xmlns:reactiveUi="http://reactiveui.net"
                                 xmlns:hc="https://handyorg.github.io/handycontrol"
                                 xmlns:viewModels="clr-namespace:Netcool.Coding.ViewModels"
-                                xmlns:views="clr-namespace:Netcool.Coding.Views"
+                                xmlns:database="clr-namespace:Netcool.Coding.Views.Database"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="768" d:DesignWidth="1440">
     <Border Background="#FF37A0EA" Effect="{StaticResource EffectShadow4}" CornerRadius="16" Margin="10">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="350"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border CornerRadius="16,0,0,16">
+            <Border>
                 <StackPanel Margin="10,5,10,5">
                     <!--
-                <Image Source="{StaticResource Cortana}" Width="28" Height="28" Margin="0,20,0,0"/>
-                 -->
-                    <Button Foreground="{DynamicResource RegionBrush}" Width="42" Height="42" Margin="0,20,0,5" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{DynamicResource DatabaseGeometry}" hc:BorderElement.CornerRadius="6"/>
-                    <Button Foreground="{DynamicResource RegionBrush}" Width="42" Height="42" Margin="0,0,0,5" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{DynamicResource CodeGeometry}" hc:BorderElement.CornerRadius="6"/>
+                    <Image Source="{StaticResource Cortana}" Width="28" Height="28" Margin="0,20,0,0"/>
+                    -->
+                    <Button Cursor="Hand" Foreground="{DynamicResource RegionBrush}" Width="42" Height="42" Margin="0,20,0,5" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{DynamicResource DatabaseGeometry}" hc:BorderElement.CornerRadius="6"/>
+                    <Button Cursor="Hand" Foreground="{DynamicResource RegionBrush}" Width="42" Height="42" Margin="0,0,0,5" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{DynamicResource CodeGeometry}" hc:BorderElement.CornerRadius="6"/>
                 </StackPanel>
             </Border>
-            <!--
-            <GridSplitter ResizeBehavior="PreviousAndNext" Grid.Column="0" Width="2" BorderThickness="2" BorderBrush="{DynamicResource BackgroundBrush}"  VerticalAlignment="Stretch" />
-            -->
-            <Border Background="{DynamicResource RegionBrush}" Padding="10,30,0,0" CornerRadius="16,0,0,16" Grid.Column="1">
+            <Border Background="{DynamicResource RegionBrush}" Padding="8" CornerRadius="16" Grid.Column="1">
                 <hc:TransitioningContentControl>
-                    <views:DatabasePanelView></views:DatabasePanelView>
-                </hc:TransitioningContentControl>
-            </Border>
-            <GridSplitter Grid.Column="1" Width="2" BorderThickness="2" BorderBrush="{DynamicResource BackgroundBrush}" VerticalAlignment="Stretch" />
-            <Border Background="{DynamicResource RegionBrush}" Grid.Column="2">
-                <hc:TransitioningContentControl>
-                    <reactiveUi:RoutedViewHost 
+                    <database:DatabaseLayoutView></database:DatabaseLayoutView>
+                    <!--
+                     <reactiveUi:RoutedViewHost 
                     x:Name="RoutedViewHost"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch" />
+                    -->
                 </hc:TransitioningContentControl>
             </Border>
-
         </Grid>
     </Border>
 </reactiveUi:ReactiveUserControl>
