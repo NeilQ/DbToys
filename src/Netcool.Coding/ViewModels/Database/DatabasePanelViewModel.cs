@@ -7,12 +7,12 @@ using DynamicData;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Netcool.Coding.Core.Database;
-using Netcool.Coding.Database;
 using Netcool.Coding.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Splat;
 
-namespace Netcool.Coding.ViewModels
+namespace Netcool.Coding.ViewModels.Database
 {
     public class DatabasePanelViewModel : ReactiveObject
     {
@@ -31,7 +31,6 @@ namespace Netcool.Coding.ViewModels
         public DatabasePanelViewModel()
         {
             NewConnectionCommand = ReactiveCommand.Create<string>(OpenConnectWindow);
-
         }
 
         private void OpenConnectWindow(string value)
@@ -47,9 +46,11 @@ namespace Netcool.Coding.ViewModels
                         _postgreSqlLoginView.ViewModel.Connect
                             .ObserveOn(RxApp.MainThreadScheduler)
                             .Subscribe(builder =>
-                        {
-                            LoadDatabaseTreeNode(new PostgreSqlSchemaReader(builder), DataBaseType.PostgreSql);
-                        });
+                            {
+                                var schemaReader = new PostgreSqlSchemaReader(builder);
+                                Locator.CurrentMutable.RegisterConstant<ISchemaReader>(schemaReader);
+                                LoadDatabaseTreeNode(schemaReader, DataBaseType.PostgreSql);
+                            });
                         _postgreSqlLoginView.ViewModel.CloseAction = _postgreSqlLoginView.Hide;
                     }
                 }
@@ -66,7 +67,9 @@ namespace Netcool.Coding.ViewModels
                             .ObserveOn(RxApp.MainThreadScheduler)
                             .Subscribe(builder =>
                         {
-                            LoadDatabaseTreeNode(new SqlServerSchemaReader(builder), DataBaseType.SqlServer);
+                            var schemaReader = new SqlServerSchemaReader(builder);
+                            Locator.CurrentMutable.RegisterConstant<ISchemaReader>(schemaReader);
+                            LoadDatabaseTreeNode(schemaReader, DataBaseType.SqlServer);
                         });
                         _sqlServiceLoginView.ViewModel.CloseAction = _sqlServiceLoginView.Hide;
                     }
@@ -84,7 +87,9 @@ namespace Netcool.Coding.ViewModels
                             .ObserveOn(RxApp.MainThreadScheduler)
                             .Subscribe(builder =>
                             {
-                                LoadDatabaseTreeNode(new MySqlSchemaReader(builder), DataBaseType.Mysql);
+                                var schemaReader = new MySqlSchemaReader(builder);
+                                Locator.CurrentMutable.RegisterConstant<ISchemaReader>(schemaReader);
+                                LoadDatabaseTreeNode(schemaReader, DataBaseType.Mysql);
                             });
                         _mySqlLoginView.ViewModel.CloseAction = _mySqlLoginView.Hide;
                     }

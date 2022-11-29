@@ -33,11 +33,11 @@ namespace Netcool.Coding.Core.Database
         }
 
 
-        public override List<Table> ReadTables(string dbName)
+        public override List<Table> ReadTables(string database)
         {
             var result = new List<Table>();
 
-            ConnectionStringBuilder.InitialCatalog = dbName;
+            ConnectionStringBuilder.InitialCatalog = database;
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new SqlCommand { Connection = connection, CommandText = TABLE_SQL };
 
@@ -62,8 +62,9 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-        public override List<Column> ReadColumns(string tableName)
+        public override List<Column> ReadColumns(string database, string tableName)
         {
+            ConnectionStringBuilder.InitialCatalog = database;
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new SqlCommand() { Connection = connection, CommandText = COLUMN_SQL };
 

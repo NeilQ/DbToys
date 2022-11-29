@@ -40,10 +40,10 @@ namespace Netcool.Coding.Core.Database
             return dbs;
         }
 
-        public override  List<Table>  ReadTables(string dbName)
+        public override List<Table> ReadTables(string database)
         {
-            ConnectionStringBuilder.Database = dbName;
-            var result = new  List<Table> ();
+            ConnectionStringBuilder.Database = database;
+            var result = new List<Table>();
 
             using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new MySqlCommand()
@@ -72,10 +72,11 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-        public override List<Column> ReadColumns(string tableName)
+        public override List<Column> ReadColumns(string database, string tableName)
         {
+            ConnectionStringBuilder.Database = database;
             using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
-            using var cmd = new MySqlCommand()
+            using var cmd = new MySqlCommand
             {
                 Connection = connection,
                 CommandText = TABLE_SQL

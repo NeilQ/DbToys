@@ -1,16 +1,36 @@
-﻿<reactiveUi:ReactiveUserControl x:TypeArguments="viewModels:DataTableViewModel" x:Class="Netcool.Coding.Views.Database.DataTableView"
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="database:DataTableViewModel" x:Class="Netcool.Coding.Views.Database.DataTableView"
                                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                                 xmlns:local="clr-namespace:Netcool.Coding.Views.Database"
                                 xmlns:reactiveUi="http://reactiveui.net"
-                                xmlns:viewModels="clr-namespace:Netcool.Coding.ViewModels"
+                                xmlns:database="clr-namespace:Netcool.Coding.ViewModels.Database"
+                                xmlns:hc="https://handyorg.github.io/handycontrol"
                                 mc:Ignorable="d"  
                                 d:DesignHeight="700" d:DesignWidth="1000">
     <Grid>
-        <TextBlock Style="{StaticResource TextBlockLargeBold}">
-            <Run Text="2"/>
-        </TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockTitleBold}">Columns</TextBlock>
+        <DataGrid x:Name="ColumnsGrid" Grid.Row="1" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="20" RowHeaderWidth="50"
+                  HeadersVisibility="All" AutoGenerateColumns="false" hc:DataGridAttach.ShowRowNumber="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Width="120" Header="Name"/>
+                <DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="90" Header="PrimaryKey"/>
+                <DataGridTextColumn Binding="{Binding DbType}" Width="90" Header="DataType"/>
+                <DataGridCheckBoxColumn Binding="{Binding IsNullable}" Width="90" Header="IsNullable"/>
+                <DataGridTextColumn Binding="{Binding Length}" Width="80" Header="Length"/>
+                <DataGridCheckBoxColumn Binding="{Binding IsAutoIncrement}" Width="110" Header="AutoIncrement"/>
+                <DataGridTextColumn Binding="{Binding DefaultValue}" Width="100" Header="DefaultValue"/>
+                <DataGridTextColumn Binding="{Binding Description}" Header="Description"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Style="{StaticResource TextBlockTitleBold}">Recent Data</TextBlock>
     </Grid>
 </reactiveUi:ReactiveUserControl>

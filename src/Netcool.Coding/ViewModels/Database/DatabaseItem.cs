@@ -3,10 +3,9 @@ using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using Netcool.Coding.Core.Database;
-using Netcool.Coding.ViewModels;
 using ReactiveUI;
 
-namespace Netcool.Coding.Database
+namespace Netcool.Coding.ViewModels.Database
 {
     public class DatabaseItem : TreeItem
     {
@@ -33,12 +32,12 @@ namespace Netcool.Coding.Database
 
         protected override void LoadChildren()
         {
-            var tables = _schemaReader.ReadTables(Name).OrderBy(t=>t.DisplayName);
+            var tables = _schemaReader.ReadTables(Name).OrderBy(t => t.DisplayName);
             Tables = tables.ToList();
             Children.Clear();
             foreach (var table in Tables)
             {
-                AddChild(new TableItem(table.DisplayName) { IsExpanded = true });
+                AddChild(new TableItem(table.DisplayName, table.Name, Name) { IsExpanded = true });
             }
         }
     }

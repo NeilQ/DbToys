@@ -72,8 +72,9 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-        public override List<Column> ReadColumns(string tableName)
+        public override List<Column> ReadColumns(string database,string tableName)
         {
+            ConnectionStringBuilder.Database = database;
             using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new NpgsqlCommand { Connection = connection, CommandText = COLUMN_SQL };
 

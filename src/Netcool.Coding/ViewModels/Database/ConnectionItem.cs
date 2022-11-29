@@ -1,8 +1,7 @@
 ﻿using Netcool.Coding.Core.Database;
-using Netcool.Coding.ViewModels;
 using ReactiveUI.Fody.Helpers;
 
-namespace Netcool.Coding.Database
+namespace Netcool.Coding.ViewModels.Database
 {
     public class ConnectionItem : TreeItem
     {

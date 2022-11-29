@@ -1,5 +1,5 @@
 ﻿using System.Reactive.Disposables;
-using Netcool.Coding.ViewModels;
+using Netcool.Coding.ViewModels.Database;
 using ReactiveUI;
 
 namespace Netcool.Coding.Views.Database;

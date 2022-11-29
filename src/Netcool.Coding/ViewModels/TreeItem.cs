@@ -4,7 +4,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace Netcool.Coding.ViewModels
 {
-    public  class TreeItem : ReactiveObject
+    public class TreeItem : ReactiveObject
     {
         private static readonly TreeItem DummyChild = new();
 
@@ -34,8 +34,21 @@ namespace Netcool.Coding.ViewModels
         {
         }
 
-        [Reactive]
-        public bool IsSelected { get; set; }
+        protected virtual void OnSelected()
+        {
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isSelected, value);
+                if (_isSelected)
+                    OnSelected();
+            }
+        }
 
         public bool HasDummyChild => Children.Count == 1 && Children[0] == DummyChild;
 

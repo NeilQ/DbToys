@@ -11,9 +11,9 @@ namespace Netcool.Coding.Core.Database
 
         List<string> ReadDatabases();
 
-        List<Table> ReadTables(string dbName);
+        List<Table> ReadTables(string database);
 
-        List<Column> ReadColumns(string tableName);
+        List<Column> ReadColumns(string database, string tableName);
     }
 
     public abstract class SchemaReader : ISchemaReader
@@ -36,9 +36,9 @@ namespace Netcool.Coding.Core.Database
         public abstract string GetServerName();
 
         public abstract List<string> ReadDatabases();
-        public abstract List<Column> ReadColumns(string tableName);
+        public abstract List<Column> ReadColumns(string database, string tableName);
 
-        public abstract List<Table> ReadTables(string dbName);
+        public abstract List<Table> ReadTables(string database);
 
         /// <summary>
         /// Convert value to Pascal case.

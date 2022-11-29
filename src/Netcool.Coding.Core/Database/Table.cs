@@ -6,14 +6,14 @@ namespace Netcool.Coding.Core.Database
 {
     public class Table
     {
-        public List<Column> Columns;
-        public string Name;
-        public string Schema;
-        public bool IsView;
-        public string CleanName;
-        public string ClassName;
-        public string SequenceName;
-        public bool Ignore;
+        public List<Column> Columns { get; set; }
+        public string Name { get; set; }
+        public string Schema { get; set; }
+        public bool IsView { get; set; }
+        public string CleanName { get; set; }
+        public string ClassName { get; set; }
+        public string SequenceName { get; set; }
+        public bool Ignore { get; set; }
 
         public string DisplayName => $"{Schema}.{Name}";
 
@@ -37,13 +37,13 @@ namespace Netcool.Coding.Core.Database
 
     public class Column
     {
-        public string Name;
-        public string PropertyName;
-        public string PropertyType;
-        public bool IsPk;
-        public bool IsNullable;
-        public bool IsAutoIncrement;
-        public bool Ignore;
+        public string Name { get; set; }
+        public string PropertyName { get; set; }
+        public string PropertyType { get; set; }
+        public bool IsPk { get; set; }
+        public bool IsNullable { get; set; }
+        public bool IsAutoIncrement { get; set; }
+        public bool Ignore { get; set; }
 
         public string DbType { get; set; }
         public int? Length { get; set; }

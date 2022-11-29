@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <Folder Include="BindingConverters\" />
+    <Folder Include="Database\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 
   <ItemGroup>

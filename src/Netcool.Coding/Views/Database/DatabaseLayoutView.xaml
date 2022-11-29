@@ -11,7 +11,7 @@
                            d:DesignHeight="700" d:DesignWidth="1300">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Background="{DynamicResource RegionBrush}" Grid.Column="0">
@@ -19,7 +19,7 @@
         </Border>
         <GridSplitter Grid.Column="0" Width="2" BorderThickness="2" BorderBrush="{DynamicResource BackgroundBrush}" VerticalAlignment="Stretch" />
 
-        <Border Background="{DynamicResource RegionBrush}" Grid.Column="1">
+        <Border Background="{DynamicResource RegionBrush}" Padding="10" Grid.Column="1">
             <local:DataTableView></local:DataTableView>
         </Border>
     </Grid>

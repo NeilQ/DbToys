@@ -1,4 +1,4 @@
-﻿<reactiveUi:ReactiveUserControl x:TypeArguments="viewModels:DatabasePanelViewModel" x:Class="Netcool.Coding.Views.Database.DatabasePanelView"
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="database1:DatabasePanelViewModel" x:Class="Netcool.Coding.Views.Database.DatabasePanelView"
                                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
                                 xmlns:reactiveUi="http://reactiveui.net"
                                 xmlns:hc="https://handyorg.github.io/handycontrol"
                                 xmlns:viewModels="clr-namespace:Netcool.Coding.ViewModels"
-                                xmlns:database="clr-namespace:Netcool.Coding.Database"
+                                xmlns:database1="clr-namespace:Netcool.Coding.ViewModels.Database"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="700" d:DesignWidth="400">
     <Grid>
@@ -32,7 +32,7 @@
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
                 </Style>
 
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type database:ConnectionItem}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type database1:ConnectionItem}">
                     <StackPanel Orientation="Horizontal">
                         <Border Background="Transparent" Height="20" Padding="3" Width="20">
                             <Path Fill="{DynamicResource PrimaryTextBrush}" Stretch="Uniform">
@@ -56,7 +56,7 @@
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type database:DatabaseItem}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type database1:DatabaseItem}">
                     <StackPanel Orientation="Horizontal">
                         <Border Background="Transparent" Height="20" Padding="3" Width="20">
                             <Path Fill="{DynamicResource PrimaryTextBrush}" Stretch="Uniform" Data="{StaticResource DatabaseGeometry}">
@@ -71,7 +71,7 @@
                         </StackPanel.ContextMenu>
                     </StackPanel>
                 </HierarchicalDataTemplate>
-                <DataTemplate  DataType="{x:Type database:TableItem}">
+                <DataTemplate DataType="{x:Type database1:TableItem}">
                     <StackPanel Orientation="Horizontal">
                         <Border Background="Transparent" Height="20" Padding="3" Width="20">
                             <Path Fill="{DynamicResource PrimaryTextBrush}" Stretch="Uniform" Data="{StaticResource TableGeometry}">
