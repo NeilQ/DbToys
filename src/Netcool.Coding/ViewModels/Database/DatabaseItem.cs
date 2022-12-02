@@ -37,7 +37,7 @@ namespace Netcool.Coding.ViewModels.Database
             Children.Clear();
             foreach (var table in Tables)
             {
-                AddChild(new TableItem(table.DisplayName, table.Name, Name) { IsExpanded = true });
+                AddChild(new TableItem(table) { IsExpanded = true });
             }
         }
     }

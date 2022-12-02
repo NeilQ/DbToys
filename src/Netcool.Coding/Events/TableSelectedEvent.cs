@@ -1,13 +1,13 @@
-﻿namespace Netcool.Coding.Events;
+﻿using Netcool.Coding.Core.Database;
+
+namespace Netcool.Coding.Events;
 
 public class TableSelectedEvent
 {
-    public string TableName { get; set; }
-    public string Database { get; set; }
+    public Table Table { get; set; }
 
-    public TableSelectedEvent(string database, string tableName)
+    public TableSelectedEvent(Table table)
     {
-        Database = database;
-        TableName = tableName;
+        Table = table;
     }
 }

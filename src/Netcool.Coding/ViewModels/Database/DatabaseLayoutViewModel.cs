@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using Splat;
 
-namespace Netcool.Coding.ViewModels;
+namespace Netcool.Coding.ViewModels.Database;
 
 public class DatabaseLayoutViewModel:  ReactiveObject, IRoutableViewModel
 {

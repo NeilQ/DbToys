@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Microsoft.Data.SqlClient;
+using MySqlX.XDevAPI;
 
 namespace Netcool.Coding.Core.Database
 {
@@ -18,6 +19,12 @@ namespace Netcool.Coding.Core.Database
         public override string GetServerName()
         {
             return $"{ConnectionStringBuilder.DataSource}({ConnectionStringBuilder.UserID})";
+        }
+
+        public override string Escape(string text)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(text);
+            return $"[{text}]";
         }
 
         public override List<string> ReadDatabases()
@@ -47,6 +54,7 @@ namespace Netcool.Coding.Core.Database
             {
                 var tbl = new Table
                 {
+                    Database = database,
                     Name = rdr["TABLE_NAME"].ToString(),
                     Schema = rdr["TABLE_SCHEMA"].ToString(),
                     IsView =
@@ -55,6 +63,7 @@ namespace Netcool.Coding.Core.Database
                 };
                 tbl.CleanName = CleanUp(tbl.Name);
                 tbl.ClassName = Inflector.MakeSingular(tbl.CleanName);
+                tbl.DisplayName = $"{tbl.Schema}.{tbl.Name}";
                 result.Add(tbl);
             }
             connection.Close();
@@ -62,43 +71,45 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-        public override List<Column> ReadColumns(string database, string tableName)
+        public override List<Column> ReadColumns(string database, string schema, string table)
         {
             ConnectionStringBuilder.InitialCatalog = database;
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
-            using var cmd = new SqlCommand() { Connection = connection, CommandText = COLUMN_SQL };
+            using var cmd = new SqlCommand(COLUMN_SQL, connection);
+
+            var pks = GetPk(schema, table)?.ToHashSet() ?? new HashSet<string>();
 
             var p = cmd.CreateParameter();
             p.ParameterName = "@tableName";
-            p.Value = tableName;
+            p.Value = table;
             cmd.Parameters.Add(p);
 
-            p = cmd.CreateParameter();
-            p.ParameterName = "@schemaName";
-            p.Value = "dbo";
-            cmd.Parameters.Add(p);
+            var pSchema = cmd.CreateParameter();
+            pSchema.ParameterName = "@schemaName";
+            pSchema.Value = schema;
+            cmd.Parameters.Add(pSchema);
 
             var result = new List<Column>();
             connection.Open();
             using IDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Column col = new Column
+                var col = new Column
                 {
                     Name = rdr["ColumnName"].ToString(),
                     PropertyType = GetPropertyType(rdr["DataType"].ToString()),
                     IsNullable = rdr["IsNullable"].ToString() == "YES",
-                    IsAutoIncrement = ((int)rdr["IsIdentity"]) == 1,
                     DefaultValue = rdr["DefaultSetting"].ToString(),
                     DbType = rdr["DataType"].ToString(),
                     Description = rdr["Description"].ToString()
                 };
                 col.PropertyName = CleanUp(col.Name);
-                var lengthStr = rdr["MaxLength"].ToString();
-                if (!string.IsNullOrEmpty(lengthStr))
-                {
-                    col.Length = int.Parse(lengthStr);
-                }
+                if (!int.TryParse(rdr["MaxLength"].ToString(), out var length))
+                    col.Length = length;
+                if (!int.TryParse(rdr["IsIdentity"].ToString(), out var autoIncrement))
+                    col.IsAutoIncrement = autoIncrement == 1;
+                if (pks.Contains(col.Name))
+                    col.IsPk = true;
 
                 result.Add(col);
             }
@@ -109,18 +120,34 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-
-        public List<string> GetPk(string table)
+        public override DataTable GetResultSet(Table table, int limit)
         {
-            var sql = @"SELECT c.name AS ColumnName
-                FROM sys.indexes AS i 
-                INNER JOIN sys.index_columns AS ic ON i.object_id = ic.object_id AND i.index_id = ic.index_id 
-                INNER JOIN sys.objects AS o ON i.object_id = o.object_id 
-                LEFT OUTER JOIN sys.columns AS c ON ic.object_id = c.object_id AND c.column_id = ic.column_id
-                WHERE (i.is_primary_key = 1) AND (o.name = @tableName)";
+            ArgumentNullException.ThrowIfNull(table);
+            ConnectionStringBuilder.InitialCatalog = table.Database;
+            var dtResult = new DataTable();
+            using var conn = new SqlConnection(ConnectionStringBuilder.ConnectionString);
+            conn.Open();
+            var sql = $"select top {limit} * from {Escape(table.Name)}";
+            if (table.Pk != null)
+                sql += $" order by {Escape(table.Pk.Name)} desc";
+
+            var cmd = new SqlCommand(sql, conn);
+            var adp = new SqlDataAdapter(cmd);
+            adp.Fill(dtResult);
+
+            return dtResult;
+        }
+
+        public List<string> GetPk(string schema, string table)
+        {
+            var sql = @"SELECT C.COLUMN_NAME FROM  
+                      INFORMATION_SCHEMA.TABLE_CONSTRAINTS T  
+                      JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE C  
+                      ON C.CONSTRAINT_NAME=T.CONSTRAINT_NAME  
+                      WHERE C.TABLE_SCHEMA=@schema AND C.TABLE_NAME=@tableName AND T.CONSTRAINT_TYPE='PRIMARY KEY'";
 
             using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
-            using var cmd = new SqlCommand() { Connection = connection, CommandText = sql };
+            using var cmd = new SqlCommand(sql, connection);
             var pks = new List<string>();
 
             var p = cmd.CreateParameter();
@@ -128,13 +155,18 @@ namespace Netcool.Coding.Core.Database
             p.Value = table;
             cmd.Parameters.Add(p);
 
+            var pSchema = cmd.CreateParameter();
+            pSchema.ParameterName = "@schema";
+            pSchema.Value = schema;
+            cmd.Parameters.Add(pSchema);
+
             connection.Open();
             using var reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    pks.Add(reader["ColumnName"].ToString());
+                    pks.Add(reader["COLUMN_NAME"].ToString());
                 }
             }
             connection.Close();

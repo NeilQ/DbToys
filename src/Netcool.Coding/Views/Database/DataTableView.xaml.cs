@@ -1,4 +1,5 @@
 ﻿using System.Reactive.Disposables;
+using System.Windows.Controls;
 using Netcool.Coding.ViewModels.Database;
 using ReactiveUI;
 
@@ -12,10 +13,19 @@ public partial class DataTableView
     public DataTableView()
     {
         InitializeComponent();
-        this.ViewModel = new DataTableViewModel();
+        ViewModel = new DataTableViewModel();
         this.WhenActivated(d =>
         {
             this.OneWayBind(ViewModel, vm => vm.Columns, v => v.ColumnsGrid.ItemsSource).DisposeWith(d);
+            this.OneWayBind(ViewModel, vm => vm.ResultSet.DefaultView, v => v.ResultSetGrid.ItemsSource).DisposeWith(d);
         });
+    }
+
+    private void ResultSetGrid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        var header = e.Column.Header.ToString();
+
+        // Replace all underscores with two underscores, to prevent AccessKey handling
+        e.Column.Header = header?.Replace("_", "__");
     }
 }

@@ -19,6 +19,12 @@ namespace Netcool.Coding.Core.Database
             return $"{ConnectionStringBuilder.Server}({ConnectionStringBuilder.UserID})";
         }
 
+        public override string Escape(string text)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(text);
+            return $"`{text}`";
+        }
+
         public override List<string> ReadDatabases()
         {
             using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
@@ -46,18 +52,15 @@ namespace Netcool.Coding.Core.Database
             var result = new List<Table>();
 
             using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
-            using var cmd = new MySqlCommand()
-            {
-                Connection = connection,
-                CommandText = TABLE_SQL
-            };
+            using var cmd = new MySqlCommand(TABLE_SQL, connection);
 
             connection.Open();
             using var rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Table tbl = new Table
+                var tbl = new Table
                 {
+                    Database = database,
                     Name = rdr["TABLE_NAME"].ToString(),
                     Schema = rdr["TABLE_SCHEMA"].ToString(),
                     IsView = string.Compare(rdr["TABLE_TYPE"].ToString(), "View",
@@ -65,6 +68,7 @@ namespace Netcool.Coding.Core.Database
                 };
                 tbl.CleanName = CleanUp(tbl.Name);
                 tbl.ClassName = Inflector.MakeSingular(tbl.CleanName);
+                tbl.DisplayName = tbl.Name;
                 result.Add(tbl);
             }
             connection.Close();
@@ -72,53 +76,55 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-        public override List<Column> ReadColumns(string database, string tableName)
+        public override List<Column> ReadColumns(string database, string schemaName, string table)
         {
-            ConnectionStringBuilder.Database = database;
-            using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
-            using var cmd = new MySqlCommand
-            {
-                Connection = connection,
-                CommandText = TABLE_SQL
-            };
-
             var result = new List<Column>();
 
-            var schema = connection.GetSchema("COLUMNS");
+            ConnectionStringBuilder.Database = database;
+            using var connection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
+            connection.Open();
 
-            //loop again - but this time pull by table name
-            foreach (var item in result)
+            var schema = connection.GetSchema("COLUMNS");
+            var columns = schema.Select($"TABLE_NAME='{table}' and TABLE_SCHEMA='{database}'");
+            foreach (var row in columns)
             {
-                //pull the columns from the schema
-                var columns = schema.Select("TABLE_NAME='" + item.Name + "'");
-                foreach (var row in columns)
+                var lengthStr = row["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                var col = new Column
                 {
-                    var lengthStr = row["CHARACTER_MAXIMUM_LENGTH"].ToString();
-                    var col = new Column
-                    {
-                        Name = row["COLUMN_NAME"].ToString(),
-                        PropertyType = GetPropertyType(row),
-                        IsNullable = row["IS_NULLABLE"].ToString() == "YES",
-                        IsPk = row["COLUMN_KEY"].ToString() == "PRI",
-                        IsAutoIncrement = row["extra"].ToString().ToLower()
-                            .IndexOf("auto_increment", StringComparison.Ordinal) >= 0,
-                        DefaultValue = row["COLUMN_DEFAULT"].ToString(),
-                        DbType = row["DATA_TYPE"].ToString(),
-                        Description = row["COLUMN_COMMENT"].ToString()
-                    };
-                    col.PropertyName = CleanUp(col.Name);
-                    if (!string.IsNullOrEmpty(lengthStr))
-                    {
-                        if (int.TryParse(lengthStr, out _))
-                        {
-                            col.Length = int.Parse(lengthStr);
-                        }
-                    }
-                    result.Add(col);
-                }
+                    Name = row["COLUMN_NAME"].ToString(),
+                    PropertyType = GetPropertyType(row),
+                    IsNullable = row["IS_NULLABLE"].ToString() == "YES",
+                    IsPk = row["COLUMN_KEY"].ToString() == "PRI",
+                    IsAutoIncrement = row["extra"].ToString()?.ToLower()
+                        .IndexOf("auto_increment", StringComparison.Ordinal) >= 0,
+                    DefaultValue = row["COLUMN_DEFAULT"].ToString(),
+                    DbType = row["DATA_TYPE"].ToString(),
+                    Description = row["COLUMN_COMMENT"].ToString()
+                };
+                col.PropertyName = CleanUp(col.Name);
+                if (int.TryParse(lengthStr, out var length))
+                    col.Length = length;
+
+                result.Add(col);
             }
 
             return result;
+        }
+
+        public override DataTable GetResultSet(Table table, int limit)
+        {
+            ArgumentNullException.ThrowIfNull(table);
+            ConnectionStringBuilder.Database = table.Database;
+            var dtResult = new DataTable();
+            using var conn = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
+            conn.Open();
+            var sql = $"select * from {Escape(table.Name)}";
+            if (table.Pk != null) sql += $" order by {Escape(table.Pk.Name)} desc";
+            sql += $" limit {limit}";
+            var cmd = new MySqlCommand(sql, conn);
+            var adp = new MySqlDataAdapter(cmd);
+            adp.Fill(dtResult);
+            return dtResult;
         }
 
         static string GetPropertyType(DataRow row)

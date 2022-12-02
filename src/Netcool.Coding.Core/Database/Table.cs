@@ -14,12 +14,13 @@ namespace Netcool.Coding.Core.Database
         public string ClassName { get; set; }
         public string SequenceName { get; set; }
         public bool Ignore { get; set; }
+        public string Database { get; set; }
 
-        public string DisplayName => $"{Schema}.{Name}";
+        public string DisplayName { get; set; }
 
         public Column Pk
         {
-            get { return Columns.SingleOrDefault(x => x.IsPk); }
+            get { return Columns?.FirstOrDefault(x => x.IsPk); }
         }
 
         public Column GetColumn(string columnName)

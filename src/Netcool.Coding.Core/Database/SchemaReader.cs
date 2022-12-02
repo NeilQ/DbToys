@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -9,11 +10,15 @@ namespace Netcool.Coding.Core.Database
     {
         string GetServerName();
 
+        string Escape(string text);
+
         List<string> ReadDatabases();
 
         List<Table> ReadTables(string database);
 
-        List<Column> ReadColumns(string database, string tableName);
+        List<Column> ReadColumns(string database,string schema, string table);
+
+        DataTable GetResultSet(Table table, int limit);
     }
 
     public abstract class SchemaReader : ISchemaReader
@@ -35,10 +40,15 @@ namespace Netcool.Coding.Core.Database
 
         public abstract string GetServerName();
 
+        public abstract string Escape(string text);
+     
         public abstract List<string> ReadDatabases();
-        public abstract List<Column> ReadColumns(string database, string tableName);
+
+        public abstract List<Column> ReadColumns(string database,string schema, string table);
 
         public abstract List<Table> ReadTables(string database);
+
+        public abstract DataTable GetResultSet(Table table, int limit);
 
         /// <summary>
         /// Convert value to Pascal case.

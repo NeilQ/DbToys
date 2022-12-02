@@ -23,6 +23,12 @@ namespace Netcool.Coding.Core.Database
             return $"{ConnectionStringBuilder.Host}:{ConnectionStringBuilder.Port} - {ConnectionStringBuilder.Username}";
         }
 
+        public override string Escape(string text)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(text);
+            return $"\"{text}\"";
+        }
+
         public override List<string> ReadDatabases()
         {
             using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
@@ -44,19 +50,20 @@ namespace Netcool.Coding.Core.Database
             return dbs;
         }
 
-        public override List<Table> ReadTables(string dbName)
+        public override List<Table> ReadTables(string database)
         {
             var result = new List<Table>();
 
-            ConnectionStringBuilder.Database = dbName;
+            ConnectionStringBuilder.Database = database;
             using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
-            using var cmd = new NpgsqlCommand { Connection = connection, CommandText = TABLE_SQL };
+            using var cmd = new NpgsqlCommand(TABLE_SQL, connection);
             connection.Open();
             using var rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
                 var tbl = new Table
                 {
+                    Database = database,
                     Name = rdr["table_name"].ToString(),
                     Schema = rdr["table_schema"].ToString(),
                     IsView =
@@ -65,6 +72,7 @@ namespace Netcool.Coding.Core.Database
                 };
                 tbl.CleanName = CleanUp(tbl.Name);
                 tbl.ClassName = Inflector.MakeSingular(tbl.CleanName);
+                tbl.DisplayName = $"{tbl.Schema}.{tbl.Name}";
                 result.Add(tbl);
             }
             connection.Close();
@@ -72,7 +80,7 @@ namespace Netcool.Coding.Core.Database
             return result;
         }
 
-        public override List<Column> ReadColumns(string database,string tableName)
+        public override List<Column> ReadColumns(string database, string schema, string table)
         {
             ConnectionStringBuilder.Database = database;
             using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
@@ -80,49 +88,70 @@ namespace Netcool.Coding.Core.Database
 
             var p = cmd.CreateParameter();
             p.ParameterName = "@tableName";
-            p.Value = tableName;
+            p.Value = table;
             cmd.Parameters.Add(p);
+
+            var pks = GetPk(schema, table)?.ToHashSet() ?? new HashSet<string>();
 
             var result = new List<Column>();
             connection.Open();
             using IDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Column col = new Column
+                var col = new Column
                 {
                     Name = rdr["column_name"].ToString(),
                     IsNullable = rdr["is_nullable"].ToString() == "YES",
-                    IsAutoIncrement = rdr["column_default"].ToString().StartsWith("nextval("),
+                    IsAutoIncrement = rdr["column_default"].ToString()?.StartsWith("nextval(") ?? false,
                     DefaultValue = rdr["column_default"].ToString(),
                     DbType = rdr["udt_name"].ToString(),
                     Description = rdr["column_comment"].ToString()
                 };
                 col.PropertyName = ToPascalCase(CleanUp(col.Name));
                 col.PropertyType = GetPropertyType(rdr["udt_name"].ToString());
+                if (pks.Contains(col.Name))
+                    col.IsPk = true;
+
                 result.Add(col);
             }
             connection.Close();
-            // todo get pk
 
             return result;
         }
 
-        public List<string> GetPk(string table)
+        public override DataTable GetResultSet(Table table, int limit)
+        {
+            ArgumentNullException.ThrowIfNull(table);
+            ConnectionStringBuilder.Database = table.Database;
+            var dtResult = new DataTable();
+            using var conn = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
+            conn.Open();
+            var sql = $"select * from {table.Schema}.{Escape(table.Name)}";
+            if (table.Pk != null) sql += $" order by {Escape(table.Pk.Name)} desc";
+            sql += $" limit {limit}";
+
+            var cmd = new NpgsqlCommand(sql, conn);
+            var adp = new NpgsqlDataAdapter(cmd);
+            adp.Fill(dtResult);
+            return dtResult;
+        }
+
+        public List<string> GetPk(string schema, string table)
         {
             var pks = new List<string>();
-            var sql = @"SELECT kcu.column_name 
-            FROM information_schema.key_column_usage kcu
-            JOIN information_schema.table_constraints tc
-            ON kcu.constraint_name=tc.constraint_name
-            WHERE lower(tc.constraint_type)='primary key'
-            AND kcu.table_name=@tablename";
+            var sql = @"SELECT a.attname
+                        FROM pg_index i
+                        JOIN pg_attribute a ON a.attrelid = i.indrelid
+                        AND a.attnum = ANY(i.indkey)
+                        WHERE i.indrelid = @tableName::regclass
+                        AND i.indisprimary;";
 
             using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
             using var cmd = new NpgsqlCommand { Connection = connection, CommandText = sql };
 
             var p = cmd.CreateParameter();
             p.ParameterName = "@tableName";
-            p.Value = table;
+            p.Value = $"{schema}.{table}";
             cmd.Parameters.Add(p);
 
             connection.Open();
@@ -130,7 +159,7 @@ namespace Netcool.Coding.Core.Database
             if (!reader.HasRows) return pks;
             while (reader.Read())
             {
-                pks.Add(reader["column_name"].ToString());
+                pks.Add(reader["attname"].ToString());
             }
 
             connection.Close();
