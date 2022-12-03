@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "Netcool.Coding.WinUI (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Netcool.Coding.WinUI (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
