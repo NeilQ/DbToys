@@ -10,7 +10,9 @@ using Netcool.Coding.WinUI.Helpers;
 using Netcool.Coding.WinUI.Models;
 using Netcool.Coding.WinUI.Services;
 using Netcool.Coding.WinUI.ViewModels;
+using Netcool.Coding.WinUI.ViewModels.Database;
 using Netcool.Coding.WinUI.Views;
+using Netcool.Coding.WinUI.Views.Database;
 
 namespace Netcool.Coding.WinUI;
 
@@ -73,6 +75,10 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+            services.AddTransient<DatabasePage>();
+            services.AddSingleton<DatabaseViewModel>();
+            services.AddTransient<PostgreSqlConnectDialog>();
+            services.AddSingleton<PostgreSqlConnectViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

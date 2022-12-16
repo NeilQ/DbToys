@@ -84,4 +84,4 @@ public sealed partial class ShellPage : Page
 
         args.Handled = result;
     }
-}
+  }

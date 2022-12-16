@@ -27,8 +27,4 @@
     <Folder Include="Events\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
 </Project>

@@ -7,6 +7,7 @@
     xmlns:helpers="using:Netcool.Coding.WinUI.Helpers"
     xmlns:behaviors="using:Netcool.Coding.WinUI.Behaviors"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     Loaded="OnLoaded">
 
     <Grid>
@@ -32,7 +33,7 @@
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
             IsSettingsVisible="True"
-            ExpandedModeThresholdWidth="1280"
+            ExpandedModeThresholdWidth="1920"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
             <NavigationView.MenuItems>
@@ -43,17 +44,23 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
+                <!--
                 <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="Netcool.Coding.WinUI.ViewModels.MainViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Database" helpers:NavigationHelper.NavigateTo="Netcool.Coding.WinUI.ViewModels.MainViewModel">
+                -->
+                <NavigationViewItem x:Uid="Shell_Database" helpers:NavigationHelper.NavigateTo="Netcool.Coding.WinUI.ViewModels.DatabaseViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe703;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-
+                <NavigationViewItem x:Uid="Shell_CodeTemplates" helpers:NavigationHelper.NavigateTo="Netcool.Coding.WinUI.ViewModels.MainViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe943;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
@@ -82,5 +89,6 @@
                 <Frame x:Name="NavigationFrame" />
             </Grid>
         </NavigationView>
+
     </Grid>
 </Page>

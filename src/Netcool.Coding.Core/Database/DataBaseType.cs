@@ -1,9 +1,8 @@
-﻿namespace Netcool.Coding.Core.Database
+﻿namespace Netcool.Coding.Core.Database;
+
+public enum DataBaseType
 {
-    public enum DataBaseType
-    {
-        SqlServer,
-        Mysql,
-        PostgreSql
-    }
+    SqlServer,
+    Mysql,
+    PostgreSql
 }
