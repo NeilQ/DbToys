@@ -15,7 +15,7 @@
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>Netcool.Coding.WinUI</DisplayName>
+    <DisplayName>Netcool.DbToys.WinUI</DisplayName>
     <PublisherDisplayName>neil_</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
