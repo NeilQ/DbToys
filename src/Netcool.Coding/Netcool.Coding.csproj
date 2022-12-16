@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Netcool.Coding.Core\Netcool.Coding.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources\Images\cloud.png" />
   </ItemGroup>
 
@@ -25,6 +21,10 @@
     <Folder Include="BindingConverters\" />
     <Folder Include="Database\" />
     <Folder Include="Events\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Netcool.DbToys.Core\Netcool.DbToys.Core.csproj" />
   </ItemGroup>
 
 </Project>
