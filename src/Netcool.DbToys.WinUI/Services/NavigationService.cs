@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using Netcool.DbToys.WinUI.Contracts.Services;
-using Netcool.DbToys.WinUI.Contracts.ViewModels;
 using Netcool.DbToys.WinUI.Helpers;
+using Netcool.DbToys.WinUI.ViewModels;
 
 namespace Netcool.DbToys.WinUI.Services;
 

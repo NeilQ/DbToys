@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.ViewModels;
 

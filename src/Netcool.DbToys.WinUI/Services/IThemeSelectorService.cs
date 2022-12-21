@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 
-namespace Netcool.DbToys.WinUI.Contracts.Services;
+namespace Netcool.DbToys.WinUI.Services;
 
 public interface IThemeSelectorService
 {

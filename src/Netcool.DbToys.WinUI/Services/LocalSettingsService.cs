@@ -1,6 +1,5 @@
 ﻿using Windows.Storage;
 using Microsoft.Extensions.Options;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.Models;
 
@@ -8,7 +7,7 @@ namespace Netcool.DbToys.WinUI.Services;
 
 public class LocalSettingsService : ILocalSettingsService
 {
-    private const string _defaultApplicationDataFolder = "Netcool.Coding.WinUI/ApplicationData";
+    private const string _defaultApplicationDataFolder = "Netcool.DbToys/ApplicationData";
     private const string _defaultLocalSettingsFile = "LocalSettings.json";
 
     private readonly IFileService _fileService;

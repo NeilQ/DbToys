@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.ViewModels;
 using Netcool.DbToys.WinUI.Views;
 

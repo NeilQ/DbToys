@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Netcool.DbToys.WinUI.Activation;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Models;
 using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.ViewModels;

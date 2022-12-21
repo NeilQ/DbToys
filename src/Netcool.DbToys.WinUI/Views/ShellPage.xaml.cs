@@ -3,9 +3,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.ViewModels;
+using Netcool.DbToys.WinUI.Services;
 
 namespace Netcool.DbToys.WinUI.Views;
 

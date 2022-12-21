@@ -44,7 +44,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Netcool.DbToys.Core\Netcool.DbToys.Core.csproj" />
-    <ProjectReference Include="..\Netcool.DbToys.WinUI.Core\Netcool.DbToys.WinUI.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

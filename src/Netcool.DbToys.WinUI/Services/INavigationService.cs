@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
-namespace Netcool.DbToys.WinUI.Contracts.Services;
+namespace Netcool.DbToys.WinUI.Services;
 
 public interface INavigationService
 {

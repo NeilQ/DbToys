@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Netcool.DbToys.WinUI.Activation;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Views;
 
 namespace Netcool.DbToys.WinUI.Services;

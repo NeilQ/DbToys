@@ -1,5 +1,4 @@
 ﻿using Microsoft.UI.Xaml;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Helpers;
 
 namespace Netcool.DbToys.WinUI.Services;

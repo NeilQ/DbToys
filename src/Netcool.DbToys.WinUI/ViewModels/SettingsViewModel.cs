@@ -4,8 +4,8 @@ using Windows.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using Netcool.DbToys.WinUI.Contracts.Services;
 using Netcool.DbToys.WinUI.Helpers;
+using Netcool.DbToys.WinUI.Services;
 
 namespace Netcool.DbToys.WinUI.ViewModels;
 

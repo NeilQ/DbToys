@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Xaml.Interactivity;
-using Netcool.DbToys.WinUI.Contracts.Services;
+using Netcool.DbToys.WinUI.Services;
 
 namespace Netcool.DbToys.WinUI.Behaviors;
 

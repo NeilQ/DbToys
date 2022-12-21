@@ -1,4 +1,4 @@
-﻿namespace Netcool.DbToys.WinUI.Contracts.ViewModels;
+﻿namespace Netcool.DbToys.WinUI.ViewModels;
 
 public interface INavigationAware
 {
