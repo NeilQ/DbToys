@@ -33,7 +33,12 @@
             <TreeViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE80A;" Margin="0,0,5,0"/>
-                    <TextBlock Text="{x:Bind Name}"/>
+                    <TextBlock Text="{x:Bind Name}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind Name}"/>
+                        </ToolTipService.ToolTip>
+
+                    </TextBlock>
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>

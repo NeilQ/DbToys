@@ -44,6 +44,16 @@ public class DatabaseViewModel : ObservableRecipient
                     SchemaReader = dialog.ViewModel.SchemaReader;
                     LoadDatabaseTreeNode(SchemaReader, DataBaseType.PostgreSql);
                 }
+            }else if (dbType == "MySql")
+            {
+                var dialog = App.GetService<MysqlConnectDialog>();
+                dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
+                await dialog.ShowAsync();
+                if (dialog.ViewModel.SchemaReader != null)
+                {
+                    SchemaReader = dialog.ViewModel.SchemaReader;
+                    LoadDatabaseTreeNode(SchemaReader, DataBaseType.Mysql);
+                }
             }
         });
     }
@@ -64,14 +74,6 @@ public class DatabaseViewModel : ObservableRecipient
         {
             _notificationService.QueueNotificationAsync(new Notification("Read database schema failed",
                 ex.InnerException == null ? ex.Message : ex.InnerException.Message));
-            /*
-            Growl.Error(new GrowlInfo
-            {
-                IsCustom = true,
-                Message = $"Read database schema failed: {(ex.InnerException == null ? ex.Message : ex.InnerException.Message)}",
-                WaitTime = 5
-            });
-            */
         }
         item.ExpandPath();
         ConnectionItems.Add(item);
