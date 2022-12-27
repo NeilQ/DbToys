@@ -17,6 +17,10 @@
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <AssemblyName>DbToys</AssemblyName>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Styles\Colors.xaml" />
+    <None Remove="Styles\NotificationStyle.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -49,6 +53,12 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Styles\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Styles\NotificationStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Database\PostgreSqlConnectDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

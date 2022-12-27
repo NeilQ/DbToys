@@ -1,4 +1,5 @@
 ﻿using Windows.System;
+using Windows.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -6,12 +7,16 @@ using Microsoft.UI.Xaml.Media;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.ViewModels;
 using Netcool.DbToys.WinUI.Services;
+using crypto;
+using System.Threading;
 
 namespace Netcool.DbToys.WinUI.Views;
 
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
 {
+    private readonly INotificationService _notificationService;
+    private CancellationTokenSource _cancellationTokenSource;
     public ShellViewModel ViewModel
     {
         get;
@@ -32,6 +37,7 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+        _notificationService = App.GetService<INotificationService>();
     }
 
     private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -40,6 +46,33 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+
+        _cancellationTokenSource = new CancellationTokenSource();
+        var ct = _cancellationTokenSource.Token;
+        Task.Run(async () =>
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                try
+                {
+                    var notification =
+                        await _notificationService.DequeueNotificationAsync(ct);
+                    DispatcherQueue.TryEnqueue(() =>
+                    {
+                        ExampleInAppNotification.Show(notification, notification.Duration);
+                    });
+                }
+                catch (Exception)
+                {
+                    /* ignore */
+                }
+            }
+        }, ct);
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        _cancellationTokenSource.Dispose();
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -82,4 +115,6 @@ public sealed partial class ShellPage : Page
 
         args.Handled = result;
     }
-  }
+
+
+}

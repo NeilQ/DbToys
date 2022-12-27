@@ -8,7 +8,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:helpers="using:Netcool.DbToys.WinUI.Helpers"
     xmlns:behaviors="using:Netcool.DbToys.WinUI.Behaviors"
-    Loaded="OnLoaded">
+    Loaded="OnLoaded" Unloaded="OnUnloaded">
 
     <Grid>
         <Grid x:Name="AppTitleBar"
@@ -26,6 +26,30 @@
                        Style="{StaticResource CaptionTextBlockStyle}"
                        Margin="28,0,0,0"/>
         </Grid>
+
+        <controls:InAppNotification x:Name="ExampleInAppNotification"  Canvas.ZIndex="100"
+                                    Style="{StaticResource NotificationStyle}" 
+                                    HorizontalAlignment="Right"
+                                    HorizontalOffset="100"
+                                    Shadow="{StaticResource SharedShadow}"
+                                    StackMode="StackInFront"
+                                    VerticalOffset="0"
+                                    VerticalAlignment="Top" Margin="0,30">
+            <!-- InAppNotification content -->
+            <controls:InAppNotification.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <InfoBar MinWidth="300"
+                                 Margin="0,0,-50,0"
+                                 Severity="{Binding Severity}"
+                                 IsOpen="True"
+                                 IsClosable="False"
+                                 Title="{Binding Title}"
+                                 Message="{Binding Message}" />
+                    </StackPanel>
+                </DataTemplate>
+            </controls:InAppNotification.ContentTemplate>
+        </controls:InAppNotification>
         <NavigationView
             x:Name="NavigationViewControl"
             Canvas.ZIndex="0"

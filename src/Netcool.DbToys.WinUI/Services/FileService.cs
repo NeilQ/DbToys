@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using System.Text.Json;
+using Netcool.DbToys.WinUI.Helpers;
 
 namespace Netcool.DbToys.WinUI.Services;
 
@@ -11,7 +11,7 @@ public class FileService : IFileService
         if (File.Exists(path))
         {
             var json = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<T>(json);
+            return Json.Deserialize<T>(json);
         }
 
         return default;
@@ -24,7 +24,7 @@ public class FileService : IFileService
             Directory.CreateDirectory(folderPath);
         }
 
-        var fileContent = JsonSerializer.Serialize(content);
+        var fileContent = Json.Serialize(content);
         File.WriteAllText(Path.Combine(folderPath, fileName), fileContent, Encoding.UTF8);
     }
 

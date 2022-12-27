@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Netcool.DbToys.Core.Database;
+using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.ViewModels.Database;
 using Netcool.DbToys.WinUI.Views.Database;
 
@@ -9,6 +10,7 @@ namespace Netcool.DbToys.WinUI.ViewModels;
 
 public class DatabaseViewModel : ObservableRecipient
 {
+    private readonly INotificationService _notificationService;
     public IAsyncRelayCommand<string> ConnectCommand { get; }
 
     public ISchemaReader SchemaReader { get; private set; }
@@ -27,8 +29,9 @@ public class DatabaseViewModel : ObservableRecipient
         set => SetProperty(ref _selectedItem, value);
     }
 
-    public DatabaseViewModel()
+    public DatabaseViewModel(INotificationService notificationService)
     {
+        _notificationService = notificationService;
         ConnectCommand = new AsyncRelayCommand<string>(async dbType =>
         {
             if (dbType == "PostgreSql")
@@ -56,11 +59,11 @@ public class DatabaseViewModel : ObservableRecipient
             {
                 item.AddChild(new DatabaseItem(db, schemaReader));
             }
-
         }
         catch (Exception ex)
         {
-            // TODO: show error
+            _notificationService.QueueNotificationAsync(new Notification("Read database schema failed",
+                ex.InnerException == null ? ex.Message : ex.InnerException.Message));
             /*
             Growl.Error(new GrowlInfo
             {
