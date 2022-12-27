@@ -77,6 +77,8 @@ public partial class App : Application
             services.AddSingleton<PostgreSqlConnectViewModel>();
             services.AddTransient<MysqlConnectDialog>();
             services.AddSingleton<MysqlConnectViewModel>();
+            services.AddTransient<SqlServerConnectDialog>();
+            services.AddSingleton<SqlServerConnectViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

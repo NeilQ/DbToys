@@ -4,13 +4,12 @@ using Netcool.DbToys.WinUI.ViewModels.Database;
 
 namespace Netcool.DbToys.WinUI.Views.Database;
 
-public sealed partial class PostgreSqlConnectDialog : ContentDialog
+public sealed partial class SqlServerConnectDialog
 {
-    public PostgreSqlConnectViewModel ViewModel { get; }
-
-    public PostgreSqlConnectDialog()
+    public SqlServerConnectViewModel ViewModel { get; }
+    public SqlServerConnectDialog()
     {
-        ViewModel = App.GetService<PostgreSqlConnectViewModel>();
+        ViewModel = App.GetService<SqlServerConnectViewModel>();
         ViewModel.HasError = false;
         ViewModel.SchemaReader = null;
         InitializeComponent();

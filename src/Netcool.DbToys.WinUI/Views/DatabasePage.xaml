@@ -37,7 +37,6 @@
                         <ToolTipService.ToolTip>
                             <ToolTip Content="{x:Bind Name}"/>
                         </ToolTipService.ToolTip>
-
                     </TextBlock>
                 </StackPanel>
             </TreeViewItem>
@@ -68,8 +67,8 @@
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe836;"/>
                         </AppBarButton.Icon>
 
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
+                        <AppBarButton.Flyout >
+                            <MenuFlyout Placement="RightEdgeAlignedTop">
                                 <MenuFlyoutItem Text="SqlServer" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="SqlServer"/>
                                 <MenuFlyoutItem Text="MySql" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="MySql"/>
                                 <MenuFlyoutItem Text="PostgreSql" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="PostgreSql"/>

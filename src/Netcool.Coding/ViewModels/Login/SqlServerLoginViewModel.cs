@@ -4,7 +4,7 @@ using System.Reactive;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Microsoft.Data.SqlClient;
-using Netcool.Coding.Core;
+using Netcool.DbToys.Core;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 

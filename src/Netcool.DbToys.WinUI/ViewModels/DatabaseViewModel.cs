@@ -44,7 +44,8 @@ public class DatabaseViewModel : ObservableRecipient
                     SchemaReader = dialog.ViewModel.SchemaReader;
                     LoadDatabaseTreeNode(SchemaReader, DataBaseType.PostgreSql);
                 }
-            }else if (dbType == "MySql")
+            }
+            else if (dbType == "MySql")
             {
                 var dialog = App.GetService<MysqlConnectDialog>();
                 dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
@@ -53,6 +54,17 @@ public class DatabaseViewModel : ObservableRecipient
                 {
                     SchemaReader = dialog.ViewModel.SchemaReader;
                     LoadDatabaseTreeNode(SchemaReader, DataBaseType.Mysql);
+                }
+            }
+            else if (dbType == "SqlServer")
+            {
+                var dialog = App.GetService<SqlServerConnectDialog>();
+                dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
+                await dialog.ShowAsync();
+                if (dialog.ViewModel.SchemaReader != null)
+                {
+                    SchemaReader = dialog.ViewModel.SchemaReader;
+                    LoadDatabaseTreeNode(SchemaReader, DataBaseType.SqlServer);
                 }
             }
         });

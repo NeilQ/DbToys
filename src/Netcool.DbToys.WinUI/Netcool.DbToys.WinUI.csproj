@@ -21,6 +21,7 @@
     <None Remove="Styles\Colors.xaml" />
     <None Remove="Styles\NotificationStyle.xaml" />
     <None Remove="Views\Database\MysqlConnectDialog.xaml" />
+    <None Remove="Views\Database\SqlServerConnectDialog.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +55,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Database\SqlServerConnectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Database\MysqlConnectDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
