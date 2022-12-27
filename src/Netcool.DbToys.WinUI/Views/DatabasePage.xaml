@@ -7,8 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:database="using:Netcool.DbToys.WinUI.ViewModels.Database"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:views="using:Netcool.DbToys.WinUI.Views"
-    mc:Ignorable="d">
+    mc:Ignorable="d" >
 
     <Page.Resources>
         <DataTemplate x:Key="ConnectionTemplate" x:DataType="database:ConnectionItem">
@@ -56,7 +57,7 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0">
-            <Grid Margin="0,0,10,0">
+            <Grid Margin="{StaticResource SmallRightMargin}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -92,8 +93,35 @@
                                ResizeDirection="Auto">
         </controls:GridSplitter>
 
-        <Border Padding="10" Grid.Column="1">
-            <TextBlock Text="Table"></TextBlock>
-        </Border>
+        <Grid Margin="{StaticResource SmallLeftMargin}" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Left" Text="Columns" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <controls:DataGrid Grid.Row="1" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="32" AutoGenerateColumns="False"
+                               ItemsSource="{x:Bind ViewModel.TableColumns}" GridLinesVisibility="All">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn Binding="{Binding Name}" Width="150" Header="Name"/>
+                    <controls:DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="120" Header="PrimaryKey"/>
+                    <controls:DataGridTextColumn Binding="{Binding DbType}" Width="120" Header="DataType"/>
+                    <controls:DataGridCheckBoxColumn Binding="{Binding IsNullable}" Width="120" Header="IsNullable"/>
+                    <controls:DataGridTextColumn Binding="{Binding Length}" Width="120" Header="Length"/>
+                    <controls:DataGridCheckBoxColumn Binding="{Binding IsAutoIncrement}" Width="120" Header="AutoIncrement"/>
+                    <controls:DataGridTextColumn Binding="{Binding DefaultValue}" Width="120" Header="DefaultValue"/>
+                    <controls:DataGridTextColumn Binding="{Binding Description}" Header="Description"/>
+                </controls:DataGrid.Columns>
+            </controls:DataGrid>
+            <TextBlock Grid.Row="2" Text="ResultSet" HorizontalAlignment="Left" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <controls:DataGrid x:Name="ResultSetGrid" Grid.Row="3" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="32"
+                      ItemsSource="{x:Bind ViewModel.TableResultSet}"  GridLinesVisibility="All">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn Width="150" Header="Result"/>
+                </controls:DataGrid.Columns>
+            </controls:DataGrid>
+
+        </Grid>
     </Grid>
 </Page>

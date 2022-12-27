@@ -1,6 +1,3 @@
-<!-- Copyright (c) Microsoft Corporation and Contributors. -->
-<!-- Licensed under the MIT License. -->
-
 <ContentDialog
     x:Class="Netcool.DbToys.WinUI.Views.Database.SqlServerConnectDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -49,6 +46,7 @@
             <Button x:Uid="CancelButton" Style="{ThemeResource DefaultButtonStyle}" Command="{x:Bind ViewModel.CancelCommand}"
                     CommandParameter="{Binding ElementName=SqlServerContentDialog}" Margin="5,0" Width="100" />
         </StackPanel>
+
 
     </Grid>
 </ContentDialog>

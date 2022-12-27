@@ -127,7 +127,7 @@ namespace Netcool.DbToys.Core.Database
 
         static string GetPropertyType(DataRow row)
         {
-            bool bUnsigned = row["COLUMN_TYPE"].ToString().IndexOf("unsigned", StringComparison.Ordinal) >= 0;
+            bool bUnsigned = row["COLUMN_TYPE"].ToString()?.IndexOf("unsigned", StringComparison.Ordinal) >= 0;
             string propType = "string";
             switch (row["DATA_TYPE"].ToString())
             {

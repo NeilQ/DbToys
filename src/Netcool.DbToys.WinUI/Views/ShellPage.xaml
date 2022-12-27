@@ -31,6 +31,7 @@
                                     Style="{StaticResource NotificationStyle}" 
                                     HorizontalAlignment="Right"
                                     HorizontalOffset="100"
+                                    MaxWidth="400"
                                     Shadow="{StaticResource SharedShadow}"
                                     StackMode="StackInFront"
                                     VerticalOffset="0"
@@ -58,9 +59,12 @@
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
             IsSettingsVisible="True"
             ExpandedModeThresholdWidth="1920"
-            DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
-            Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
+            DisplayModeChanged="NavigationViewControl_DisplayModeChanged">
+            <!--
+            Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}"
+            -->
             <NavigationView.MenuItems>
+
                 <!--
                 TODO: Update item titles by updating <x:Uid>.Content entries in Strings/en-us/Resources.resw.
                 https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml
@@ -86,6 +90,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
+            <!--
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
@@ -109,9 +114,13 @@
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                 </behaviors:NavigationViewHeaderBehavior>
             </i:Interaction.Behaviors>
-            <Grid Margin="{StaticResource NavigationViewPageContentMargin}">
-                <Frame x:Name="NavigationFrame" />
-            </Grid>
+            -->
+
+            <Border Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}">
+                <Grid Margin="{StaticResource NavigationViewPageContentMargin}" >
+                    <Frame x:Name="NavigationFrame" />
+                </Grid>
+            </Border>
         </NavigationView>
 
     </Grid>

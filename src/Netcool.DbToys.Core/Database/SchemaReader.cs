@@ -13,7 +13,7 @@ public interface ISchemaReader
 
     List<Table> ReadTables(string database);
 
-    List<Column> ReadColumns(string database,string schema, string table);
+    List<Column> ReadColumns(string database, string schema, string table);
 
     DataTable GetResultSet(Table table, int limit);
 }
@@ -38,15 +38,15 @@ public abstract class SchemaReader : ISchemaReader
     public abstract string GetServerName();
 
     public abstract string Escape(string text);
-     
+
     public abstract List<string> ReadDatabases();
 
-    public abstract List<Column> ReadColumns(string database,string schema, string table);
+    public abstract List<Column> ReadColumns(string database, string schema, string table);
 
     public abstract List<Table> ReadTables(string database);
 
     public abstract DataTable GetResultSet(Table table, int limit);
-
+  
     /// <summary>
     /// Convert value to Pascal case.
     /// </summary>

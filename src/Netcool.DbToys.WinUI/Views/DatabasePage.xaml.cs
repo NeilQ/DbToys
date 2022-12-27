@@ -1,22 +1,16 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 using Windows.UI.Core;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.ViewModels;
 using Netcool.DbToys.WinUI.ViewModels.Database;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Netcool.DbToys.WinUI.Views;
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
+
 public sealed partial class DatabasePage : Page
 {
     private readonly InputCursor _arrowCursor =
@@ -29,8 +23,21 @@ public sealed partial class DatabasePage : Page
 
     public DatabasePage()
     {
-        ViewModel=App.GetService<DatabaseViewModel>();
+        ViewModel = App.GetService<DatabaseViewModel>();
         InitializeComponent();
+        ViewModel.OnResultSetLoaded += columns =>
+        {
+            ResultSetGrid.Columns.Clear();
+            if (columns == null) return;
+            for (var i = 0; i < columns.Count; i++)
+            {
+                ResultSetGrid.Columns.Add(new DataGridTextColumn
+                {
+                    Header = columns[i].ColumnName,
+                    Binding = new Binding { Path = new PropertyPath("[" + i.ToString() + "]") }
+                });
+            }
+        };
     }
 
     private void GridSplitter_OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
@@ -47,7 +54,8 @@ public sealed partial class DatabasePage : Page
     {
         (sender as UIElement)?.ChangeCursor(_resizeCursor);
     }
-}
+
+  }
 
 public class DatabaseTreeItemTemplateSelector : DataTemplateSelector
 {

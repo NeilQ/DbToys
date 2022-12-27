@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Netcool.Coding.Core.Database;
 using Netcool.Coding.Events;
+using Netcool.DbToys.Core.Database;
 using ReactiveUI;
 
 namespace Netcool.Coding.ViewModels.Database;

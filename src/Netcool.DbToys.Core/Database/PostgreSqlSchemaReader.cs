@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Npgsql;
+using NpgsqlTypes;
 
 namespace Netcool.DbToys.Core.Database;
 
@@ -83,11 +84,7 @@ public class PostgreSqlSchemaReader : SchemaReader
         using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
         using var cmd = new NpgsqlCommand { Connection = connection, CommandText = COLUMN_SQL };
 
-        var p = cmd.CreateParameter();
-        p.ParameterName = "@tableName";
-        p.Value = table;
-        cmd.Parameters.Add(p);
-
+        cmd.Parameters.AddWithValue("tableName", NpgsqlDbType.Text, table);
         var pks = GetPk(schema, table)?.ToHashSet() ?? new HashSet<string>();
 
         var result = new List<Column>();
@@ -106,6 +103,8 @@ public class PostgreSqlSchemaReader : SchemaReader
             };
             col.PropertyName = ToPascalCase(CleanUp(col.Name));
             col.PropertyType = GetPropertyType(rdr["udt_name"].ToString());
+            if (int.TryParse(rdr["character_maximum_length"].ToString(), out var length))
+                col.Length = length;
             if (pks.Contains(col.Name))
                 col.IsPk = true;
 
@@ -146,10 +145,7 @@ public class PostgreSqlSchemaReader : SchemaReader
         using var connection = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
         using var cmd = new NpgsqlCommand { Connection = connection, CommandText = sql };
 
-        var p = cmd.CreateParameter();
-        p.ParameterName = "@tableName";
-        p.Value = $"{schema}.{table}";
-        cmd.Parameters.Add(p);
+        cmd.Parameters.AddWithValue("tableName", NpgsqlDbType.Text, $"{schema}.{Escape(table)}");
 
         connection.Open();
         using var reader = cmd.ExecuteReader();
@@ -167,36 +163,24 @@ public class PostgreSqlSchemaReader : SchemaReader
     {
         switch (sqlType)
         {
-            case "int8":
-                return "int";
-            case "serial8":
-                return "int";
-
-            case "bool":
-                return "bool";
-
-            case "bytea	":
-                return "byte[]";
-
-            case "float8":
-                return "double";
-
+            case "int2":
             case "int4":
             case "serial4":
+            case "int8":
+            case "serial8":
                 return "int";
-
+            case "bool":
+                return "bool";
+            case "bytea":
+                return "byte[]";
+            case "float8":
+                return "double";
             case "money	":
                 return "decimal";
-
             case "numeric":
                 return "decimal";
-
             case "float4":
                 return "float";
-
-            case "int2":
-                return "int";
-
             case "time":
             case "timetz":
             case "timestamp":
@@ -216,7 +200,7 @@ public class PostgreSqlSchemaReader : SchemaReader
                 AND table_schema NOT IN ('pg_catalog', 'information_schema');";
 
     const string COLUMN_SQL = @"
-            SELECT cols.column_name, cols.is_nullable, cols.udt_name, cols.column_default,
+            SELECT cols.column_name, cols.is_nullable, cols.udt_name, cols.column_default, cols.character_maximum_length,
                 (SELECT pg_catalog.col_description(c.oid, cols.ordinal_position::int)
                  FROM pg_catalog.pg_class c
                  WHERE c.relname = cols.table_name
