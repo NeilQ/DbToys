@@ -1,4 +1,5 @@
-﻿using Netcool.DbToys.Core.Database;
+﻿using CommunityToolkit.Mvvm.Input;
+using Netcool.DbToys.Core.Database;
 
 namespace Netcool.DbToys.WinUI.ViewModels.Database;
 
@@ -6,6 +7,8 @@ public class DatabaseItem : TreeItem
 {
 
     private readonly ISchemaReader _schemaReader;
+
+    public IRelayCommand RefreshCommand { get; }
 
     public List<Table> Tables { get; set; }
 
@@ -16,7 +19,7 @@ public class DatabaseItem : TreeItem
     {
         Name = name;
         _schemaReader = schemaReader;
-        // RefreshCommand = ReactiveCommand.Create(LoadChildren);
+        RefreshCommand = new RelayCommand(LoadChildren);
         // ExportToExcelCommand = ReactiveCommand.CreateFromTask(ExportToExcel);
     }
 
@@ -27,7 +30,9 @@ public class DatabaseItem : TreeItem
         Children?.Clear();
         foreach (var table in Tables)
         {
-            AddChild(new TableItem(table) { IsExpanded = true });
+            AddChild(new TableItem(table));
         }
+
+        HasUnrealizedChildren = false;
     }
 }

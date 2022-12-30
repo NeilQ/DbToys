@@ -23,6 +23,11 @@
         <DataTemplate x:Key="DatabaseTemplate" x:DataType="database:DatabaseItem">
             <TreeViewItem ItemsSource="{x:Bind Children}" IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
                           HasUnrealizedChildren="{x:Bind HasUnrealizedChildren, Mode=TwoWay}">
+                <TreeViewItem.ContextFlyout>
+                    <CommandBarFlyout Placement="Top">
+                        <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" Icon="Refresh" ToolTipService.ToolTip="Refresh" />
+                    </CommandBarFlyout>
+                </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE94;" Margin="0,0,5,0"/>
                     <TextBlock Text="{x:Bind Name}"/>
@@ -115,7 +120,7 @@
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
             <TextBlock Grid.Row="2" Text="ResultSet" HorizontalAlignment="Left" Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <controls:DataGrid x:Name="ResultSetGrid" Grid.Row="3" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="32"
+            <controls:DataGrid x:Name="ResultSetGrid" AutoGenerateColumns="False" Grid.Row="3" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="32"
                       ItemsSource="{x:Bind ViewModel.TableResultSet}"  GridLinesVisibility="All">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Width="150" Header="Result"/>

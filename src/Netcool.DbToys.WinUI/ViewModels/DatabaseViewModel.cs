@@ -15,6 +15,7 @@ namespace Netcool.DbToys.WinUI.ViewModels;
 public class DatabaseViewModel : ObservableObject
 {
     private readonly INotificationService _notificationService;
+
     public IAsyncRelayCommand<string> ConnectCommand { get; }
 
     public ISchemaReader SchemaReader { get; private set; }

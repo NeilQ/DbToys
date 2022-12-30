@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Netcool.DbToys.WinUI.Helpers;
@@ -11,7 +12,7 @@ using Netcool.DbToys.WinUI.ViewModels.Database;
 
 namespace Netcool.DbToys.WinUI.Views;
 
-public sealed partial class DatabasePage : Page
+public sealed partial class DatabasePage
 {
     private readonly InputCursor _arrowCursor =
         InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
@@ -54,8 +55,7 @@ public sealed partial class DatabasePage : Page
     {
         (sender as UIElement)?.ChangeCursor(_resizeCursor);
     }
-
-  }
+}
 
 public class DatabaseTreeItemTemplateSelector : DataTemplateSelector
 {
