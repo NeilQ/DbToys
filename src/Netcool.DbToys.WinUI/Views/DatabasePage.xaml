@@ -9,6 +9,7 @@
     xmlns:database="using:Netcool.DbToys.WinUI.ViewModels.Database"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:views="using:Netcool.DbToys.WinUI.Views"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d" >
 
     <Page.Resources>
@@ -26,6 +27,9 @@
                 <TreeViewItem.ContextFlyout>
                     <CommandBarFlyout Placement="Top">
                         <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" Icon="Refresh" ToolTipService.ToolTip="Refresh" />
+                        <CommandBarFlyout.SecondaryCommands>
+                            <AppBarButton Label="Export" Command="{Binding ExportCommand}" Icon="{ui:FontIcon Glyph=&#xEDE1;}" ToolTipService.ToolTip="Export to excel file" />
+                        </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">

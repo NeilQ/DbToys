@@ -1,5 +1,4 @@
 ﻿using Windows.System;
-using Windows.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -7,15 +6,13 @@ using Microsoft.UI.Xaml.Media;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.ViewModels;
 using Netcool.DbToys.WinUI.Services;
-using crypto;
-using System.Threading;
 
 namespace Netcool.DbToys.WinUI.Views;
 
-// TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
 {
     private readonly INotificationService _notificationService;
+    private readonly ILoadingService _loadingService;
     private CancellationTokenSource _cancellationTokenSource;
     public ShellViewModel ViewModel
     {
@@ -38,9 +35,10 @@ public sealed partial class ShellPage : Page
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
         _notificationService = App.GetService<INotificationService>();
+        _loadingService = App.GetService<ILoadingService>();
     }
 
-    private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
         TitleBarHelper.UpdateTitleBar(RequestedTheme);
 
@@ -49,17 +47,23 @@ public sealed partial class ShellPage : Page
 
         _cancellationTokenSource = new CancellationTokenSource();
         var ct = _cancellationTokenSource.Token;
+        _loadingService.LoadingRequested += b =>
+        {
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                Loading.IsLoading = b;
+            });
+        };
         Task.Run(async () =>
         {
             while (!ct.IsCancellationRequested)
             {
                 try
                 {
-                    var notification =
-                        await _notificationService.DequeueNotificationAsync(ct);
+                    var notification = await _notificationService.DequeueNotificationAsync(ct);
                     DispatcherQueue.TryEnqueue(() =>
                     {
-                        ExampleInAppNotification.Show(notification, notification.Duration);
+                        InAppNotification.Show(notification, notification.Duration);
                     });
                 }
                 catch (Exception)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using Netcool.DbToys.Core.Excel;
 using Netcool.DbToys.WinUI.Activation;
 using Netcool.DbToys.WinUI.Models;
 using Netcool.DbToys.WinUI.Services;
@@ -24,8 +25,7 @@ public partial class App : Application
         get;
     }
 
-    public static T GetService<T>()
-        where T : class
+    public static T GetService<T>() where T : class
     {
         if ((App.Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
         {
@@ -63,6 +63,8 @@ public partial class App : Application
             // Core Services
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<INotificationService, NotificationService>();
+            services.AddSingleton<ILoadingService, LoadingService>();
+            services.AddSingleton<IExcelService, ExcelService>();
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
@@ -94,7 +96,7 @@ public partial class App : Application
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
 

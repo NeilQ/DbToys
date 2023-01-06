@@ -47,7 +47,7 @@ public class DatabaseViewModel : ObservableObject
 
     public Action<DataColumnCollection> OnResultSetLoaded;
 
-    private async void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(SelectedItem))
         {
@@ -63,8 +63,8 @@ public class DatabaseViewModel : ObservableObject
                 }
                 catch (Exception ex)
                 {
-                    await _notificationService.QueueNotificationAsync(new Notification("Read column info failed",
-                          ex.InnerException == null ? ex.Message : ex.InnerException.Message, InfoBarSeverity.Error, 5000));
+                    _notificationService.Error(ex.InnerException == null ? ex.Message : ex.InnerException.Message,
+                        "Read column info failed");
                 }
 
                 DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
@@ -140,7 +140,7 @@ public class DatabaseViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            _notificationService.QueueNotificationAsync(new Notification("Read database schema failed",
+            _notificationService.QueueNotification(new Notification("Read database schema failed",
                 ex.InnerException == null ? ex.Message : ex.InnerException.Message, InfoBarSeverity.Error, 5000));
         }
         item.ExpandPath();

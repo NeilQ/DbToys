@@ -8,6 +8,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:helpers="using:Netcool.DbToys.WinUI.Helpers"
     xmlns:behaviors="using:Netcool.DbToys.WinUI.Behaviors"
+    xmlns:brushes="using:CommunityToolkit.WinUI.UI.Media"
     Loaded="OnLoaded" Unloaded="OnUnloaded">
 
     <Grid>
@@ -26,8 +27,16 @@
                        Style="{StaticResource CaptionTextBlockStyle}"
                        Margin="28,0,0,0"/>
         </Grid>
+        <controls:Loading x:Name="Loading" IsLoading="False" Canvas.ZIndex="99">
+            <controls:Loading.Background>
+                <brushes:AcrylicBrush TintColor="Black"
+                                      TintOpacity="0.4"
+                                      BlurAmount="8"/>
+            </controls:Loading.Background>
+            <ProgressRing IsActive="True" Foreground="{ThemeResource BrushGrey05}" />
+        </controls:Loading>
 
-        <controls:InAppNotification x:Name="ExampleInAppNotification"  Canvas.ZIndex="100"
+        <controls:InAppNotification x:Name="InAppNotification"  Canvas.ZIndex="100"
                                     Style="{StaticResource NotificationStyle}" 
                                     HorizontalAlignment="Right"
                                     HorizontalOffset="100"

@@ -1,17 +1,8 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using System.Threading.Channels;
-using Enum = System.Enum;
 
 namespace Netcool.DbToys.WinUI.Services;
 
-public enum NotificationSeverity
-{
-    Informational,
-    Success,
-    Warning,
-    Error
-}
 public class Notification
 {
     public string Title { get; set; }
@@ -44,7 +35,15 @@ public class Notification
 }
 public interface INotificationService
 {
-    public ValueTask QueueNotificationAsync(Notification notification);
+    public void Success(string message, string title = null, int duration = 5000);
+
+    public void Info(string message, string title = null, int duration = 0);
+
+    public void Error(string message, string title = null, int duration = 0);
+
+    public void Warning(string message, string title = null, int duration = 0);
+
+    public void QueueNotification(Notification notification);
 
     ValueTask<Notification> DequeueNotificationAsync(CancellationToken cancellationToken);
 }
@@ -58,7 +57,27 @@ public class NotificationService : INotificationService
         _queue = Channel.CreateUnbounded<Notification>();
     }
 
-    public async ValueTask QueueNotificationAsync(Notification notification)
+    public void Success(string message, string title, int duration = 5000)
+    {
+        QueueNotification(new(title, message, InfoBarSeverity.Success, duration));
+    }
+
+    public void Info(string message, string title, int duration = 0)
+    {
+        QueueNotification(new(title, message, InfoBarSeverity.Informational, duration));
+    }
+
+    public void Error(string message, string title, int duration = 0)
+    {
+        QueueNotification(new(title, message, InfoBarSeverity.Error, duration));
+    }
+
+    public void Warning(string message, string title, int duration = 0)
+    {
+        QueueNotification(new(title, message, InfoBarSeverity.Warning, duration));
+    }
+
+    public async void QueueNotification(Notification notification)
     {
         ArgumentNullException.ThrowIfNull(notification);
         ArgumentException.ThrowIfNullOrEmpty(notification.Message);

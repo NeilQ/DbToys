@@ -18,4 +18,40 @@
     <SolidColorBrush x:Key="WarningColorBrush" Color="{StaticResource WarningColor}"/>
     <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}"/>
 
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <ui:Color x:Key="Grey01">#FF333333</ui:Color>
+            <ui:Color x:Key="Grey02">#FF444444</ui:Color>
+            <ui:Color x:Key="Grey03">#FF555555</ui:Color>
+            <ui:Color x:Key="Grey04">#FFDDDDDD</ui:Color>
+            <ui:Color x:Key="Grey05">#FFF0F0F0</ui:Color>
+            <SolidColorBrush x:Key="BrushGrey01"
+                             Color="{ThemeResource Grey01}" />
+            <SolidColorBrush x:Key="BrushGrey02"
+                             Color="{ThemeResource Grey02}" />
+            <SolidColorBrush x:Key="BrushGrey03"
+                             Color="{ThemeResource Grey03}" />
+            <SolidColorBrush x:Key="BrushGrey04"
+                             Color="{ThemeResource Grey04}" />
+            <SolidColorBrush x:Key="BrushGrey05"
+                             Color="{ThemeResource Grey05}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <ui:Color x:Key="Grey01">#FFF0F0F0</ui:Color>
+            <ui:Color x:Key="Grey02">#FFDDDDDD</ui:Color>
+            <ui:Color x:Key="Grey03">#FF555555</ui:Color>
+            <ui:Color x:Key="Grey04">#FF444444</ui:Color>
+            <ui:Color x:Key="Grey05">#FF333333</ui:Color>
+            <SolidColorBrush x:Key="BrushGrey01"
+                             Color="{ThemeResource Grey01}" />
+            <SolidColorBrush x:Key="BrushGrey02"
+                             Color="{ThemeResource Grey02}" />
+            <SolidColorBrush x:Key="BrushGrey03"
+                             Color="{ThemeResource Grey03}" />
+            <SolidColorBrush x:Key="Brush-Grey04"
+                             Color="{ThemeResource Grey04}" />
+            <SolidColorBrush x:Key="BrushGrey05"
+                             Color="{ThemeResource Grey05}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
