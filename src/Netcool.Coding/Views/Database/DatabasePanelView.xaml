@@ -39,13 +39,13 @@
                                 <Path.Style>
                                     <Style TargetType="{x:Type Path}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataBaseType, Mode=OneWay}" Value="0">
+                                            <DataTrigger Binding="{Binding DatabaseType, Mode=OneWay}" Value="0">
                                                 <Setter Property="Data" Value="{StaticResource SqlServerGeometry}"></Setter>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding DataBaseType, Mode=OneWay}" Value="1">
+                                            <DataTrigger Binding="{Binding DatabaseType, Mode=OneWay}" Value="1">
                                                 <Setter Property="Data" Value="{StaticResource MySqlGeometry}"></Setter>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding DataBaseType, Mode=OneWay}" Value="2">
+                                            <DataTrigger Binding="{Binding DatabaseType, Mode=OneWay}" Value="2">
                                                 <Setter Property="Data" Value="{StaticResource PostgreSqlGeometry}"></Setter>
                                             </DataTrigger>
                                         </Style.Triggers>

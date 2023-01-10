@@ -49,7 +49,7 @@ namespace Netcool.Coding.ViewModels.Database
                             {
                                 var schemaReader = new PostgreSqlSchemaReader(builder);
                                 Locator.CurrentMutable.RegisterConstant<ISchemaReader>(schemaReader);
-                                LoadDatabaseTreeNode(schemaReader, DataBaseType.PostgreSql);
+                                LoadDatabaseTreeNode(schemaReader, DatabaseType.PostgreSql);
                             });
                         _postgreSqlLoginView.ViewModel.CloseAction = _postgreSqlLoginView.Hide;
                     }
@@ -69,7 +69,7 @@ namespace Netcool.Coding.ViewModels.Database
                         {
                             var schemaReader = new SqlServerSchemaReader(builder);
                             Locator.CurrentMutable.RegisterConstant<ISchemaReader>(schemaReader);
-                            LoadDatabaseTreeNode(schemaReader, DataBaseType.SqlServer);
+                            LoadDatabaseTreeNode(schemaReader, DatabaseType.SqlServer);
                         });
                         _sqlServiceLoginView.ViewModel.CloseAction = _sqlServiceLoginView.Hide;
                     }
@@ -89,7 +89,7 @@ namespace Netcool.Coding.ViewModels.Database
                             {
                                 var schemaReader = new MySqlSchemaReader(builder);
                                 Locator.CurrentMutable.RegisterConstant<ISchemaReader>(schemaReader);
-                                LoadDatabaseTreeNode(schemaReader, DataBaseType.Mysql);
+                                LoadDatabaseTreeNode(schemaReader, DatabaseType.Mysql);
                             });
                         _mySqlLoginView.ViewModel.CloseAction = _mySqlLoginView.Hide;
                     }
@@ -98,7 +98,7 @@ namespace Netcool.Coding.ViewModels.Database
             }
         }
 
-        private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DataBaseType dbType)
+        private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DatabaseType dbType)
         {
             ConnectionItems.Clear();
             var item = new ConnectionItem(schemaReader.GetServerName(), dbType);

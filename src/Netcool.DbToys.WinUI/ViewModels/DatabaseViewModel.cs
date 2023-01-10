@@ -99,7 +99,7 @@ public class DatabaseViewModel : ObservableObject
             if (dialog.ViewModel.SchemaReader != null)
             {
                 SchemaReader = dialog.ViewModel.SchemaReader;
-                LoadDatabaseTreeNode(SchemaReader, DataBaseType.PostgreSql);
+                LoadDatabaseTreeNode(SchemaReader, DatabaseType.PostgreSql);
             }
         }
         else if (dbType == "MySql")
@@ -110,7 +110,7 @@ public class DatabaseViewModel : ObservableObject
             if (dialog.ViewModel.SchemaReader != null)
             {
                 SchemaReader = dialog.ViewModel.SchemaReader;
-                LoadDatabaseTreeNode(SchemaReader, DataBaseType.Mysql);
+                LoadDatabaseTreeNode(SchemaReader, DatabaseType.Mysql);
             }
         }
         else if (dbType == "SqlServer")
@@ -121,12 +121,12 @@ public class DatabaseViewModel : ObservableObject
             if (dialog.ViewModel.SchemaReader != null)
             {
                 SchemaReader = dialog.ViewModel.SchemaReader;
-                LoadDatabaseTreeNode(SchemaReader, DataBaseType.SqlServer);
+                LoadDatabaseTreeNode(SchemaReader, DatabaseType.SqlServer);
             }
         }
     }
 
-    private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DataBaseType dbType)
+    private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DatabaseType dbType)
     {
         ConnectionItems.Clear();
         var item = new ConnectionItem(schemaReader.GetServerName(), dbType);

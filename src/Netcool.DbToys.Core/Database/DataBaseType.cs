@@ -1,6 +1,6 @@
 ﻿namespace Netcool.DbToys.Core.Database;
 
-public enum DataBaseType
+public enum DatabaseType
 {
     SqlServer,
     Mysql,

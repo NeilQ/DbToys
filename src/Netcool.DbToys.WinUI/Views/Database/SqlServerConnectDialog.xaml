@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="SqlServerContentDialog"
-    mc:Ignorable="d" Title="Sql Server" Style="{ThemeResource DefaultContentDialogStyle}">
+    mc:Ignorable="d" Title="Sql Server" Closed="OnClosed" Style="{ThemeResource DefaultContentDialogStyle}">
 
     <Grid Margin="0,20">
         <Grid.RowDefinitions>
@@ -20,7 +20,10 @@
                      IsClosable="True" />
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Server" Width="100" VerticalAlignment="Center"/>
-                <TextBox Width="200" Text="{x:Bind ViewModel.Server, Mode=TwoWay}"/>
+                <ComboBox IsEditable="True" Width="200"  ItemsSource="{x:Bind ViewModel.Accounts}"
+                          SelectedValuePath="Server" DisplayMemberPath="Server" 
+                          SelectedIndex="{x:Bind ViewModel.SelectedAccountIndex, Mode=TwoWay}"
+                          Text="{x:Bind ViewModel.Server, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Authentication" Width="100" VerticalAlignment="Center"/>

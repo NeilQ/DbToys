@@ -9,12 +9,16 @@ public sealed partial class MysqlConnectDialog
     public MysqlConnectDialog()
     {
         ViewModel = App.GetService<MysqlConnectViewModel>();
-        ViewModel.HasError = false;
-        ViewModel.SchemaReader = null;
+        ViewModel.IsActive = true;
         InitializeComponent();
     }
     private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
     {
         ViewModel.Password = ((PasswordBox)sender).Password;
+    }
+
+    private void OnClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        ViewModel.IsActive = false;
     }
 }

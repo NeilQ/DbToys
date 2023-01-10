@@ -1,15 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MySql.Data.MySqlClient;
 using Netcool.DbToys.Core.Database;
+using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.Views.Database;
 
 namespace Netcool.DbToys.WinUI.ViewModels.Database;
 
-public class MysqlConnectViewModel : ObservableObject
+public class MysqlConnectViewModel : ObservableRecipient
 {
-    private string _serverIp = "127.0.0.1";
-    public string ServerIp { get => _serverIp; set => SetProperty(ref _serverIp, value); }
+    private string _server = "127.0.0.1";
+    public string Server { get => _server; set => SetProperty(ref _server, value); }
 
     private int _port = 3306;
     public int Port { get => _port; set => SetProperty(ref _port, value); }
@@ -33,41 +35,93 @@ public class MysqlConnectViewModel : ObservableObject
 
     public ISchemaReader SchemaReader { get; set; }
 
-    public MysqlConnectViewModel()
-    {
-        ConnectCommand = new RelayCommand<MysqlConnectDialog>(dialog =>
-        {
-            var builder = new MySqlConnectionStringBuilder
-            {
-                Server = ServerIp,
-                Port = (uint)Port,
-                PersistSecurityInfo = true,
-                UserID = Username,
-                Password = Password,
-            };
-            IsConnecting = true;
-            using var sqlConn = new MySqlConnection(builder.ConnectionString);
-            try
-            {
-                sqlConn.Open();
-                SchemaReader = new MySqlSchemaReader(builder);
-            }
-            catch (Exception e)
-            {
-                HasError = true;
-                ErrorMessage = e.Message;
-                return;
-            }
-            finally
-            {
-                IsConnecting = false;
-            }
+    public ObservableCollection<DatabaseAccount> Accounts { get; set; } = new();
 
-            dialog?.Hide();
-        });
+    private int _selectedAccountIndex;
+    public int SelectedAccountIndex
+    {
+        get => _selectedAccountIndex;
+        set
+        {
+            SetProperty(ref _selectedAccountIndex, value);
+            if (value >= 0)
+            {
+                var account = Accounts[value];
+                if (account != null)
+                {
+                    Server = account.Server;
+                    Port = account.Port;
+                    Username = account.Username;
+                }
+
+            }
+        }
+    }
+
+    private readonly IDatabaseAccountHistory _accountHistory;
+
+    public MysqlConnectViewModel(IDatabaseAccountHistory accountHistory)
+    {
+        _accountHistory = accountHistory;
+
+        ConnectCommand = new RelayCommand<MysqlConnectDialog>(ConnectDatabase);
         CancelCommand = new RelayCommand<MysqlConnectDialog>(dialog =>
         {
             dialog?.Hide();
         });
+    }
+
+    protected override async void OnActivated()
+    {
+        HasError = false;
+        SchemaReader = null;
+        var accounts = await _accountHistory.GetAllAsync(DatabaseType.Mysql);
+        Accounts.Clear();
+        if (accounts?.Count > 0)
+        {
+            accounts.ForEach(Accounts.Add);
+        }
+    }
+
+
+    private void ConnectDatabase(MysqlConnectDialog dialog)
+    {
+        var builder = new MySqlConnectionStringBuilder
+        {
+            Server = Server,
+            Port = (uint)Port,
+            PersistSecurityInfo = true,
+            UserID = Username,
+            Password = Password,
+            ConnectionTimeout = 3
+        };
+        IsConnecting = true;
+        using var sqlConn = new MySqlConnection(builder.ConnectionString);
+        try
+        {
+            sqlConn.Open();
+            SchemaReader = new MySqlSchemaReader(builder);
+            sqlConn.Close();
+            _accountHistory.Add(new DatabaseAccount
+            {
+                DatabaseType = DatabaseType.Mysql,
+                Server = Server,
+                Port = Port,
+                Username = Username,
+                Password = Password
+            }, true);
+        }
+        catch (Exception e)
+        {
+            HasError = true;
+            ErrorMessage = e.Message;
+            return;
+        }
+        finally
+        {
+            IsConnecting = false;
+        }
+
+        dialog?.Hide();
     }
 }

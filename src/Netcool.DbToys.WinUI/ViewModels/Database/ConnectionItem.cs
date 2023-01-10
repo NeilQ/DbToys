@@ -4,12 +4,12 @@ namespace Netcool.DbToys.WinUI.ViewModels.Database;
 
 public class ConnectionItem : TreeItem
 {
-    private DataBaseType _dataBaseType;
-    public DataBaseType DataBaseType { get => _dataBaseType; set => SetProperty(ref _dataBaseType, value); }
+    private DatabaseType _databaseType;
+    public DatabaseType DatabaseType { get => _databaseType; set => SetProperty(ref _databaseType, value); }
 
-    public ConnectionItem(string name, DataBaseType databaseType) : base(name, false)
+    public ConnectionItem(string name, DatabaseType databaseType) : base(name, false)
     {
-        DataBaseType=databaseType;
+        DatabaseType=databaseType;
     }
 
 }

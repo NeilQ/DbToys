@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Netcool.DbToys.Core.Database;
+using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.Views.Database;
 using Npgsql;
 
@@ -8,8 +10,8 @@ namespace Netcool.DbToys.WinUI.ViewModels.Database;
 
 public class PostgreSqlConnectViewModel : ObservableRecipient
 {
-    private string _serverIp = "127.0.0.1";
-    public string ServerIp { get => _serverIp; set => SetProperty(ref _serverIp, value); }
+    private string _server = "127.0.0.1";
+    public string Server { get => _server; set => SetProperty(ref _server, value); }
 
     private int _port = 5432;
     public int Port { get => _port; set => SetProperty(ref _port, value); }
@@ -31,44 +33,94 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
     public IRelayCommand<PostgreSqlConnectDialog> ConnectCommand { get; }
     public IRelayCommand<PostgreSqlConnectDialog> CancelCommand { get; }
 
+    public ObservableCollection<DatabaseAccount> Accounts { get; set; } = new();
+
+    private int _selectedAccountIndex;
+    public int SelectedAccountIndex
+    {
+        get => _selectedAccountIndex;
+        set
+        {
+            SetProperty(ref _selectedAccountIndex, value);
+            if (value >= 0)
+            {
+                var account = Accounts[value];
+                if (account != null)
+                {
+                    Server = account.Server;
+                    Port = account.Port;
+                    Username = account.Username;
+                }
+
+            }
+        }
+    }
+
+    private readonly IDatabaseAccountHistory _accountHistory;
+
     public ISchemaReader SchemaReader { get; set; }
 
-    public PostgreSqlConnectViewModel()
+    public PostgreSqlConnectViewModel(IDatabaseAccountHistory accountHistory)
     {
-        ConnectCommand = new RelayCommand<PostgreSqlConnectDialog>(dialog =>
-        {
-            var builder = new NpgsqlConnectionStringBuilder
-            {
-                Host = ServerIp,
-                Port = Port,
-                PersistSecurityInfo = true,
-                Username = Username,
-                Password = Password,
-                ClientEncoding = "utf8"
-            };
-            IsConnecting = true;
-            using var sqlConn = new NpgsqlConnection(builder.ConnectionString);
-            try
-            {
-                sqlConn.Open();
-                SchemaReader = new PostgreSqlSchemaReader(builder);
-            }
-            catch (Exception e)
-            {
-                HasError = true;
-                ErrorMessage = e.Message;
-                return;
-            }
-            finally
-            {
-                IsConnecting = false;
-            }
-
-            dialog?.Hide();
-        });
+        _accountHistory = accountHistory;
+        ConnectCommand = new RelayCommand<PostgreSqlConnectDialog>(ConnectDatabase);
         CancelCommand = new RelayCommand<PostgreSqlConnectDialog>(dialog =>
         {
             dialog?.Hide();
         });
+    }
+
+    protected override async void OnActivated()
+    {
+        HasError = false;
+        SchemaReader = null;
+        var accounts = await _accountHistory.GetAllAsync(DatabaseType.PostgreSql);
+        Accounts.Clear();
+        if (accounts?.Count > 0)
+        {
+            accounts.ForEach(Accounts.Add);
+        }
+    }
+
+    private void ConnectDatabase(PostgreSqlConnectDialog dialog)
+    {
+        var builder = new NpgsqlConnectionStringBuilder
+        {
+            Host = Server,
+            Port = Port,
+            Timeout = 3,
+            PersistSecurityInfo = true,
+            Username = Username,
+            Password = Password,
+            ClientEncoding = "utf8"
+        };
+        IsConnecting = true;
+        using var sqlConn = new NpgsqlConnection(builder.ConnectionString);
+        try
+        {
+            sqlConn.Open();
+            SchemaReader = new PostgreSqlSchemaReader(builder);
+            sqlConn.Close();
+            _accountHistory.Add(new DatabaseAccount
+            {
+                DatabaseType = DatabaseType.PostgreSql,
+                Server = Server,
+                Port = Port,
+                Username = Username,
+                Password = Password
+            }, true);
+        }
+        catch (Exception e)
+        {
+            HasError = true;
+            ErrorMessage = e.Message;
+            return;
+        }
+        finally
+        {
+            IsConnecting = false;
+        }
+
+        dialog?.Hide();
     }
 }

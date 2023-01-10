@@ -9,11 +9,11 @@ public class ThemeSelectorService : IThemeSelectorService
 
     public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly GeneralSettingsService _settingsService;
 
-    public ThemeSelectorService(ILocalSettingsService localSettingsService)
+    public ThemeSelectorService(GeneralSettingsService settingsService)
     {
-        _localSettingsService = localSettingsService;
+        _settingsService = settingsService;
     }
 
     public async Task InitializeAsync()
@@ -44,7 +44,7 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task<ElementTheme> LoadThemeFromSettingsAsync()
     {
-        var themeName = await _localSettingsService.ReadSettingAsync<string>(SettingsKey);
+        var themeName = await _settingsService.ReadSettingAsync<string>(SettingsKey);
 
         if (Enum.TryParse(themeName, out ElementTheme cacheTheme))
         {
@@ -56,6 +56,6 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task SaveThemeInSettingsAsync(ElementTheme theme)
     {
-        await _localSettingsService.SaveSettingAsync(SettingsKey, theme.ToString());
+        await _settingsService.SaveSettingAsync(SettingsKey, theme.ToString());
     }
 }

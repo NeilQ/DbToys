@@ -1,13 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Data.SqlClient;
 using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Database;
+using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.Views.Database;
 
 namespace Netcool.DbToys.WinUI.ViewModels.Database;
 
-public class SqlServerConnectViewModel : ObservableObject
+public class SqlServerConnectViewModel : ObservableRecipient
 {
     private string _server = "127.0.0.1";
     public string Server { get => _server; set => SetProperty(ref _server, value); }
@@ -43,44 +45,93 @@ public class SqlServerConnectViewModel : ObservableObject
     public IRelayCommand<SqlServerConnectDialog> ConnectCommand { get; }
     public IRelayCommand<SqlServerConnectDialog> CancelCommand { get; }
 
+    public ObservableCollection<DatabaseAccount> Accounts { get; set; } = new();
+
+    private int _selectedAccountIndex;
+    public int SelectedAccountIndex
+    {
+        get => _selectedAccountIndex;
+        set
+        {
+            SetProperty(ref _selectedAccountIndex, value);
+            if (value >= 0)
+            {
+                var account = Accounts[value];
+                if (account != null)
+                {
+                    Server = account.Server;
+                    Username = account.Username;
+                }
+
+            }
+        }
+    }
+
+    private readonly IDatabaseAccountHistory _accountHistory;
+
     public ISchemaReader SchemaReader { get; set; }
 
-    public SqlServerConnectViewModel()
+    public SqlServerConnectViewModel(IDatabaseAccountHistory accountHistory)
     {
-        ConnectCommand = new RelayCommand<SqlServerConnectDialog>(dialog =>
-        {
-            var builder = new SqlConnectionStringBuilder
-            {
-                DataSource = Server,
-                TrustServerCertificate = true,
-                PersistSecurityInfo = true,
-                IntegratedSecurity = !IsSqlServerAuthentication,
-                UserID = Username,
-                Password = Password ?? ""
-            };
-            IsConnecting = true;
-            using var sqlConn = new SqlConnection(builder.ConnectionString);
-            try
-            {
-                sqlConn.Open();
-                SchemaReader = new SqlServerSchemaReader(builder);
-            }
-            catch (Exception e)
-            {
-                HasError = true;
-                ErrorMessage = e.Message;
-                return;
-            }
-            finally
-            {
-                IsConnecting = false;
-            }
-
-            dialog?.Hide();
-        });
+        _accountHistory = accountHistory;
+        ConnectCommand = new RelayCommand<SqlServerConnectDialog>(ConnectDatabase);
         CancelCommand = new RelayCommand<SqlServerConnectDialog>(dialog =>
         {
             dialog?.Hide();
         });
+    }
+
+    private void ConnectDatabase(SqlServerConnectDialog dialog)
+    {
+        var builder = new SqlConnectionStringBuilder
+        {
+            DataSource = Server,
+            ConnectTimeout = 3,
+            TrustServerCertificate = true,
+            PersistSecurityInfo = true,
+            IntegratedSecurity = !IsSqlServerAuthentication,
+            UserID = Username,
+            Password = Password ?? ""
+        };
+        IsConnecting = true;
+        using var sqlConn = new SqlConnection(builder.ConnectionString);
+        try
+        {
+            sqlConn.Open();
+            SchemaReader = new SqlServerSchemaReader(builder);
+            sqlConn.Close();
+            _accountHistory.Add(
+                new DatabaseAccount
+                {
+                    DatabaseType = DatabaseType.SqlServer,
+                    Server = Server,
+                    Username = Username,
+                    Password = Password
+                }, true);
+        }
+        catch (Exception e)
+        {
+            HasError = true;
+            ErrorMessage = e.Message;
+            return;
+        }
+        finally
+        {
+            IsConnecting = false;
+        }
+
+        dialog?.Hide();
+    }
+
+    protected override async void OnActivated()
+    {
+        HasError = false;
+        SchemaReader = null;
+        var accounts = await _accountHistory.GetAllAsync(DatabaseType.SqlServer);
+        Accounts.Clear();
+        if (accounts?.Count > 0)
+        {
+            accounts.ForEach(Accounts.Add);
+        }
     }
 }

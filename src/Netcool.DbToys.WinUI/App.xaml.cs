@@ -52,7 +52,8 @@ public partial class App : Application
             // Other Activation Handlers
 
             // Services
-            services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+            services.AddSingleton<IDatabaseAccountHistory, DatabaseAccountHistory>();
+            services.AddSingleton<GeneralSettingsService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
 
@@ -83,7 +84,7 @@ public partial class App : Application
             services.AddSingleton<SqlServerConnectViewModel>();
 
             // Configuration
-            services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
+            services.Configure<SettingsOptions>(context.Configuration.GetSection(nameof(SettingsOptions)));
         }).
         Build();
 

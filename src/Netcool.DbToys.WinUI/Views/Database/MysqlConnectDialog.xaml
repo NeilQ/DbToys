@@ -9,7 +9,7 @@
     xmlns:local="using:Netcool.DbToys.WinUI.Views.Database"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"  Title="Mysql" Style="{ThemeResource DefaultContentDialogStyle}">
+    mc:Ignorable="d"  Title="Mysql" Closed="OnClosed" Style="{ThemeResource DefaultContentDialogStyle}">
 
     <Grid Margin="0,20">
         <Grid.RowDefinitions>
@@ -23,7 +23,10 @@
                      IsClosable="True" />
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Server" Width="100" VerticalAlignment="Center"/>
-                <TextBox Width="200" Text="{x:Bind ViewModel.ServerIp, Mode=TwoWay}"/>
+                <ComboBox IsEditable="True" Width="200"  ItemsSource="{x:Bind ViewModel.Accounts}"
+                          SelectedValuePath="Server" DisplayMemberPath="Server" 
+                          SelectedIndex="{x:Bind ViewModel.SelectedAccountIndex, Mode=TwoWay}"
+                          Text="{x:Bind ViewModel.Server, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Port" Width="100" VerticalAlignment="Center"/>

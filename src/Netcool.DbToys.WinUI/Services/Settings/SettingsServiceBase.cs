@@ -1,46 +1,45 @@
-﻿using Windows.Storage;
+﻿using System.Text.Json.Serialization;
+using Windows.Storage;
 using Microsoft.Extensions.Options;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.Models;
 
 namespace Netcool.DbToys.WinUI.Services;
 
-public class LocalSettingsService : ILocalSettingsService
+public abstract class SettingsServiceBase : ISettingsService
 {
     private const string DefaultApplicationDataFolder = "Netcool/DbToys";
-    private const string DefaultLocalSettingsFile = "LocalSettings.json";
+
+    [JsonIgnore]
+    public abstract string SettingFileName { get; set; }
 
     private readonly IFileService _fileService;
-    private readonly LocalSettingsOptions _options;
 
     private readonly string _localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
     private readonly string _applicationDataFolder;
-    private readonly string _localSettingsFile;
 
     private IDictionary<string, object> _settings;
 
     private bool _isInitialized;
 
-    public LocalSettingsService(IFileService fileService, IOptions<LocalSettingsOptions> options)
+    protected SettingsServiceBase(IFileService fileService, IOptions<SettingsOptions> options)
     {
         _fileService = fileService;
-        _options = options.Value;
 
-        _applicationDataFolder = Path.Combine(_localApplicationData, _options.ApplicationDataFolder ?? DefaultApplicationDataFolder);
-        _localSettingsFile = _options.LocalSettingsFile ?? DefaultLocalSettingsFile;
-
+        _applicationDataFolder = Path.Combine(_localApplicationData, options.Value.ApplicationDataFolder ?? DefaultApplicationDataFolder);
         _settings = new Dictionary<string, object>();
     }
 
-    private async Task InitializeAsync()
+    protected virtual async Task InitializeAsync()
     {
         if (!_isInitialized)
         {
-            _settings = await Task.Run(() => _fileService.Read<IDictionary<string, object>>(_applicationDataFolder, _localSettingsFile)) ?? new Dictionary<string, object>();
+            _settings = await Task.Run(() => _fileService.Read<IDictionary<string, object>>(_applicationDataFolder, SettingFileName)) ?? new Dictionary<string, object>();
 
             _isInitialized = true;
         }
     }
+
 
     public async Task<T> ReadSettingAsync<T>(string key)
     {
@@ -76,7 +75,7 @@ public class LocalSettingsService : ILocalSettingsService
 
             _settings[key] = await Json.SerializeAsync(value);
 
-            await Task.Run(() => _fileService.Save(_applicationDataFolder, _localSettingsFile, _settings));
+            await Task.Run(() => _fileService.Save(_applicationDataFolder, SettingFileName, _settings));
         }
     }
 }

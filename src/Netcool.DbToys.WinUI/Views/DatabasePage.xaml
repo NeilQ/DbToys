@@ -111,7 +111,7 @@
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Left" Text="Columns" Style="{StaticResource SubtitleTextBlockStyle}"/>
             <controls:DataGrid Grid.Row="1" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="32" AutoGenerateColumns="False"
-                               ItemsSource="{x:Bind ViewModel.TableColumns}" GridLinesVisibility="All">
+                               ItemsSource="{x:Bind ViewModel.TableColumns}" GridLinesVisibility="All" FrozenColumnCount="1">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Binding="{Binding Name}" Width="150" Header="Name"/>
                     <controls:DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="120" Header="PrimaryKey"/>

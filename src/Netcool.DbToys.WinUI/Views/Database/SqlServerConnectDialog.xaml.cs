@@ -10,13 +10,17 @@ public sealed partial class SqlServerConnectDialog
     public SqlServerConnectDialog()
     {
         ViewModel = App.GetService<SqlServerConnectViewModel>();
-        ViewModel.HasError = false;
-        ViewModel.SchemaReader = null;
+        ViewModel.IsActive = true;
         InitializeComponent();
     }
 
     private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
     {
         ViewModel.Password = ((PasswordBox)sender).Password;
+    }
+
+    private void OnClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        ViewModel.IsActive = false;
     }
 }
