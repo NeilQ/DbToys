@@ -21,6 +21,9 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
 
     public string Password { get; set; }
 
+    private bool _savePassword;
+    public bool SavePassword { get => _savePassword; set => SetProperty(ref _savePassword, value); }
+
     private bool _isConnecting;
     public bool IsConnecting { get => _isConnecting; set => SetProperty(ref _isConnecting, value); }
 
@@ -50,6 +53,18 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
                     Server = account.Server;
                     Port = account.Port;
                     Username = account.Username;
+                    string password = null;
+                    if (!string.IsNullOrEmpty(account.Password))
+                    {
+                        SavePassword = true;
+                        password = _accountHistory.DecryptPassword(account.Password);
+                    }
+                    else
+                    {
+                        SavePassword = false;
+                    }
+                    Password = password;
+                    PasswordChanged?.Invoke(password);
                 }
 
             }
@@ -59,6 +74,8 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
     private readonly IDatabaseAccountHistory _accountHistory;
 
     public ISchemaReader SchemaReader { get; set; }
+
+    public Action<string> PasswordChanged { get; set; }
 
     public PostgreSqlConnectViewModel(IDatabaseAccountHistory accountHistory)
     {
@@ -79,6 +96,7 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
         if (accounts?.Count > 0)
         {
             accounts.ForEach(Accounts.Add);
+            SelectedAccountIndex = 0;
         }
     }
 
@@ -108,7 +126,7 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
                 Port = Port,
                 Username = Username,
                 Password = Password
-            }, true);
+            }, SavePassword);
         }
         catch (Exception e)
         {

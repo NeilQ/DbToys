@@ -30,6 +30,16 @@ public abstract class SettingsServiceBase : ISettingsService
         _settings = new Dictionary<string, object>();
     }
 
+    protected virtual void Initialize()
+    {
+        if (!_isInitialized)
+        {
+            _settings = _fileService.Read<IDictionary<string, object>>(_applicationDataFolder, SettingFileName) ?? new Dictionary<string, object>();
+
+            _isInitialized = true;
+        }
+    }
+
     protected virtual async Task InitializeAsync()
     {
         if (!_isInitialized)
@@ -40,6 +50,32 @@ public abstract class SettingsServiceBase : ISettingsService
         }
     }
 
+    public T ReadSetting<T>(string key)
+    {
+        if (RuntimeHelper.IsMSIX)
+        {
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(key, out var obj))
+            {
+                return Json.Deserialize<T>(obj.ToString());
+            }
+        }
+        else
+        {
+            Initialize();
+
+            if (_settings != null && _settings.TryGetValue(key, out var obj))
+            {
+                return Json.Deserialize<T>(obj.ToString());
+            }
+        }
+
+        return default;
+    }
+
+    public void SaveSetting<T>(string key)
+    {
+        throw new NotImplementedException();
+    }
 
     public async Task<T> ReadSettingAsync<T>(string key)
     {

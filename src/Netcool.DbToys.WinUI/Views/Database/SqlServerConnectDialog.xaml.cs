@@ -11,6 +11,7 @@ public sealed partial class SqlServerConnectDialog
     {
         ViewModel = App.GetService<SqlServerConnectViewModel>();
         ViewModel.IsActive = true;
+        ViewModel.PasswordChanged += s => { PasswordBox!.Password = s; };
         InitializeComponent();
     }
 

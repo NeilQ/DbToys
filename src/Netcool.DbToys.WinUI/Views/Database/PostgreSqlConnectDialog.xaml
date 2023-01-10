@@ -9,10 +9,6 @@
     mc:Ignorable="d" Title="PostgreSql" Closed="OnClosed" Style="{ThemeResource DefaultContentDialogStyle}">
 
     <Grid Margin="0,20">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical" Grid.Row="0">
             <InfoBar Severity="Error" Width="400" 
                      IsOpen="{x:Bind ViewModel.HasError, Mode=TwoWay}"
@@ -35,15 +31,17 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Password" Width="100" VerticalAlignment="Center"/>
-                <PasswordBox Width="200" PasswordChanged="PasswordBox_OnPasswordChanged"/>
+                <PasswordBox Width="200" x:Name="PasswordBox" PasswordChanged="PasswordBox_OnPasswordChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Padding="5" Margin="100,0,0,0" VerticalAlignment="Center">
+                <CheckBox VerticalAlignment="Center" Width="200" IsChecked="{x:Bind ViewModel.SavePassword, Mode=TwoWay}" Content="Save password"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1" HorizontalAlignment="Center">
+                <Button x:Uid="ConnectButton" Style="{ThemeResource AccentButtonStyle}" Command="{x:Bind ViewModel.ConnectCommand}"
+                CommandParameter="{Binding ElementName=PgContentDialog}" Width="100" />
+                <Button x:Uid="CancelButton" Style="{ThemeResource DefaultButtonStyle}"  Command="{x:Bind ViewModel.CancelCommand}"
+                    CommandParameter="{Binding ElementName=PgContentDialog}" Margin="{StaticResource SmallLeftMargin}" Width="100" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1" HorizontalAlignment="Center">
-            <Button x:Uid="ConnectButton" Style="{ThemeResource AccentButtonStyle}" Command="{x:Bind ViewModel.ConnectCommand}"
-                CommandParameter="{Binding ElementName=PgContentDialog}" Margin="5,0" Width="100" />
-            <Button x:Uid="CancelButton" Style="{ThemeResource DefaultButtonStyle}"  Command="{x:Bind ViewModel.CancelCommand}"
-                    CommandParameter="{Binding ElementName=PgContentDialog}"   Margin="5,0" Width="100" />
-        </StackPanel>
-
     </Grid>
 </ContentDialog>

@@ -12,6 +12,10 @@ public sealed partial class PostgreSqlConnectDialog : ContentDialog
     {
         ViewModel = App.GetService<PostgreSqlConnectViewModel>();
         ViewModel.IsActive = true;
+        ViewModel.PasswordChanged += s =>
+        {
+            PasswordBox!.Password = s;
+        };
         InitializeComponent();
     }
 

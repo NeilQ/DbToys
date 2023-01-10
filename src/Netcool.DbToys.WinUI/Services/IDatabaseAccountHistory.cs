@@ -24,6 +24,8 @@ public interface IDatabaseAccountHistory
     void Add(DatabaseAccount account, bool savePassword = false);
 
     Task<List<DatabaseAccount>> GetAllAsync(DatabaseType? databaseType);
+
+    public string DecryptPassword(string encrypted);
 }
 
 public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHistory
@@ -53,7 +55,7 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
                                                  && t.Server == account.Server
                                                  && t.Port == account.Port);
         if (cache != null) accounts.Remove(cache);
-        accounts.Insert(0,account);
+        accounts.Insert(0, account);
 
         if (accounts.Count > MaxCapacity)
         {
@@ -74,7 +76,6 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
         return list;
     }
 
-
     private async Task<string> EncryptPassword(string str)
     {
         if (string.IsNullOrEmpty(str)) return str;
@@ -90,9 +91,9 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
         return protectedData;
     }
 
-    private async Task<string> DecryptPassword(string str)
+    public string DecryptPassword(string str)
     {
-        var secret = await ReadSettingAsync<string>(SecretKey);
+        var secret =  ReadSetting<string>(SecretKey);
         var protectedData = Convert.FromBase64String(str);
         var entropy = Encoding.UTF8.GetBytes(secret);
         var data = Encoding.UTF8.GetString(ProtectedData.Unprotect(protectedData, entropy, DataProtectionScope.CurrentUser));

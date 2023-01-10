@@ -10,6 +10,7 @@ public sealed partial class MysqlConnectDialog
     {
         ViewModel = App.GetService<MysqlConnectViewModel>();
         ViewModel.IsActive = true;
+        ViewModel.PasswordChanged += s => { PasswordBox!.Password = s; };
         InitializeComponent();
     }
     private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)

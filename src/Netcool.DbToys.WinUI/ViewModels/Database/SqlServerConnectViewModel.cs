@@ -19,6 +19,9 @@ public class SqlServerConnectViewModel : ObservableRecipient
 
     public string Password { get; set; }
 
+    private bool _savePassword;
+    public bool SavePassword { get => _savePassword; set => SetProperty(ref _savePassword, value); }
+
     private bool _isSqlServerAuthentication = true;
 
     public bool IsSqlServerAuthentication
@@ -61,11 +64,25 @@ public class SqlServerConnectViewModel : ObservableRecipient
                 {
                     Server = account.Server;
                     Username = account.Username;
+                    string password = null;
+                    if (!string.IsNullOrEmpty(account.Password))
+                    {
+                        SavePassword = true;
+                        password = _accountHistory.DecryptPassword(account.Password);
+                    }
+                    else
+                    {
+                        SavePassword = false;
+                    }
+                    Password = password;
+                    PasswordChanged?.Invoke(password);
                 }
 
             }
         }
     }
+
+    public Action<string> PasswordChanged { get; set; }
 
     private readonly IDatabaseAccountHistory _accountHistory;
 
@@ -107,7 +124,7 @@ public class SqlServerConnectViewModel : ObservableRecipient
                     Server = Server,
                     Username = Username,
                     Password = Password
-                }, true);
+                }, SavePassword);
         }
         catch (Exception e)
         {
@@ -132,6 +149,7 @@ public class SqlServerConnectViewModel : ObservableRecipient
         if (accounts?.Count > 0)
         {
             accounts.ForEach(Accounts.Add);
+            SelectedAccountIndex = 0;
         }
     }
 }
