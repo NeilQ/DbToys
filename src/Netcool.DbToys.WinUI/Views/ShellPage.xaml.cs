@@ -47,11 +47,12 @@ public sealed partial class ShellPage : Page
 
         _cancellationTokenSource = new CancellationTokenSource();
         var ct = _cancellationTokenSource.Token;
-        _loadingService.LoadingRequested += b =>
+        _loadingService.LoadingRequested += (b, t) =>
         {
             DispatcherQueue.TryEnqueue(() =>
             {
                 Loading.IsLoading = b;
+                LoadingTextBlock.Text = t;
             });
         };
         Task.Run(async () =>

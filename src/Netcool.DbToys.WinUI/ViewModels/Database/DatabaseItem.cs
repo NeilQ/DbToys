@@ -56,7 +56,7 @@ public class DatabaseItem : TreeItem
         var file = await savePicker.PickSaveFileAsync();
         if (file != null)
         {
-            _loadingService.Value.Active();
+            _loadingService.Value.Active("Exporting data dictionary...");
             await Task.Run(() =>
             {
                 try

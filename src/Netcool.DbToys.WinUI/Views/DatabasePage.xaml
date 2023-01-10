@@ -28,7 +28,7 @@
                     <CommandBarFlyout Placement="Top">
                         <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" Icon="Refresh" ToolTipService.ToolTip="Refresh" />
                         <CommandBarFlyout.SecondaryCommands>
-                            <AppBarButton Label="Export" Command="{Binding ExportCommand}" Icon="{ui:FontIcon Glyph=&#xEDE1;}" ToolTipService.ToolTip="Export to excel file" />
+                            <AppBarButton Label="Export data dictionary" Command="{Binding ExportCommand}" Icon="{ui:FontIcon Glyph=&#xEDE1;}" ToolTipService.ToolTip="Export to excel file" />
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>

@@ -53,36 +53,40 @@ public class DatabaseViewModel : ObservableObject
         {
             if (SelectedItem is TableItem tableItem)
             {
-                List<Column> columns = null;
-                DataTable resultSet = null;
-                try
+                var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                Task.Run(() =>
                 {
-                    columns = SchemaReader?.ReadColumns(tableItem.Table.Database, tableItem.Table.Schema, tableItem.Table.Name);
-                    tableItem.Table.Columns = columns;
-                    resultSet = SchemaReader?.GetResultSet(tableItem.Table, 30);
-                }
-                catch (Exception ex)
-                {
-                    _notificationService.Error(ex.InnerException == null ? ex.Message : ex.InnerException.Message,
-                        "Read column info failed");
-                }
-
-                DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
-                {
-                    TableColumns.Clear();
-                    TableResultSet?.Clear();
-                    columns?.ForEach(item =>
+                    List<Column> columns = null;
+                    DataTable resultSet = null;
+                    try
                     {
-                        TableColumns.Add(item);
-                    });
-                    if (resultSet != null)
-                    {
-                        OnResultSetLoaded(resultSet.Columns);
-                        foreach (DataRow row in resultSet.Rows)
-                        {
-                            TableResultSet?.Add(row.ItemArray);
-                        }
+                        columns = SchemaReader?.ReadColumns(tableItem.Table.Database, tableItem.Table.Schema, tableItem.Table.Name);
+                        tableItem.Table.Columns = columns;
+                        resultSet = SchemaReader?.GetResultSet(tableItem.Table, 30);
                     }
+                    catch (Exception ex)
+                    {
+                        _notificationService.Error(ex.InnerException == null ? ex.Message : ex.InnerException.Message,
+                            "Read column info failed");
+                    }
+
+                    dispatcherQueue.TryEnqueue(() =>
+                    {
+                        TableColumns.Clear();
+                        TableResultSet?.Clear();
+                        columns?.ForEach(item =>
+                        {
+                            TableColumns.Add(item);
+                        });
+                        if (resultSet != null)
+                        {
+                            OnResultSetLoaded(resultSet.Columns);
+                            foreach (DataRow row in resultSet.Rows)
+                            {
+                                TableResultSet?.Add(row.ItemArray);
+                            }
+                        }
+                    });
                 });
             }
         }

@@ -2,22 +2,22 @@
 
 public interface ILoadingService
 {
-    public void Active();
+    public void Active(string text = null);
     public void Dismiss();
-    public Action<bool> LoadingRequested { get; set; }
+    public Action<bool, string> LoadingRequested { get; set; }
 }
 
 public class LoadingService : ILoadingService
 {
-    public void Active()
+    public void Active(string text = null)
     {
-        LoadingRequested(true);
+        LoadingRequested(true, text);
     }
 
     public void Dismiss()
     {
-        LoadingRequested(false);
+        LoadingRequested(false, null);
     }
 
-    public Action<bool> LoadingRequested { get; set; }
+    public Action<bool, string> LoadingRequested { get; set; }
 }
