@@ -1,5 +1,6 @@
 ﻿using Windows.Storage.Pickers;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Netcool.DbToys.Core.Database;
 using Netcool.DbToys.Core.Excel;
@@ -22,6 +23,13 @@ public class DatabaseItem : TreeItem
 
     public List<Table> Tables { get; set; }
 
+    private bool _expanding;
+    public bool Expanding
+    {
+        get => _expanding;
+        set => SetProperty(ref _expanding, value);
+    }
+
     public DatabaseItem(string name, ISchemaReader schemaReader) : base(name, true)
     {
         Name = name;
@@ -32,15 +40,37 @@ public class DatabaseItem : TreeItem
 
     protected override void LoadChildren()
     {
-        var tables = _schemaReader.ReadTables(Name).OrderBy(t => t.DisplayName);
-        Tables = tables.ToList();
-        Children?.Clear();
-        foreach (var table in Tables)
+        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        dispatcherQueue.TryEnqueue(() =>
         {
-            AddChild(new TableItem(table));
-        }
+            Expanding = true;
+        });
 
-        HasUnrealizedChildren = false;
+        Task.Run(() =>
+        {
+            try
+            {
+                var tables = _schemaReader.ReadTables(Name).OrderBy(t => t.DisplayName).ToList();
+                Tables = tables.ToList();
+            }
+            catch (Exception) {/* ignore */ }
+
+            dispatcherQueue.TryEnqueue(() =>
+            {
+                Children?.Clear();
+                if (Tables != null)
+                {
+                    foreach (var table in Tables)
+                    {
+                        AddChild(new TableItem(table));
+                    }
+
+                }
+                HasUnrealizedChildren = false;
+                Expanding = false;
+            });
+        });
+
     }
     private async Task ExportAsync()
     {

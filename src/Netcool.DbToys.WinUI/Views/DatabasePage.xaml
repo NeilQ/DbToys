@@ -25,9 +25,9 @@
             <TreeViewItem ItemsSource="{x:Bind Children}" IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
                           HasUnrealizedChildren="{x:Bind HasUnrealizedChildren, Mode=TwoWay}">
                 <TreeViewItem.ContextFlyout>
-                    <CommandBarFlyout Placement="Top">
-                        <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" Icon="Refresh" ToolTipService.ToolTip="Refresh" />
+                    <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
                         <CommandBarFlyout.SecondaryCommands>
+                        <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" Icon="Refresh" ToolTipService.ToolTip="Refresh" />
                             <AppBarButton Label="Export data dictionary" Command="{Binding ExportCommand}" Icon="{ui:FontIcon Glyph=&#xEDE1;}" ToolTipService.ToolTip="Export to excel file" />
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
@@ -35,6 +35,7 @@
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE94;" Margin="0,0,5,0"/>
                     <TextBlock Text="{x:Bind Name}"/>
+                    <ProgressRing Height="16" Width="16" Margin="{StaticResource SmallLeftMargin}" IsActive="{x:Bind Expanding, Mode=TwoWay}"/>
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>
@@ -48,6 +49,7 @@
                             <ToolTip Content="{x:Bind Name}"/>
                         </ToolTipService.ToolTip>
                     </TextBlock>
+                    <ProgressRing Height="16" Width="16" Margin="{StaticResource SmallLeftMargin}" IsActive="{x:Bind LoadingColumns, Mode=TwoWay}"/>
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>
