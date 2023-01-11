@@ -11,7 +11,6 @@ namespace Netcool.DbToys.WinUI.ViewModels.Database;
 
 public class DatabaseItem : TreeItem
 {
-
     private readonly Lazy<IExcelService> _excelService = new(App.GetService<IExcelService>);
     private readonly Lazy<ILoadingService> _loadingService = new(App.GetService<ILoadingService>);
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>);

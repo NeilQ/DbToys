@@ -2,7 +2,6 @@
 using System.Text;
 using Microsoft.Extensions.Options;
 using Netcool.DbToys.Core.Database;
-using Netcool.DbToys.WinUI.Models;
 
 namespace Netcool.DbToys.WinUI.Services;
 
@@ -37,14 +36,13 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
 
     private const int MaxCapacity = 10;
 
-    public DatabaseAccountHistory(IFileService fileService, IOptions<SettingsOptions> options) : base(fileService,
-        options)
+    public DatabaseAccountHistory(IFileService fileService) : base(fileService)
     {
     }
 
     public async void Add(DatabaseAccount account, bool savePassword = false)
     {
-        var accounts = await ReadSettingAsync<List<DatabaseAccount>>(DatabaseAccountKey) ?? new List<DatabaseAccount>();
+        var accounts = await GetValueAsync<List<DatabaseAccount>>(DatabaseAccountKey) ?? new List<DatabaseAccount>();
         if (savePassword)
             account.Password = await EncryptPassword(account.Password);
         else
@@ -62,12 +60,12 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
             accounts.RemoveRange(MaxCapacity - 1, MaxCapacity - accounts.Count);
         }
 
-        await SaveSettingAsync(DatabaseAccountKey, accounts);
+        await SetValueAsync(DatabaseAccountKey, accounts);
     }
 
     public async Task<List<DatabaseAccount>> GetAllAsync(DatabaseType? databaseType)
     {
-        var list = await ReadSettingAsync<List<DatabaseAccount>>(DatabaseAccountKey);
+        var list = await GetValueAsync<List<DatabaseAccount>>(DatabaseAccountKey);
         if (databaseType != null)
         {
             list = list?.Where(t => t.DatabaseType == databaseType.Value).ToList();
@@ -79,11 +77,11 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
     private async Task<string> EncryptPassword(string str)
     {
         if (string.IsNullOrEmpty(str)) return str;
-        var secret = await ReadSettingAsync<string>(SecretKey);
+        var secret = await GetValueAsync<string>(SecretKey);
         if (string.IsNullOrEmpty(secret))
         {
             secret = RandomString(16);
-            await SaveSettingAsync(SecretKey, secret);
+            await SetValueAsync(SecretKey, secret);
         }
         var entropy = Encoding.UTF8.GetBytes(secret);
         var data = Encoding.UTF8.GetBytes(str);
@@ -93,7 +91,7 @@ public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHisto
 
     public string DecryptPassword(string str)
     {
-        var secret =  ReadSetting<string>(SecretKey);
+        var secret = GetValue<string>(SecretKey);
         var protectedData = Convert.FromBase64String(str);
         var entropy = Encoding.UTF8.GetBytes(secret);
         var data = Encoding.UTF8.GetString(ProtectedData.Unprotect(protectedData, entropy, DataProtectionScope.CurrentUser));

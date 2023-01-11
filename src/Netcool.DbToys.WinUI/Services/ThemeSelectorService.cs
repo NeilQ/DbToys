@@ -44,7 +44,7 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task<ElementTheme> LoadThemeFromSettingsAsync()
     {
-        var themeName = await _settingsService.ReadSettingAsync<string>(SettingsKey);
+        var themeName = await _settingsService.GetValueAsync<string>(SettingsKey);
 
         if (Enum.TryParse(themeName, out ElementTheme cacheTheme))
         {
@@ -56,6 +56,6 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task SaveThemeInSettingsAsync(ElementTheme theme)
     {
-        await _settingsService.SaveSettingAsync(SettingsKey, theme.ToString());
+        await _settingsService.SetValueAsync(SettingsKey, theme.ToString());
     }
 }

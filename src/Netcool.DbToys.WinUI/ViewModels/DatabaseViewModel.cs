@@ -160,7 +160,7 @@ public class DatabaseViewModel : ObservableObject
             _notificationService.QueueNotification(new Notification("Read database schema failed",
                 ex.InnerException == null ? ex.Message : ex.InnerException.Message, InfoBarSeverity.Error, 5000));
         }
-        item.ExpandPath();
         ConnectionItems.Add(item);
+        item.ExpandPath();
     }
 }

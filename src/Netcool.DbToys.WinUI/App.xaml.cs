@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Netcool.DbToys.Core.Excel;
 using Netcool.DbToys.WinUI.Activation;
-using Netcool.DbToys.WinUI.Models;
 using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.ViewModels;
 using Netcool.DbToys.WinUI.ViewModels.Database;
@@ -84,7 +83,7 @@ public partial class App : Application
             services.AddSingleton<SqlServerConnectViewModel>();
 
             // Configuration
-            services.Configure<SettingsOptions>(context.Configuration.GetSection(nameof(SettingsOptions)));
+            //services.Configure<SettingsOptions>(context.Configuration.GetSection(nameof(SettingsOptions)));
         }).
         Build();
 

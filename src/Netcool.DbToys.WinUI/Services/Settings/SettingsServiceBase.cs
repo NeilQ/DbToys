@@ -1,8 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Windows.Storage;
-using Microsoft.Extensions.Options;
 using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Models;
 
 namespace Netcool.DbToys.WinUI.Services;
 
@@ -22,11 +21,11 @@ public abstract class SettingsServiceBase : ISettingsService
 
     private bool _isInitialized;
 
-    protected SettingsServiceBase(IFileService fileService, IOptions<SettingsOptions> options)
+    protected SettingsServiceBase(IFileService fileService)
     {
         _fileService = fileService;
 
-        _applicationDataFolder = Path.Combine(_localApplicationData, options.Value.ApplicationDataFolder ?? DefaultApplicationDataFolder);
+        _applicationDataFolder = Path.Combine(_localApplicationData,DefaultApplicationDataFolder);
         _settings = new Dictionary<string, object>();
     }
 
@@ -50,7 +49,7 @@ public abstract class SettingsServiceBase : ISettingsService
         }
     }
 
-    public T ReadSetting<T>(string key)
+    public T GetValue<T>(string key)
     {
         if (RuntimeHelper.IsMSIX)
         {
@@ -63,21 +62,36 @@ public abstract class SettingsServiceBase : ISettingsService
         {
             Initialize();
 
-            if (_settings != null && _settings.TryGetValue(key, out var obj))
+            if (_settings == null || !_settings.TryGetValue(key, out var obj)) return default;
+
+            if (obj is JsonElement jElem)
             {
-                return Json.Deserialize<T>(obj.ToString());
+                return jElem.Deserialize<T>();
             }
+
+            return (T)obj;
         }
 
         return default;
     }
 
-    public void SaveSetting<T>(string key)
+    public void SetValue<T>(string key, T value)
     {
-        throw new NotImplementedException();
+        if (RuntimeHelper.IsMSIX)
+        {
+            ApplicationData.Current.LocalSettings.Values[key] = value;
+        }
+        else
+        {
+            Initialize();
+
+            _settings[key] = value;
+
+            _fileService.Save(_applicationDataFolder, SettingFileName, _settings);
+        }
     }
 
-    public async Task<T> ReadSettingAsync<T>(string key)
+    public async Task<T> GetValueAsync<T>(string key)
     {
         if (RuntimeHelper.IsMSIX)
         {
@@ -90,26 +104,30 @@ public abstract class SettingsServiceBase : ISettingsService
         {
             await InitializeAsync();
 
-            if (_settings != null && _settings.TryGetValue(key, out var obj))
+            if (_settings == null || !_settings.TryGetValue(key, out var obj)) return default;
+
+            if (obj is JsonElement jElem)
             {
-                return await Json.DeserializeAsync<T>(obj.ToString());
+                return jElem.Deserialize<T>();
             }
+
+            return (T)obj;
         }
 
         return default;
     }
 
-    public async Task SaveSettingAsync<T>(string key, T value)
+    public async Task SetValueAsync<T>(string key, T value)
     {
         if (RuntimeHelper.IsMSIX)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = await Json.SerializeAsync(value);
+            ApplicationData.Current.LocalSettings.Values[key] = value;
         }
         else
         {
             await InitializeAsync();
 
-            _settings[key] = await Json.SerializeAsync(value);
+            _settings[key] = value;
 
             await Task.Run(() => _fileService.Save(_applicationDataFolder, SettingFileName, _settings));
         }

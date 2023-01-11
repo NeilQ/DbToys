@@ -4,11 +4,11 @@ public interface ISettingsService
 {
     string SettingFileName { get; set; }
 
-    T ReadSetting<T>(string key);
+    T GetValue<T>(string key);
 
-    void SaveSetting<T>(string key);
+    void SetValue<T>(string key, T value);
 
-    Task<T> ReadSettingAsync<T>(string key);
+    Task<T> GetValueAsync<T>(string key);
 
-    Task SaveSettingAsync<T>(string key, T value);
+    Task SetValueAsync<T>(string key, T value);
 }

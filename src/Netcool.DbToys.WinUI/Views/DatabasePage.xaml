@@ -60,7 +60,6 @@
             TableTemplate="{StaticResource TableTemplate}"/>
     </Page.Resources>
 
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" MinWidth="200" MaxWidth="400"></ColumnDefinition>
@@ -89,7 +88,7 @@
                     </AppBarButton>
                 </CommandBar>
                 <TreeView Grid.Row="1" ItemsSource="{x:Bind ViewModel.ConnectionItems}" SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
-                          ItemTemplateSelector="{StaticResource DatabaseTreeItemTemplateSelector}">
+                          ItemTemplateSelector="{StaticResource DatabaseTreeItemTemplateSelector}" ItemInvoked="TreeView_OnItemInvoked">
                 </TreeView>
             </Grid>
         </Border>

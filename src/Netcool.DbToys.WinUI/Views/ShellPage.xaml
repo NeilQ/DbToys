@@ -8,7 +8,6 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:helpers="using:Netcool.DbToys.WinUI.Helpers"
     xmlns:behaviors="using:Netcool.DbToys.WinUI.Behaviors"
-    xmlns:brushes="using:CommunityToolkit.WinUI.UI.Media"
     Loaded="OnLoaded" Unloaded="OnUnloaded">
 
     <Grid>
@@ -31,9 +30,7 @@
                        VerticalAlignment="Bottom" Margin="0,0,0,10" Background="Transparent">
             <Border CornerRadius="5" MinWidth="200" Height="30" Padding="12,0">
                 <Border.Background>
-                    <brushes:AcrylicBrush TintColor="Black"
-                                      TintOpacity="0.4"
-                                      BlurAmount="8"/>
+                    <AcrylicBrush TintColor="Black" TintOpacity="0.4"/>
                 </Border.Background>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                     <ProgressRing Height="20" Width="20" IsActive="True" Foreground="{ThemeResource BrushGrey05}" />

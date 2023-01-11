@@ -35,7 +35,7 @@ public static class Json
         {
             return (string)value;
         }
-        return JsonSerializer.Serialize(value, _options);
+        return JsonSerializer.Serialize(value, type, _options);
     }
 
     public static async Task<T> DeserializeAsync<T>(string value)

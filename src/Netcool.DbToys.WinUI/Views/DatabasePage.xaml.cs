@@ -54,6 +54,15 @@ public sealed partial class DatabasePage
     {
         (sender as UIElement)?.ChangeCursor(_resizeCursor);
     }
+
+    private void TreeView_OnItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
+    {
+        if (args.InvokedItem  is DatabaseItem item)
+        {
+            item.IsExpanded = !item.IsExpanded;
+
+        }
+    }
 }
 
 public class DatabaseTreeItemTemplateSelector : DataTemplateSelector
