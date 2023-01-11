@@ -26,7 +26,7 @@
                        Style="{StaticResource CaptionTextBlockStyle}"
                        Margin="28,0,0,0"/>
         </Grid>
-        <controls:Loading x:Name="Loading" MinWidth="200" IsLoading="False" Canvas.ZIndex="99"
+        <controls:Loading x:Name="LoadingToast" MinWidth="200" IsLoading="False" Canvas.ZIndex="99"
                        VerticalAlignment="Bottom" Margin="0,0,0,10" Background="Transparent">
             <Border CornerRadius="5" MinWidth="200" Height="30" Padding="12,0">
                 <Border.Background>

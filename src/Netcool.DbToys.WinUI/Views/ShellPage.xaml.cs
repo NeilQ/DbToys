@@ -51,7 +51,7 @@ public sealed partial class ShellPage : Page
         {
             DispatcherQueue.TryEnqueue(() =>
             {
-                Loading.IsLoading = b;
+                LoadingToast.IsLoading = b;
                 LoadingTextBlock.Text = t;
             });
         };
