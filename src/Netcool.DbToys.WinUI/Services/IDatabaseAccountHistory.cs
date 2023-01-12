@@ -29,7 +29,7 @@ public interface IDatabaseAccountHistory
 
 public class DatabaseAccountHistory : SettingsServiceBase, IDatabaseAccountHistory
 {
-    public override string SettingFileName { get; set; } = "database.json";
+    public override string SettingFileName { get; set; } = Constants.LocalSettings.DatabaseHistorySettingsFileName;
 
     public const string SecretKey = "Secret";
     public const string DatabaseAccountKey = "DatabaseAccounts";

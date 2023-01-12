@@ -60,7 +60,6 @@ public sealed partial class DatabasePage
         if (args.InvokedItem  is DatabaseItem item)
         {
             item.IsExpanded = !item.IsExpanded;
-
         }
     }
 }

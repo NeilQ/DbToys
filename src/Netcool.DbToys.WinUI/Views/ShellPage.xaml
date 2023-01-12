@@ -96,7 +96,7 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe703;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_CodeTemplates" helpers:NavigationHelper.NavigateTo="Netcool.DbToys.WinUI.ViewModels.MainViewModel">
+                <NavigationViewItem x:Uid="Shell_CodeTemplates" helpers:NavigationHelper.NavigateTo="Netcool.DbToys.WinUI.ViewModels.CodeTemplateExplorerViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe943;"/>
                     </NavigationViewItem.Icon>

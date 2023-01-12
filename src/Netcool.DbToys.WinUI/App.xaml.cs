@@ -59,11 +59,12 @@ public partial class App : Application
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<ILoadingService, LoadingService>();
+            services.AddSingleton<INotificationService, NotificationService>();
+            services.AddSingleton<IFileService, FileService>();
+            services.AddSingleton<CodeTemplateStorageService>();
 
             // Core Services
-            services.AddSingleton<IFileService, FileService>();
-            services.AddSingleton<INotificationService, NotificationService>();
-            services.AddSingleton<ILoadingService, LoadingService>();
             services.AddSingleton<IExcelService, ExcelService>();
 
             // Views and ViewModels
@@ -73,8 +74,10 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
-            services.AddTransient<DatabasePage>();
+            services.AddSingleton<DatabasePage>();
             services.AddSingleton<DatabaseViewModel>();
+            services.AddSingleton<CodeTemplateExplorerPage>();
+            services.AddSingleton<CodeTemplateExplorerViewModel>();
             services.AddTransient<PostgreSqlConnectDialog>();
             services.AddSingleton<PostgreSqlConnectViewModel>();
             services.AddTransient<MysqlConnectDialog>();

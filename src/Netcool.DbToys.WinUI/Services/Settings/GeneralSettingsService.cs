@@ -8,5 +8,5 @@ public class GeneralSettingsService : SettingsServiceBase
     {
     }
 
-    public override string SettingFileName { get; set; } = "settings.json";
+    public override string SettingFileName { get; set; } = Constants.LocalSettings.GeneralSettingsFileName;
 }

@@ -33,9 +33,9 @@
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE94;" Margin="0,0,5,0"/>
-                    <TextBlock Text="{x:Bind Name}"/>
-                    <ProgressRing Height="16" Width="16" Margin="{StaticResource SmallLeftMargin}" IsActive="{x:Bind Expanding, Mode=TwoWay}"/>
+                    <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE94;"/>
+                    <TextBlock Text="{x:Bind Name}" Margin="{StaticResource XXSmallLeftMargin}"/>
+                    <ProgressRing Height="16" Width="16" Margin="{StaticResource XXSmallLeftMargin}" IsActive="{x:Bind Expanding, Mode=TwoWay}"/>
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>
@@ -49,7 +49,7 @@
                             <ToolTip Content="{x:Bind Name}"/>
                         </ToolTipService.ToolTip>
                     </TextBlock>
-                    <ProgressRing Height="16" Width="16" Margin="{StaticResource SmallLeftMargin}" IsActive="{x:Bind LoadingColumns, Mode=TwoWay}"/>
+                    <ProgressRing Height="16" Width="16" Margin="{StaticResource XXSmallLeftMargin}" IsActive="{x:Bind LoadingColumns, Mode=TwoWay}"/>
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>

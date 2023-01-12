@@ -7,8 +7,6 @@ namespace Netcool.DbToys.WinUI.Services;
 
 public abstract class SettingsServiceBase : ISettingsService
 {
-    private const string DefaultApplicationDataFolder = "Netcool/DbToys";
-
     [JsonIgnore]
     public abstract string SettingFileName { get; set; }
 
@@ -25,7 +23,7 @@ public abstract class SettingsServiceBase : ISettingsService
     {
         _fileService = fileService;
 
-        _applicationDataFolder = Path.Combine(_localApplicationData,DefaultApplicationDataFolder);
+        _applicationDataFolder = Path.Combine(_localApplicationData, Constants.FileSystem.DefaultApplicationDataFolderPath);
         _settings = new Dictionary<string, object>();
     }
 
@@ -79,7 +77,7 @@ public abstract class SettingsServiceBase : ISettingsService
     {
         if (RuntimeHelper.IsMSIX)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = value;
+            ApplicationData.Current.LocalSettings.Values[key] = Json.Serialize(value);
         }
         else
         {
@@ -121,7 +119,7 @@ public abstract class SettingsServiceBase : ISettingsService
     {
         if (RuntimeHelper.IsMSIX)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = value;
+            ApplicationData.Current.LocalSettings.Values[key] = await Json.SerializeAsync(value);
         }
         else
         {
