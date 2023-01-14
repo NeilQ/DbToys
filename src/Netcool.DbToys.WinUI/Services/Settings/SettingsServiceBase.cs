@@ -12,7 +12,6 @@ public abstract class SettingsServiceBase : ISettingsService
 
     private readonly IFileService _fileService;
 
-    private readonly string _localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
     private readonly string _applicationDataFolder;
 
     private IDictionary<string, object> _settings;
@@ -23,7 +22,7 @@ public abstract class SettingsServiceBase : ISettingsService
     {
         _fileService = fileService;
 
-        _applicationDataFolder = Path.Combine(_localApplicationData, Constants.FileSystem.DefaultApplicationDataFolderPath);
+        _applicationDataFolder = FileSystemHelper.GetDbToysAppDataFolder();
         _settings = new Dictionary<string, object>();
     }
 

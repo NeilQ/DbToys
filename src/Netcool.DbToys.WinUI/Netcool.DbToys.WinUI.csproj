@@ -18,9 +18,14 @@
     <AssemblyName>DbToys</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\Monaco\monaco.html" />
+    <Content Remove="Assets\Monaco\scriban - Copy.js" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Styles\Colors.xaml" />
     <None Remove="Styles\NotificationStyle.xaml" />
     <None Remove="Views\CodeTemplateExplorerPage.xaml" />
+    <None Remove="Views\CodeTemplate\TemplatePage.xaml" />
     <None Remove="Views\Database\MysqlConnectDialog.xaml" />
     <None Remove="Views\Database\SqlServerConnectDialog.xaml" />
   </ItemGroup>
@@ -30,9 +35,19 @@
   </ItemGroup>
 
   <ItemGroup> 
+  <!--
     <None Update="Assets/*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None> 
+    -->
+    <None Update="Assets\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None> 
+    <!--
+    <None Update="Assets/Monaco/vs/*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None> 
+    -->
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +71,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\CodeTemplate\TemplatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\CodeTemplateExplorerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

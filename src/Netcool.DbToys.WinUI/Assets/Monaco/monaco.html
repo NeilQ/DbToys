@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="stylesheet"
+          data-name="vs/editor/editor.main"
+          href="vs/editor/editor.main.css" />
+
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        var require = { paths: { vs: 'vs' } };
+    </script>
+    <script src="vs/loader.js"></script>
+    <script src="vs/editor/editor.main.nls.js"></script>
+    <script src="vs/editor/editor.main.js"></script>
+    <script>
+        const container = document.getElementById('container');
+        const editor = monaco.editor.create(container,
+            {
+                scrollBeyondLastLine: false,
+                language: 'csharp',
+                lineNumbers: "on",
+                readOnly: false,
+                minimap: { enabled: false }
+            });
+        const model = editor.getModel();
+        var settingText = false;
+        model.onDidChangeContent((event) => {
+            /*
+            if (settingText === false) {
+                window.chrome.webview.postMessagTypee({
+                    Type: "TextChanged",
+                    Text: editor.getModel().getValue()
+                });
+            } else {
+                settingText = false;
+            }
+            */
+        });
+
+        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function () {
+            alert('SAVE pressed!');
+        });
+
+        window.chrome.webview.addEventListener('message',
+            (event) => {
+                if (event.data.Type === "Setup") {
+                } else if (event.data.Type === "UpdateText") {
+                    settingText = true;
+                    model.setValue(event.data.Text);
+                } else if (event.data.Type === "FontSize") {
+                    editor.updateOptions({
+                        fontSize: event.data.Size
+                    });
+                } else if (event.data.Type === "WordWrap") {
+                    editor.updateOptions({
+                        wordWrap: event.data.Enabled
+                    });
+                } else if (event.data.Type === "RenderWhitespace") {
+                    editor.updateOptions({
+                        renderWhitespace: event.data.WhitespaceType
+                    });
+                } else if (event.data.Type === "UpdateCompletions") {
+                    completions = event.data.Completions;
+                }
+
+            });
+
+
+        function ShowAutocompletion() {
+
+            // Register object that will return autocomplete items
+            monaco.languages.registerCompletionItemProvider('scriban', {
+                // Run this function when the period or open parenthesis is typed (and anything after a space)
+                triggerCharacters: ['.', '('],
+
+                // Function to generate autocompletion results
+                provideCompletionItems: function (model, position, token) {
+                    // Split everything the user has typed on the current line up at each space, and only look at the last word
+                    var last_chars = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 0, endLineNumber: position.lineNumber, endColumn: position.column });
+                    var words = last_chars.replace("\t", "").split(" ");
+                    var active_typing = words[words.length - 1]; // What the user is currently typing (everything after the last space)
+
+                    // Array of autocompletion results
+                    var result = [];
+                    // Create completion object
+                    if (active_typing.length >= 3)
+                        var r = {
+                            startLineNumber: position.lineNumber,
+                            startColumn: position.column - active_typing.length,
+                            endLineNumber: position.lineNumber,
+                            endColumn: position.column
+                        };
+                    completions.helpers.forEach(function (item) {
+                        if (item.name.startsWith(active_typing)) {
+                            console.log(item.name);
+                            var to_push = {
+                                label: item.name,
+                                kind: item.kind,
+                                detail: item.description,
+                                documentation: item.description,
+                                insertText: item.text,
+                                range: r
+                            };
+                            // Add to final results
+                            result.push(to_push);
+                        }
+                    });
+
+                    return {
+                        suggestions: result
+                    };
+                }
+            });
+        };
+
+        ShowAutocompletion();
+
+        monaco.editor.setModelLanguage(model, "csharp");
+        //forcing a layout here seems to help with the white flash slightly
+        editor.layout();
+        window.chrome.webview.postMessage({
+            Type: "EditorLoaded"
+        });
+
+
+    </script>
+
+</body>
+</html>

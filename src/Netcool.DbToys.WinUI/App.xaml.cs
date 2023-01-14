@@ -5,8 +5,10 @@ using Netcool.DbToys.Core.Excel;
 using Netcool.DbToys.WinUI.Activation;
 using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.ViewModels;
+using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 using Netcool.DbToys.WinUI.ViewModels.Database;
 using Netcool.DbToys.WinUI.Views;
+using Netcool.DbToys.WinUI.Views.CodeTemplate;
 using Netcool.DbToys.WinUI.Views.Database;
 
 namespace Netcool.DbToys.WinUI;
@@ -84,6 +86,8 @@ public partial class App : Application
             services.AddSingleton<MysqlConnectViewModel>();
             services.AddTransient<SqlServerConnectDialog>();
             services.AddSingleton<SqlServerConnectViewModel>();
+            services.AddTransient<TemplateViewModel>();
+            services.AddTransient<TemplatePage>();
 
             // Configuration
             //services.Configure<SettingsOptions>(context.Configuration.GetSection(nameof(SettingsOptions)));
