@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Netcool.DbToys.Core.Database;
 using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.ViewModels.Database;
-using Netcool.DbToys.WinUI.Views.Database;
+using Netcool.DbToys.WinUI.Views.Dialogs;
 
 namespace Netcool.DbToys.WinUI.ViewModels;
 

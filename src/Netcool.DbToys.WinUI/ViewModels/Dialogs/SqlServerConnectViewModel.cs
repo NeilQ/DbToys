@@ -5,9 +5,9 @@ using Microsoft.Data.SqlClient;
 using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Database;
 using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.Views.Database;
+using Netcool.DbToys.WinUI.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Database;
+namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
 
 public class SqlServerConnectViewModel : ObservableRecipient
 {

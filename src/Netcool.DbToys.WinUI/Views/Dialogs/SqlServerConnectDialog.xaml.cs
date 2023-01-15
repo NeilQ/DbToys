@@ -1,8 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.ViewModels.Database;
+using Netcool.DbToys.WinUI.ViewModels.Dialogs;
 
-namespace Netcool.DbToys.WinUI.Views.Database;
+namespace Netcool.DbToys.WinUI.Views.Dialogs;
 
 public sealed partial class SqlServerConnectDialog
 {

@@ -1,22 +1,22 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MySql.Data.MySqlClient;
 using Netcool.DbToys.Core.Database;
 using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.Views.Database;
-using Npgsql;
+using Netcool.DbToys.WinUI.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Database;
+namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
 
-public class PostgreSqlConnectViewModel : ObservableRecipient
+public class MysqlConnectViewModel : ObservableRecipient
 {
     private string _server = "127.0.0.1";
     public string Server { get => _server; set => SetProperty(ref _server, value); }
 
-    private int _port = 5432;
+    private int _port = 3306;
     public int Port { get => _port; set => SetProperty(ref _port, value); }
 
-    private string _username = "postgres";
+    private string _username = "root";
     public string Username { get => _username; set => SetProperty(ref _username, value); }
 
     public string Password { get; set; }
@@ -33,8 +33,10 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
     private bool _hasError;
     public bool HasError { get => _hasError; set => SetProperty(ref _hasError, value); }
 
-    public IRelayCommand<PostgreSqlConnectDialog> ConnectCommand { get; }
-    public IRelayCommand<PostgreSqlConnectDialog> CancelCommand { get; }
+    public IRelayCommand<MysqlConnectDialog> ConnectCommand { get; }
+    public IRelayCommand<MysqlConnectDialog> CancelCommand { get; }
+
+    public ISchemaReader SchemaReader { get; set; }
 
     public ObservableCollection<DatabaseAccount> Accounts { get; set; } = new();
 
@@ -71,17 +73,16 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
         }
     }
 
-    private readonly IDatabaseAccountHistory _accountHistory;
-
-    public ISchemaReader SchemaReader { get; set; }
-
     public Action<string> PasswordChanged { get; set; }
 
-    public PostgreSqlConnectViewModel(IDatabaseAccountHistory accountHistory)
+    private readonly IDatabaseAccountHistory _accountHistory;
+
+    public MysqlConnectViewModel(IDatabaseAccountHistory accountHistory)
     {
         _accountHistory = accountHistory;
-        ConnectCommand = new RelayCommand<PostgreSqlConnectDialog>(ConnectDatabase);
-        CancelCommand = new RelayCommand<PostgreSqlConnectDialog>(dialog =>
+
+        ConnectCommand = new RelayCommand<MysqlConnectDialog>(ConnectDatabase);
+        CancelCommand = new RelayCommand<MysqlConnectDialog>(dialog =>
         {
             dialog?.Hide();
         });
@@ -91,7 +92,7 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
     {
         HasError = false;
         SchemaReader = null;
-        var accounts = await _accountHistory.GetAllAsync(DatabaseType.PostgreSql);
+        var accounts = await _accountHistory.GetAllAsync(DatabaseType.Mysql);
         Accounts.Clear();
         if (accounts?.Count > 0)
         {
@@ -100,28 +101,28 @@ public class PostgreSqlConnectViewModel : ObservableRecipient
         }
     }
 
-    private void ConnectDatabase(PostgreSqlConnectDialog dialog)
+
+    private void ConnectDatabase(MysqlConnectDialog dialog)
     {
-        var builder = new NpgsqlConnectionStringBuilder
+        var builder = new MySqlConnectionStringBuilder
         {
-            Host = Server,
-            Port = Port,
-            Timeout = 3,
+            Server = Server,
+            Port = (uint)Port,
             PersistSecurityInfo = true,
-            Username = Username,
+            UserID = Username,
             Password = Password,
-            ClientEncoding = "utf8"
+            ConnectionTimeout = 3
         };
         IsConnecting = true;
-        using var sqlConn = new NpgsqlConnection(builder.ConnectionString);
+        using var sqlConn = new MySqlConnection(builder.ConnectionString);
         try
         {
             sqlConn.Open();
-            SchemaReader = new PostgreSqlSchemaReader(builder);
+            SchemaReader = new MySqlSchemaReader(builder);
             sqlConn.Close();
             _accountHistory.Add(new DatabaseAccount
             {
-                DatabaseType = DatabaseType.PostgreSql,
+                DatabaseType = DatabaseType.Mysql,
                 Server = Server,
                 Port = Port,
                 Username = Username,

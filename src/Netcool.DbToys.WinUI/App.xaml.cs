@@ -6,10 +6,10 @@ using Netcool.DbToys.WinUI.Activation;
 using Netcool.DbToys.WinUI.Services;
 using Netcool.DbToys.WinUI.ViewModels;
 using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
-using Netcool.DbToys.WinUI.ViewModels.Database;
+using Netcool.DbToys.WinUI.ViewModels.Dialogs;
 using Netcool.DbToys.WinUI.Views;
 using Netcool.DbToys.WinUI.Views.CodeTemplate;
-using Netcool.DbToys.WinUI.Views.Database;
+using Netcool.DbToys.WinUI.Views.Dialogs;
 
 namespace Netcool.DbToys.WinUI;
 

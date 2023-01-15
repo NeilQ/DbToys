@@ -28,6 +28,7 @@
     <None Remove="Views\CodeTemplate\TemplatePage.xaml" />
     <None Remove="Views\Database\MysqlConnectDialog.xaml" />
     <None Remove="Views\Database\SqlServerConnectDialog.xaml" />
+    <None Remove="Views\Dialogs\DynamicDialog.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,6 +72,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Dialogs\DynamicDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\CodeTemplate\TemplatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
