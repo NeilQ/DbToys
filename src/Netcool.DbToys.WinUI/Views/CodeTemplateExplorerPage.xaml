@@ -12,12 +12,17 @@
     <Page.Resources>
         <DataTemplate x:Key="ProjectFolderTemplate" x:DataType="codeTemplate:ProjectFolderItem">
             <TreeViewItem ItemsSource="{x:Bind Children, Mode=TwoWay}" IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+                <TreeViewItem.ContextFlyout>
+                    <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
+                        <CommandBarFlyout.SecondaryCommands>
+                            <AppBarButton Icon="Add" Label="Create Template" Command="{Binding CreateTemplateCommand}"/>
+                            <AppBarButton Icon="Edit" Label="Rename" Command="{Binding RenameCommand}"/>
+                        </CommandBarFlyout.SecondaryCommands>
+                    </CommandBarFlyout>
+                </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Source="{x:Bind Icon, Mode=OneWay}"
-                        Stretch="Uniform" />
-                    <TextBlock Text="{x:Bind Name}" Margin="{StaticResource XXSmallLeftMargin}" />
+                    <Image Height="16" Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform"/>
+                    <TextBlock Text="{x:Bind Name, Mode=TwoWay}" Margin="{StaticResource XXSmallLeftMargin}" />
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>
@@ -25,10 +30,7 @@
         <DataTemplate x:Key="TemplateFileTemplate" x:DataType="codeTemplate:TemplateFileItem">
             <TreeViewItem ItemsSource="{x:Bind Children, Mode=TwoWay}" IsExpanded="True">
                 <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="16"
-                        Source="{x:Bind Icon, Mode=OneWay}"
-                        Stretch="Uniform" />
+                    <Image Height="16" Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform" />
                     <TextBlock Text="{x:Bind Name}" Margin="{StaticResource XXSmallLeftMargin}" />
                 </StackPanel>
             </TreeViewItem>
@@ -53,7 +55,8 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <CommandBar DefaultLabelPosition="Right">
-                        <AppBarButton Icon="Add" Label="Create" ToolTipService.ToolTip="Create a template project" />
+                        <AppBarButton Icon="Add" Label="Create" Command="{x:Bind ViewModel.CreateProjectCommand}" ToolTipService.ToolTip="Create a template project" />
+                        <AppBarButton Icon="Refresh" Label="Refresh" Command="{x:Bind ViewModel.ReloadCommand}"/>
                         <AppBarButton Icon="{ui:FontIcon Glyph=&#xEDE1;}" Label="Export"  ToolTipService.ToolTip="Export to a archive" />
                         <AppBarButton Icon="{ui:FontIcon Glyph=&#xe946;}"  Label="Manual" />
                     </CommandBar>

@@ -39,6 +39,7 @@ public interface INotificationService
 
     public void Info(string message, string title = null, int duration = 0);
 
+    public void Error(string message, int duration);
     public void Error(string message, string title = null, int duration = 0);
 
     public void Warning(string message, string title = null, int duration = 0);
@@ -65,6 +66,11 @@ public class NotificationService : INotificationService
     public void Info(string message, string title, int duration = 0)
     {
         QueueNotification(new(title, message, InfoBarSeverity.Informational, duration));
+    }
+
+    public void Error(string message)
+    {
+        QueueNotification(new(null, message, InfoBarSeverity.Error, duration));
     }
 
     public void Error(string message, string title, int duration = 0)

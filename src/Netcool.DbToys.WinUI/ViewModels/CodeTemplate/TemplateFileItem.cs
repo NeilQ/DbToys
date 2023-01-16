@@ -1,9 +1,7 @@
-﻿
-using Windows.Storage;
+﻿using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Netcool.DbToys.WinUI.Helpers;
 
 namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
@@ -14,9 +12,15 @@ public class TemplateFileItem : TreeItem
 
     public StorageFile File { get; set; }
 
-    public TemplateFileItem(StorageFile file, bool lazyLoadChildren) : base(file.DisplayName, lazyLoadChildren)
+    public StorageFolder Folder { get; set; }
+
+    public string TabDisplayName => $"{Folder.Name}\\{File.Name}";
+
+    public TemplateFileItem(StorageFile file, StorageFolder folder) : base(file.Name, false)
     {
         File = file;
+        Folder = folder;
+        LoadIcon();
     }
 
     public async void LoadIcon()

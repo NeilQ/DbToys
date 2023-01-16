@@ -5,14 +5,16 @@ namespace Netcool.DbToys.WinUI.Services;
 
 public class CodeTemplateStorageService
 {
-    private static readonly string TemplateFolderPath = Path.Combine(
+    private readonly string _templateFolderPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
         Constants.FileSystem.DefaultCodeTemplateFolderPath);
+
+    public string TemplateFolderPath => _templateFolderPath;
 
     public async Task<List<StorageFolder>> GetProjectFoldersAsync()
     {
         EnsureTemplateFolder();
-        var templateFolder = await StorageFolder.GetFolderFromPathAsync(TemplateFolderPath);
+        var templateFolder = await StorageFolder.GetFolderFromPathAsync(_templateFolderPath);
         var folders = await templateFolder.GetFoldersAsync();
         return folders.ToList();
     }
@@ -26,7 +28,7 @@ public class CodeTemplateStorageService
 
     private void EnsureTemplateFolder()
     {
-        if (!Directory.Exists(TemplateFolderPath))
+        if (!Directory.Exists(_templateFolderPath))
         {
             try
             {

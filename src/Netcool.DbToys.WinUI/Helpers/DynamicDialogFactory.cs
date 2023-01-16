@@ -68,8 +68,8 @@ public class DynamicDialogFactory
             {
                 vm.HideDialog();
             },
-            PrimaryButtonText = "Confirm".GetLocalized(),
-            CloseButtonText = "Cancel".GetLocalized(),
+            PrimaryButtonText = "Confirm",
+            CloseButtonText = "Cancel",
         });
 
         return dialog;

@@ -5,7 +5,7 @@ namespace Netcool.DbToys.WinUI.Helpers;
 public static class FileSystemHelper
 {
     private static readonly char[] RestrictedCharacters = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
-      private static readonly string[] RestrictedFileNames = {
+    private static readonly string[] RestrictedFileNames = {
         "CON", "PRN", "AUX",
         "NUL", "COM1", "COM2",
         "COM3", "COM4", "COM5",
@@ -14,6 +14,7 @@ public static class FileSystemHelper
         "LPT3", "LPT4", "LPT5",
         "LPT6", "LPT7", "LPT8", "LPT9"
     };
+
     public static string GetDbToysAppDataFolder()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

@@ -1,15 +1,10 @@
-using System.Reflection;
 using System.Text.Json;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
 namespace Netcool.DbToys.WinUI.Views.CodeTemplate;
 
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
 public sealed partial class TemplatePage : Page
 {
     public TemplateViewModel ViewModel { get; }

@@ -9,6 +9,11 @@ public static class Constants
         public const string GeneralSettingsFileName = "settings.json";
     }
 
+    public static class Notification
+    {
+        public const int ShortErrorDuration = 5000;
+    }
+
     public static class FileSystem
     {
         public const string CachedEmptyItemName = "fileicon_cache";
