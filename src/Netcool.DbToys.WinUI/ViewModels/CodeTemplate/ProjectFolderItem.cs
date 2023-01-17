@@ -13,6 +13,8 @@ public record RenamedArgs(string OldName, string NewName, string OldPath, string
 
 public record ProjectDeletedArg(string Name, string Path);
 
+public record TemplateCreatedArg(StorageFile File);
+
 public class ProjectFolderItem : TreeItem
 {
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>);
@@ -24,6 +26,7 @@ public class ProjectFolderItem : TreeItem
 
     public Action<RenamedArgs> RenamedAction { get; set; }
     public Action<ProjectDeletedArg> DeletedAction { get; set; }
+    public Action<TemplateCreatedArg> TemplateCreatedAction { get; set; }
 
     public IAsyncRelayCommand CreateTemplateCommand { get; set; }
 
@@ -57,7 +60,7 @@ public class ProjectFolderItem : TreeItem
         }
         catch (Exception ex)
         {
-            _notificationService.Value.Error($"Rename project folder [] failed with error: {ex.Message}",
+            _notificationService.Value.Error($"Rename project folder failed with error: {ex.Message}",
                 Constants.Notification.ShortErrorDuration);
             return;
         }
@@ -88,8 +91,7 @@ public class ProjectFolderItem : TreeItem
                 Constants.Notification.ShortErrorDuration);
             return;
         }
-        var vm = new TemplateFileItem(file, false);
-        AddChild(vm); // todo: use event action
+        TemplateCreatedAction?.Invoke(new TemplateCreatedArg(file));
     }
 
     public async void LoadIcon()

@@ -3,18 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Netcool.DbToys.WinUI.ViewModels;
 
-public interface ITreeItem
-{
-    string Name { get; set; }
-
-    bool IsExpanded { get; set; }
-
-    bool IsSelected { get; set; }
-
-    bool HasUnrealizedChildren { get; set; }
-
-    ObservableCollection<ITreeItem> Children { get; set; }
-}
 
 public class TreeItem : ObservableRecipient
 {
@@ -69,7 +57,8 @@ public class TreeItem : ObservableRecipient
         if (lazyLoadChildren) _hasUnrealizedChildren = true;
     }
 
-    private TreeItem(string name)
+    protected TreeItem(string name)
+
     {
         _name = name;
     }

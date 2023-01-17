@@ -29,9 +29,16 @@
 
         <DataTemplate x:Key="TemplateFileTemplate" x:DataType="codeTemplate:TemplateFileItem">
             <TreeViewItem ItemsSource="{x:Bind Children, Mode=TwoWay}" IsExpanded="True">
+                <TreeViewItem.ContextFlyout>
+                    <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
+                        <CommandBarFlyout.SecondaryCommands>
+                            <AppBarButton Icon="Edit" Label="Rename" Command="{Binding RenameCommand}"/>
+                        </CommandBarFlyout.SecondaryCommands>
+                    </CommandBarFlyout>
+                </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
                     <Image Height="16" Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform" />
-                    <TextBlock Text="{x:Bind Name}" Margin="{StaticResource XXSmallLeftMargin}" />
+                    <TextBlock Text="{x:Bind Name, Mode=TwoWay}" Margin="{StaticResource XXSmallLeftMargin}" />
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>

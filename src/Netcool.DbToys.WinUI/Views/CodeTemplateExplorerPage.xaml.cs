@@ -105,14 +105,12 @@ public sealed partial class CodeTemplateExplorerPage : Page
         var folders = await _templateStorageService.GetProjectFoldersAsync();
         foreach (var folder in folders)
         {
-            var projectItem = new ProjectFolderItem(folder, false);
-            projectItem.RenamedAction = Renamed;
-            var files = await _templateStorageService.GetTemplateFiles(folder);
-            foreach (var file in files)
+            var projectItem = new ProjectFolderItem(folder, false)
             {
-                var templateItem = new TemplateFileItem(file, folder);
-                projectItem.AddChild(templateItem);
-            }
+                RenamedAction = ProjectFolderRenamed,
+                TemplateCreatedAction = TemplateFileCreated
+            };
+            LoadTemplateTree(projectItem);
             ViewModel.TreeItems.Add(projectItem);
         }
     }
@@ -122,12 +120,49 @@ public sealed partial class CodeTemplateExplorerPage : Page
         var files = await _templateStorageService.GetTemplateFiles(projectItem.Folder);
         foreach (var file in files)
         {
-            var templateItem = new TemplateFileItem(file, projectItem.Folder);
-            projectItem.AddChild(templateItem);
+            AddTemplateFileItem(projectItem, file);
         }
     }
 
-    private async void Renamed(RenamedArgs args)
+    private void AddTemplateFileItem(ProjectFolderItem projectItem, StorageFile file)
+    {
+        var templateItem = new TemplateFileItem(file, projectItem.Folder)
+        {
+            RenamedAction = TemplateFileRenamed
+        };
+        projectItem.AddChild(templateItem);
+    }
+
+    private void TemplateFileCreated(TemplateCreatedArg args)
+    {
+        var folderName = args.File.Path.Split('\\')[^2];
+        var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == folderName.ToLower());
+        if (projectItem == null) return;
+
+        AddTemplateFileItem(projectItem, args.File);
+    }
+
+    private async void TemplateFileRenamed(RenamedArgs args)
+    {
+        var folderName = args.OldPath.Split('\\')[^2];
+        var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == folderName.ToLower());
+        if (projectItem == null) return;
+
+        // update file item
+        var fileItem = projectItem.Children.FirstOrDefault(t => t.Name.ToLower() == args.OldName.ToLower()) as TemplateFileItem;
+        if (fileItem == null) return;
+        fileItem.Name = args.NewName;
+        fileItem.File = await StorageFile.GetFileFromPathAsync(args.NewPath);
+
+        // update tab view item
+        var tabItem = TemplateTabView.TabItems
+            .FirstOrDefault(t => (string)(t as TabViewItem)!.Tag == args.OldPath) as TabViewItem;
+        if (tabItem == null) return;
+        tabItem.Tag = args.NewPath;
+        tabItem.Header = fileItem.TabDisplayName;
+    }
+
+    private async void ProjectFolderRenamed(RenamedArgs args)
     {
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name == args.OldName);
         if (projectItem == null) return;

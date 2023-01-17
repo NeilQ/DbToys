@@ -35,7 +35,8 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         CreateProjectCommand = new AsyncRelayCommand(CreateProjectAsync);
         ReloadCommand = new RelayCommand(ReloadProjectTree);
         // rename project
-        // todo: rename template
+        // create project: add child user action
+        // rename template
         // todo: delete project
         // todo: delete template
     }

@@ -68,7 +68,7 @@ public class NotificationService : INotificationService
         QueueNotification(new(title, message, InfoBarSeverity.Informational, duration));
     }
 
-    public void Error(string message)
+    public void Error(string message, int duration)
     {
         QueueNotification(new(null, message, InfoBarSeverity.Error, duration));
     }
