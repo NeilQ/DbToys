@@ -108,7 +108,8 @@ public sealed partial class CodeTemplateExplorerPage : Page
             var projectItem = new ProjectFolderItem(folder, false)
             {
                 RenamedAction = ProjectFolderRenamed,
-                TemplateCreatedAction = TemplateFileCreated
+                TemplateCreatedAction = TemplateFileCreated,
+                DeletedAction = ProjectFolderDeleted
             };
             LoadTemplateTree(projectItem);
             ViewModel.TreeItems.Add(projectItem);
@@ -128,7 +129,8 @@ public sealed partial class CodeTemplateExplorerPage : Page
     {
         var templateItem = new TemplateFileItem(file, projectItem.Folder)
         {
-            RenamedAction = TemplateFileRenamed
+            RenamedAction = TemplateFileRenamed,
+            DeletedAction = TemplateFileDeleted
         };
         projectItem.AddChild(templateItem);
     }
@@ -162,6 +164,25 @@ public sealed partial class CodeTemplateExplorerPage : Page
         tabItem.Header = fileItem.TabDisplayName;
     }
 
+    private void TemplateFileDeleted(TemplateDeletedArg args)
+    {
+        var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == args.FolderName.ToLower());
+        if (projectItem == null) return;
+
+        // remove file tree item
+        var fileItem = projectItem.Children.FirstOrDefault(t => t.Name.ToLower() == args.FileName.ToLower());
+        if (fileItem == null) return;
+        projectItem.Children.Remove(fileItem);
+
+        // remove open tab view item
+        var tabItem = TemplateTabView.TabItems
+            .FirstOrDefault(t => (string)(t as TabViewItem)!.Tag == args.FilePath);
+        if (tabItem != null)
+        {
+            TemplateTabView.TabItems.Remove(tabItem);
+        }
+    }
+
     private async void ProjectFolderRenamed(RenamedArgs args)
     {
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name == args.OldName);
@@ -176,6 +197,23 @@ public sealed partial class CodeTemplateExplorerPage : Page
         // remove tab items
         var tabItems = TemplateTabView.TabItems
             .Where(t => ((string)(t as TabViewItem)!.Tag).StartsWith(args.OldPath));
+        if (!tabItems.Any()) return;
+        foreach (var tabItem in tabItems)
+        {
+            TemplateTabView.TabItems.Remove(tabItem);
+        }
+    }
+
+    private void ProjectFolderDeleted(ProjectDeletedArg args)
+    {
+        var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == args.FolderName.ToLower());
+        if (projectItem == null) return;
+
+        ViewModel.TreeItems.Remove(projectItem);
+
+        // remove tab items
+        var tabItems = TemplateTabView.TabItems
+            .Where(t => ((string)(t as TabViewItem)!.Tag).StartsWith(args.FolderPath));
         if (!tabItems.Any()) return;
         foreach (var tabItem in tabItems)
         {

@@ -11,7 +11,7 @@ namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
 public record RenamedArgs(string OldName, string NewName, string OldPath, string NewPath);
 
-public record ProjectDeletedArg(string Name, string Path);
+public record ProjectDeletedArg(string FolderName, string FolderPath);
 
 public record TemplateCreatedArg(StorageFile File);
 
@@ -32,12 +32,27 @@ public class ProjectFolderItem : TreeItem
 
     public IAsyncRelayCommand RenameCommand { get; set; }
 
+    public IAsyncRelayCommand DeleteCommand { get; set; }
+
     public ProjectFolderItem(StorageFolder folder, bool lazyLoadChildren) : base(folder.Name, lazyLoadChildren)
     {
         Folder = folder;
         CreateTemplateCommand = new AsyncRelayCommand(CreateTemplateFile);
         RenameCommand = new AsyncRelayCommand(RenameAsync);
+        DeleteCommand = new AsyncRelayCommand(DeleteAsync);
         LoadIcon();
+    }
+
+    private async Task DeleteAsync()
+    {
+        var dialog = DynamicDialogFactory.GetFor_DeleteProjectConfirmDialog();
+        await dialog.ShowAsync();
+        if (dialog.ViewModel.DialogResult != ContentDialogResult.Primary)
+            return;
+
+        await Folder.DeleteAsync();
+
+        DeletedAction?.Invoke(new ProjectDeletedArg(Folder.Name, Folder.Path));
     }
 
     private async Task RenameAsync()

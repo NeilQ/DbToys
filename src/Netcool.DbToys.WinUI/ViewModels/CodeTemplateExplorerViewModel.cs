@@ -23,8 +23,8 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
     private readonly INotificationService _notificationService;
     private readonly CodeTemplateStorageService _templateStorageService;
 
-    public IAsyncRelayCommand CreateProjectCommand { get; set; }
     public IRelayCommand ReloadCommand { get; set; }
+    public IAsyncRelayCommand CreateProjectCommand { get; set; }
 
     public Action ReloadAction { get; set; }
 
@@ -37,8 +37,10 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         // rename project
         // create project: add child user action
         // rename template
-        // todo: delete project
-        // todo: delete template
+        // delete project
+        // delete template
+        // todo: move args class to independent file
+        // todo: move action to TemplateStorageService
     }
 
     private async Task CreateProjectAsync()

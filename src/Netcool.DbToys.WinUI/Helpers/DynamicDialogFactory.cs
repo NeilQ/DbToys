@@ -7,6 +7,26 @@ namespace Netcool.DbToys.WinUI.Helpers;
 
 public class DynamicDialogFactory
 {
+    public static DynamicDialog GetFor_DeleteProjectConfirmDialog()
+    {
+        return GetFor_ConfirmDialog("Delete Project Folder", "Are you sure you want move this folder to Recycle Bin?");
+    }
+    public static DynamicDialog GetFor_DeleteTemplateConfirmDialog()
+    {
+        return GetFor_ConfirmDialog("Delete Template File", "Are you sure you want move this file to Recycle Bin?");
+    }
+
+    public static DynamicDialog GetFor_ConfirmDialog(string title, string prompt)
+    {
+        DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+        {
+            Title = title,
+            SubTitle = prompt,
+            PrimaryButtonText = "Confirm",
+            CloseButtonText = "Cancel"
+        });
+        return dialog;
+    }
 
     public static DynamicDialog GetFor_FilenameDialog(string originFilename, string dialogTitle, string dialogSubTitle, string inputPlaceHolder)
     {
@@ -82,12 +102,12 @@ public class DynamicDialogFactory
 
     public static DynamicDialog GetFor_CreateTemplateDialog()
     {
-        return GetFor_FilenameDialog(null, "Create Template", null, null);
+        return GetFor_FilenameDialog(null, "Create Template File", null, null);
     }
 
     public static DynamicDialog GetFor_CreateProjectDialog()
     {
-        return GetFor_FilenameDialog(null, "Create Project", null, null);
+        return GetFor_FilenameDialog(null, "Create Project Folder", null, null);
     }
 
 }

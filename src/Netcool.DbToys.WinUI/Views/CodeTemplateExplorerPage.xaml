@@ -14,9 +14,10 @@
             <TreeViewItem ItemsSource="{x:Bind Children, Mode=TwoWay}" IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
                 <TreeViewItem.ContextFlyout>
                     <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
+                        <AppBarButton Icon="Add" Label="Create Template" ToolTipService.ToolTip="Create Template" Command="{Binding CreateTemplateCommand}"/>
+                        <AppBarButton Icon="Edit" Label="Rename" ToolTipService.ToolTip="Rename"  Command="{Binding RenameCommand}"/>
+                        <AppBarButton Icon="Delete" Label="Delete" ToolTipService.ToolTip="Delete"  Command="{Binding DeleteCommand}"/>
                         <CommandBarFlyout.SecondaryCommands>
-                            <AppBarButton Icon="Add" Label="Create Template" Command="{Binding CreateTemplateCommand}"/>
-                            <AppBarButton Icon="Edit" Label="Rename" Command="{Binding RenameCommand}"/>
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>
@@ -31,8 +32,9 @@
             <TreeViewItem ItemsSource="{x:Bind Children, Mode=TwoWay}" IsExpanded="True">
                 <TreeViewItem.ContextFlyout>
                     <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
+                        <AppBarButton Icon="Edit" Label="Rename" ToolTipService.ToolTip="Rename"  Command="{Binding RenameCommand}"/>
+                        <AppBarButton Icon="Delete" Label="Delete" ToolTipService.ToolTip="Delete"  Command="{Binding DeleteCommand}"/>
                         <CommandBarFlyout.SecondaryCommands>
-                            <AppBarButton Icon="Edit" Label="Rename" Command="{Binding RenameCommand}"/>
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>

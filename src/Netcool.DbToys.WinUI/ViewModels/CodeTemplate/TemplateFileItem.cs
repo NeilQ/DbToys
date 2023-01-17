@@ -9,6 +9,8 @@ using Netcool.DbToys.WinUI.Services;
 
 namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
+public record TemplateDeletedArg(string FileName, string FilePath, string FolderName, string FolderPath);
+
 public class TemplateFileItem : TreeItem
 {
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>);
@@ -23,7 +25,7 @@ public class TemplateFileItem : TreeItem
     public string TabDisplayName => $"{Folder.Name}\\{File.Name}";
 
     public Action<RenamedArgs> RenamedAction { get; set; }
-    public Action<ProjectDeletedArg> DeletedAction { get; set; }
+    public Action<TemplateDeletedArg> DeletedAction { get; set; }
 
     public IAsyncRelayCommand RenameCommand { get; set; }
     public IAsyncRelayCommand DeleteCommand { get; set; }
@@ -33,7 +35,19 @@ public class TemplateFileItem : TreeItem
         File = file;
         Folder = folder;
         RenameCommand = new AsyncRelayCommand(RenameAsync);
+        DeleteCommand = new AsyncRelayCommand(DeleteAsync);
         LoadIcon();
+    }
+
+    private async Task DeleteAsync()
+    {
+        var dialog = DynamicDialogFactory.GetFor_DeleteTemplateConfirmDialog();
+        await dialog.ShowAsync();
+        if (dialog.ViewModel.DialogResult != ContentDialogResult.Primary)
+            return;
+
+        await File.DeleteAsync();
+        DeletedAction?.Invoke(new TemplateDeletedArg(File.Name, File.Path, Folder.Name, Folder.Path));
     }
 
     private async Task RenameAsync()
