@@ -46,7 +46,7 @@ public sealed partial class TemplatePage : Page
         WebView2.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
     }
 
-    private async void OnReady()
+    private async void OnEditorLoaded()
     {
         IsEditorLoaded = true;
         var text = await ViewModel.ReadTextAsync();
@@ -63,7 +63,7 @@ public sealed partial class TemplatePage : Page
         switch (type)
         {
             case "EditorLoaded":
-                OnReady();
+                OnEditorLoaded();
                 break;
             case "Save":
                 var text = json.RootElement.GetProperty("Text").GetString();

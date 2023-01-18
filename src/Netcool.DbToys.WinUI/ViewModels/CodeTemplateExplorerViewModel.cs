@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using Windows.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -25,6 +27,7 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
 
     public IRelayCommand ReloadCommand { get; set; }
     public IAsyncRelayCommand CreateProjectCommand { get; set; }
+    public IRelayCommand ExplorerCommand { get; set; }
 
     public Action ReloadAction { get; set; }
 
@@ -34,6 +37,20 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         _templateStorageService = templateStorageService;
         CreateProjectCommand = new AsyncRelayCommand(CreateProjectAsync);
         ReloadCommand = new RelayCommand(ReloadProjectTree);
+        ExplorerCommand = new RelayCommand(ShowInExplorer);
+    }
+
+    private void ShowInExplorer()
+    {
+        try
+        {
+            Process.Start("explorer.exe", _templateStorageService.TemplateFolderPath);
+        }
+        catch (Win32Exception win32Exception)
+        {
+            _notificationService.Error(win32Exception.Message,
+                Constants.Notification.DefaultDuration);
+        }
     }
 
     private async Task CreateProjectAsync()
