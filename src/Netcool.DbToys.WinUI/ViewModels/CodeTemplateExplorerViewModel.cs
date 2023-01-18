@@ -34,13 +34,6 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         _templateStorageService = templateStorageService;
         CreateProjectCommand = new AsyncRelayCommand(CreateProjectAsync);
         ReloadCommand = new RelayCommand(ReloadProjectTree);
-        // rename project
-        // create project: add child user action
-        // rename template
-        // delete project
-        // delete template
-        // todo: move args class to independent file
-        // todo: move action to TemplateStorageService
     }
 
     private async Task CreateProjectAsync()

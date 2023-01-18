@@ -9,8 +9,6 @@ using Netcool.DbToys.WinUI.Services;
 
 namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
-public record TemplateDeletedArg(string FileName, string FilePath, string FolderName, string FolderPath);
-
 public class TemplateFileItem : TreeItem
 {
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>);
@@ -25,9 +23,11 @@ public class TemplateFileItem : TreeItem
     public string TabDisplayName => $"{Folder.Name}\\{File.Name}";
 
     public Action<RenamedArgs> RenamedAction { get; set; }
+
     public Action<TemplateDeletedArg> DeletedAction { get; set; }
 
     public IAsyncRelayCommand RenameCommand { get; set; }
+
     public IAsyncRelayCommand DeleteCommand { get; set; }
 
     public TemplateFileItem(StorageFile file, StorageFolder folder) : base(file.Name)
