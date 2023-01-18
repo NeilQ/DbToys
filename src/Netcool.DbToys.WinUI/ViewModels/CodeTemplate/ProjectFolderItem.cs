@@ -72,7 +72,7 @@ public class ProjectFolderItem : TreeItem
         catch (Exception ex)
         {
             _notificationService.Value.Error($"Rename project folder failed with error: {ex.Message}",
-                Constants.Notification.ShortErrorDuration);
+                Constants.Notification.DefaultDuration);
             return;
         }
         RenamedAction?.Invoke(new RenamedArgs(oldName, newName, oldPath, Folder.Path));
@@ -99,7 +99,7 @@ public class ProjectFolderItem : TreeItem
         catch (Exception ex)
         {
             _notificationService.Value.Error($"Create file failed with error: {ex.Message}",
-                Constants.Notification.ShortErrorDuration);
+                Constants.Notification.DefaultDuration);
             return;
         }
         TemplateCreatedAction?.Invoke(new TemplateCreatedArg(file));

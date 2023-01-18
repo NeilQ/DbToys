@@ -92,7 +92,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
             IconSource = new SymbolIconSource { Symbol = Symbol.Document }
         };
         var page = App.GetService<TemplatePage>();
-        page.ViewModel.LoadFile(item.File);
+        page.ViewModel.File = item.File;
         page.Margin = new Thickness(0, 0, 0, 12);
         newItem.Content = page;
 
@@ -107,9 +107,9 @@ public sealed partial class CodeTemplateExplorerPage : Page
         {
             var projectItem = new ProjectFolderItem(folder, false)
             {
-                RenamedAction = ProjectFolderRenamed,
-                TemplateCreatedAction = TemplateFileCreated,
-                DeletedAction = ProjectFolderDeleted
+                RenamedAction = OnProjectFolderRenamed,
+                TemplateCreatedAction = OnTemplateFileCreated,
+                DeletedAction = OnProjectFolderDeleted
             };
             LoadTemplateTree(projectItem);
             ViewModel.TreeItems.Add(projectItem);
@@ -129,13 +129,13 @@ public sealed partial class CodeTemplateExplorerPage : Page
     {
         var templateItem = new TemplateFileItem(file, projectItem.Folder)
         {
-            RenamedAction = TemplateFileRenamed,
-            DeletedAction = TemplateFileDeleted
+            RenamedAction = OnTemplateFileRenamed,
+            DeletedAction = OnTemplateFileDeleted
         };
         projectItem.AddChild(templateItem);
     }
 
-    private void TemplateFileCreated(TemplateCreatedArg args)
+    private void OnTemplateFileCreated(TemplateCreatedArg args)
     {
         var folderName = args.File.Path.Split('\\')[^2];
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == folderName.ToLower());
@@ -144,14 +144,13 @@ public sealed partial class CodeTemplateExplorerPage : Page
         AddTemplateFileItem(projectItem, args.File);
     }
 
-    private async void TemplateFileRenamed(RenamedArgs args)
+    private async void OnTemplateFileRenamed(RenamedArgs args)
     {
         var folderName = args.OldPath.Split('\\')[^2];
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == folderName.ToLower());
-        if (projectItem == null) return;
 
         // update file item
-        var fileItem = projectItem.Children.FirstOrDefault(t => t.Name.ToLower() == args.OldName.ToLower()) as TemplateFileItem;
+        var fileItem = projectItem?.Children.FirstOrDefault(t => t.Name.ToLower() == args.OldName.ToLower()) as TemplateFileItem;
         if (fileItem == null) return;
         fileItem.Name = args.NewName;
         fileItem.File = await StorageFile.GetFileFromPathAsync(args.NewPath);
@@ -162,9 +161,10 @@ public sealed partial class CodeTemplateExplorerPage : Page
         if (tabItem == null) return;
         tabItem.Tag = args.NewPath;
         tabItem.Header = fileItem.TabDisplayName;
+        (tabItem.Content as TemplatePage)!.ViewModel.File = fileItem.File;
     }
 
-    private void TemplateFileDeleted(TemplateDeletedArg args)
+    private void OnTemplateFileDeleted(TemplateDeletedArg args)
     {
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == args.FolderName.ToLower());
         if (projectItem == null) return;
@@ -183,7 +183,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
         }
     }
 
-    private async void ProjectFolderRenamed(RenamedArgs args)
+    private async void OnProjectFolderRenamed(RenamedArgs args)
     {
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name == args.OldName);
         if (projectItem == null) return;
@@ -204,7 +204,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
         }
     }
 
-    private void ProjectFolderDeleted(ProjectDeletedArg args)
+    private void OnProjectFolderDeleted(ProjectDeletedArg args)
     {
         var projectItem = ViewModel.TreeItems.FirstOrDefault(t => t.Name.ToLower() == args.FolderName.ToLower());
         if (projectItem == null) return;

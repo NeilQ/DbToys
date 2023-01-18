@@ -72,7 +72,7 @@ public class TemplateFileItem : TreeItem
         catch (Exception ex)
         {
             _notificationService.Value.Error($"Rename template file failed with error: {ex.Message}",
-                Constants.Notification.ShortErrorDuration);
+                Constants.Notification.DefaultDuration);
             return;
         }
         RenamedAction?.Invoke(new RenamedArgs(oldName, newName, oldPath, File.Path));

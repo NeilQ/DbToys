@@ -11,7 +11,8 @@ public static class Constants
 
     public static class Notification
     {
-        public const int ShortErrorDuration = 5000;
+        public const int ShortDuration = 3000;
+        public const int DefaultDuration = 5000;
     }
 
     public static class FileSystem

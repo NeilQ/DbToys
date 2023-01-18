@@ -57,7 +57,7 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         catch (Exception ex)
         {
             _notificationService.Error($"Create project folder failed with error: {ex.Message}",
-                Constants.Notification.ShortErrorDuration);
+                Constants.Notification.DefaultDuration);
             return;
         }
         var storage = await StorageFolder.GetFolderFromPathAsync(path);

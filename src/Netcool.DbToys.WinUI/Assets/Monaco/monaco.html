@@ -42,10 +42,11 @@
             });
         const model = editor.getModel();
         var settingText = false;
+        var completions = {};
         model.onDidChangeContent((event) => {
             /*
             if (settingText === false) {
-                window.chrome.webview.postMessagTypee({
+                window.chrome.webview.postMessage({
                     Type: "TextChanged",
                     Text: editor.getModel().getValue()
                 });
@@ -56,7 +57,10 @@
         });
 
         editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function () {
-            alert('SAVE pressed!');
+            window.chrome.webview.postMessage({
+                Type: "Save",
+                Text: editor.getModel().getValue()
+            });
         });
 
         window.chrome.webview.addEventListener('message',
@@ -68,14 +72,6 @@
                 } else if (event.data.Type === "FontSize") {
                     editor.updateOptions({
                         fontSize: event.data.Size
-                    });
-                } else if (event.data.Type === "WordWrap") {
-                    editor.updateOptions({
-                        wordWrap: event.data.Enabled
-                    });
-                } else if (event.data.Type === "RenderWhitespace") {
-                    editor.updateOptions({
-                        renderWhitespace: event.data.WhitespaceType
                     });
                 } else if (event.data.Type === "UpdateCompletions") {
                     completions = event.data.Completions;
@@ -110,7 +106,7 @@
                         };
                     completions.helpers.forEach(function (item) {
                         if (item.name.startsWith(active_typing)) {
-                            console.log(item.name);
+                            //console.log(item.name);
                             var to_push = {
                                 label: item.name,
                                 kind: item.kind,

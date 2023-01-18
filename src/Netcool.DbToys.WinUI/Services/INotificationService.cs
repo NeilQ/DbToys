@@ -35,12 +35,19 @@ public class Notification
 }
 public interface INotificationService
 {
+    public void Success(string message, int duration);
+
     public void Success(string message, string title = null, int duration = 5000);
+
+    public void Info(string message, int duration);
 
     public void Info(string message, string title = null, int duration = 0);
 
     public void Error(string message, int duration);
+
     public void Error(string message, string title = null, int duration = 0);
+
+    public void Warning(string message, int duration);
 
     public void Warning(string message, string title = null, int duration = 0);
 
@@ -58,9 +65,19 @@ public class NotificationService : INotificationService
         _queue = Channel.CreateUnbounded<Notification>();
     }
 
+    public void Success(string message, int duration)
+    {
+        Success(message, null, duration);
+    }
+
     public void Success(string message, string title, int duration = 5000)
     {
         QueueNotification(new(title, message, InfoBarSeverity.Success, duration));
+    }
+
+    public void Info(string message, int duration)
+    {
+        Info(message, null, duration);
     }
 
     public void Info(string message, string title, int duration = 0)
@@ -76,6 +93,11 @@ public class NotificationService : INotificationService
     public void Error(string message, string title, int duration = 0)
     {
         QueueNotification(new(title, message, InfoBarSeverity.Error, duration));
+    }
+
+    public void Warning(string message, int duration)
+    {
+        Warning(message, null, duration);
     }
 
     public void Warning(string message, string title, int duration = 0)
