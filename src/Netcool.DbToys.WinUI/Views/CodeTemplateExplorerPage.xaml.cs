@@ -118,7 +118,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
 
     public async void LoadTemplateTree(ProjectFolderItem projectItem)
     {
-        var files = await _templateStorageService.GetTemplateFiles(projectItem.Folder);
+        var files = await _templateStorageService.GetTemplateFilesAsync(projectItem.Folder);
         foreach (var file in files)
         {
             AddTemplateFileItem(projectItem, file);

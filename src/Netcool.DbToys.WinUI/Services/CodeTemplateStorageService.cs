@@ -19,7 +19,7 @@ public class CodeTemplateStorageService
         return folders.ToList();
     }
 
-    public async Task<List<StorageFile>> GetTemplateFiles(StorageFolder folder)
+    public async Task<List<StorageFile>> GetTemplateFilesAsync(StorageFolder folder)
     {
         ArgumentNullException.ThrowIfNull(nameof(folder));
         var files = await folder.GetFilesAsync(CommonFileQuery.OrderByName);

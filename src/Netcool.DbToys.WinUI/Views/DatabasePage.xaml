@@ -42,6 +42,13 @@
 
         <DataTemplate x:Key="TableTemplate" x:DataType="database:TableItem">
             <TreeViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+                <TreeViewItem.ContextFlyout>
+                    <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
+                        <CommandBarFlyout.SecondaryCommands>
+                            <AppBarButton Label="Generate Code" Command="{Binding GenerateCodeCommand}" Icon="{ui:FontIcon Glyph=&#xe945;}" ToolTipService.ToolTip="Refresh" />
+                        </CommandBarFlyout.SecondaryCommands>
+                    </CommandBarFlyout>
+                </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE80A;" Margin="0,0,5,0"/>
                     <TextBlock Text="{x:Bind Name}">

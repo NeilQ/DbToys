@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Excel;
 using Netcool.DbToys.WinUI.Activation;
 using Netcool.DbToys.WinUI.Services;
@@ -45,7 +46,7 @@ public partial class App : Application
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
         UseContentRoot(AppContext.BaseDirectory).
-        ConfigureServices((context, services) =>
+        ConfigureServices((_, services) =>
         {
             // Default Activation Handler
             services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
@@ -67,7 +68,8 @@ public partial class App : Application
             services.AddSingleton<CodeTemplateStorageService>();
 
             // Core Services
-            services.AddSingleton<IExcelService, ExcelService>();
+            services.AddTransient<IExcelService, ExcelService>();
+            services.AddTransient<ICodeGenerator, CodeGenerator>();
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
@@ -88,6 +90,8 @@ public partial class App : Application
             services.AddSingleton<SqlServerConnectViewModel>();
             services.AddTransient<TemplateViewModel>();
             services.AddTransient<TemplatePage>();
+            services.AddTransient<GenerateCodeDialog>();
+            services.AddTransient<GenerateCodeViewModel>();
 
             // Configuration
             //services.Configure<SettingsOptions>(context.Configuration.GetSection(nameof(SettingsOptions)));
