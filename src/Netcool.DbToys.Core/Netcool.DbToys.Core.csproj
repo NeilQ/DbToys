@@ -9,10 +9,12 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.1" />
     <PackageReference Include="MySql.Data" Version="8.0.31" />
     <PackageReference Include="Npgsql" Version="7.0.0" />
+    <PackageReference Include="Scriban" Version="5.5.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Excel\" />
+    <Folder Include="Scriban\" />
   </ItemGroup>
 
 </Project>

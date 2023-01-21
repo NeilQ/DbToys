@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.WinUI.Views.Dialogs;
 
 namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
@@ -41,7 +42,7 @@ public class ProjectFolderItem : TreeItem
 
     private async Task DeleteAsync()
     {
-        var dialog = DynamicDialogFactory.GetFor_DeleteProjectConfirmDialog();
+        var dialog = DialogFactory.GetFor_DeleteProjectConfirmDialog();
         await dialog.ShowAsync();
         if (dialog.ViewModel.DialogResult != ContentDialogResult.Primary)
             return;
@@ -55,7 +56,7 @@ public class ProjectFolderItem : TreeItem
     {
         var oldName = Folder.Name;
         var oldPath = Folder.Path;
-        var dialog = DynamicDialogFactory.GetFor_RenameDialog(Folder.Name);
+        var dialog = DialogFactory.GetFor_RenameDialog(Folder.Name);
         await dialog.ShowAsync();
         string newName;
         if (dialog.ViewModel.DialogResult == ContentDialogResult.Primary)
@@ -80,12 +81,20 @@ public class ProjectFolderItem : TreeItem
 
     private async Task CreateTemplateFile()
     {
-        var dialog = DynamicDialogFactory.GetFor_CreateTemplateDialog();
+        var dialog = DialogFactory.GetFor_CreateTemplateDialog();
         await dialog.ShowAsync();
         string fileName;
         if (dialog.ViewModel.DialogResult == ContentDialogResult.Primary)
         {
-            fileName = (string)dialog.ViewModel.AdditionalData + ".tpl";
+            var input = (string)dialog.ViewModel.AdditionalData;
+            if (input.EndsWith(Constants.FileSystem.CodeTemplateFileExtension))
+            {
+                fileName = input;
+            }
+            else
+            {
+                fileName = input + Constants.FileSystem.CodeTemplateFileExtension;
+            }
         }
         else return;
 
@@ -94,7 +103,7 @@ public class ProjectFolderItem : TreeItem
         StorageFile file;
         try
         {
-            file = await Folder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+            file = await Folder.CreateFileAsync(fileName, CreationCollisionOption.FailIfExists);
         }
         catch (Exception ex)
         {

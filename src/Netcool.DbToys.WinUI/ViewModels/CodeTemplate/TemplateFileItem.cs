@@ -41,7 +41,7 @@ public class TemplateFileItem : TreeItem
 
     private async Task DeleteAsync()
     {
-        var dialog = DynamicDialogFactory.GetFor_DeleteTemplateConfirmDialog();
+        var dialog = DialogFactory.GetFor_DeleteTemplateConfirmDialog();
         await dialog.ShowAsync();
         if (dialog.ViewModel.DialogResult != ContentDialogResult.Primary)
             return;
@@ -54,20 +54,42 @@ public class TemplateFileItem : TreeItem
     {
         var oldName = File.Name;
         var oldPath = File.Path;
-        var dialog = DynamicDialogFactory.GetFor_RenameDialog(oldName);
+        string input;
+
+        var templateFileExtension = Constants.FileSystem.CodeTemplateFileExtension;
+
+        if (oldName.EndsWith(templateFileExtension))
+        {
+            input = oldName
+                .Remove(oldName.Length - templateFileExtension.Length, templateFileExtension.Length);
+        }
+        else
+        {
+            input = oldName;
+        }
+        var dialog = DialogFactory.GetFor_RenameDialog(input);
         await dialog.ShowAsync();
+
         string newName;
         if (dialog.ViewModel.DialogResult == ContentDialogResult.Primary)
         {
-            newName = (string)dialog.ViewModel.AdditionalData;
+            input = (string)dialog.ViewModel.AdditionalData;
+            if (input.EndsWith(Constants.FileSystem.CodeTemplateFileExtension))
+            {
+                newName = input;
+            }
+            else
+            {
+                newName = input + Constants.FileSystem.CodeTemplateFileExtension;
+            }
         }
         else return;
 
         if (string.IsNullOrEmpty(newName) || oldName == newName) return;
         try
         {
-            await File.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
-            newName = File.Name; // Unique name may be generated
+            await File.RenameAsync(newName, NameCollisionOption.FailIfExists);
+            // newName = File.Name; // Unique name may be generated
         }
         catch (Exception ex)
         {

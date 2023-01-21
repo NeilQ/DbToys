@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
+using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.ViewModels.Dialogs;
 
 namespace Netcool.DbToys.WinUI.Views.Dialogs;
@@ -14,16 +15,7 @@ public sealed partial class DynamicDialog
 
     public DynamicDialogViewModel ViewModel { get; set; }
 
-    public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
-
-    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-    {
-        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-        {
-            contentDialog.XamlRoot = App.MainWindow.Content.XamlRoot;
-        }
-        return contentDialog;
-    }
+    public new Task<ContentDialogResult> ShowAsync() => DialogHelper.SetContentDialogRoot(this).ShowAsync().AsTask();
 
     private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {

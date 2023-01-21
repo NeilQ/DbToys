@@ -55,7 +55,7 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
 
     private async Task CreateProjectAsync()
     {
-        var dialog = DynamicDialogFactory.GetFor_CreateProjectDialog();
+        var dialog = DialogFactory.GetFor_CreateProjectDialog();
         await dialog.ShowAsync();
         string folderName;
         if (dialog.ViewModel.DialogResult == ContentDialogResult.Primary)

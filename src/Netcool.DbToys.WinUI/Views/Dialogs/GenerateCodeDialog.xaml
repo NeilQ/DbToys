@@ -15,7 +15,7 @@
                 <TextBlock Text="Template Project" Width="150" VerticalAlignment="Center"/>
                 <ComboBox Width="250" ItemsSource="{x:Bind ViewModel.ProjectFolders}"
                       DisplayMemberPath="Name" 
-                      SelectedItem="{x:Bind ViewModel.SelectedFolder, Mode=TwoWay}"/>
+                      SelectedItem="{x:Bind ViewModel.TemplateProjectFolder, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Output Location" Width="150" VerticalAlignment="Center"/>

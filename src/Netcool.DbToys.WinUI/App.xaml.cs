@@ -92,6 +92,8 @@ public partial class App : Application
             services.AddTransient<TemplatePage>();
             services.AddTransient<GenerateCodeDialog>();
             services.AddTransient<GenerateCodeViewModel>();
+            services.AddTransient<TemplateFilenameDialog>();
+            services.AddTransient<TemplateFilenameViewModel>();
 
             // Configuration
             //services.Configure<SettingsOptions>(context.Configuration.GetSection(nameof(SettingsOptions)));

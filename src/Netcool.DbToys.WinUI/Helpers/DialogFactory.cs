@@ -5,7 +5,7 @@ using Netcool.DbToys.WinUI.Views.Dialogs;
 
 namespace Netcool.DbToys.WinUI.Helpers;
 
-public class DynamicDialogFactory
+public class DialogFactory
 {
     public static DynamicDialog GetFor_DeleteProjectConfirmDialog()
     {
@@ -18,7 +18,7 @@ public class DynamicDialogFactory
 
     public static DynamicDialog GetFor_ConfirmDialog(string title, string prompt)
     {
-        DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+        DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel
         {
             Title = title,
             SubTitle = prompt,
@@ -28,14 +28,21 @@ public class DynamicDialogFactory
         return dialog;
     }
 
-    public static DynamicDialog GetFor_FilenameDialog(string originFilename, string dialogTitle, string dialogSubTitle, string inputPlaceHolder)
+    public static DynamicDialog GetFor_FilenameDialog(string originFilename, string dialogTitle, string dialogSubTitle, string tooltip, string inputPlaceHolder)
     {
         DynamicDialog dialog = null;
-        TextBox inputText = new TextBox
+        var inputText = new TextBox
         {
             Height = 35d,
+            MaxLength = 255,
             PlaceholderText = inputPlaceHolder,
             Text = originFilename
+        };
+        var tipText = new TextBlock
+        {
+            Text = tooltip,
+            Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
+            TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
         };
 
         inputText.BeforeTextChanging += async (textBox, args) =>
@@ -78,8 +85,8 @@ public class DynamicDialogFactory
                             Spacing = 4d,
                             Children =
                             {
-                                inputText
-                                //tipText
+                                inputText,
+                                tipText
                             }
                         }
                     }
@@ -97,17 +104,17 @@ public class DynamicDialogFactory
 
     public static DynamicDialog GetFor_RenameDialog(string originName)
     {
-        return GetFor_FilenameDialog(originName, "Rename", null, null);
+        return GetFor_FilenameDialog(originName, "Rename", null, null, null);
     }
 
     public static DynamicDialog GetFor_CreateTemplateDialog()
     {
-        return GetFor_FilenameDialog(null, "Create Template File", null, null);
+        return GetFor_FilenameDialog(null, "Create Template ", null, null, null);
     }
 
     public static DynamicDialog GetFor_CreateProjectDialog()
     {
-        return GetFor_FilenameDialog(null, "Create Project Folder", null, null);
+        return GetFor_FilenameDialog(null, "Create Project", null, null, null);
     }
 
 }

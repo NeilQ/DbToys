@@ -13,11 +13,11 @@ public class GenerateCodeViewModel : ObservableRecipient
 {
     private readonly CodeTemplateStorageService _storageService;
 
-    private StorageFolder _selectedFolder;
-    public StorageFolder SelectedFolder
+    private StorageFolder _templateProjectFolder;
+    public StorageFolder TemplateProjectFolder
     {
-        get => _selectedFolder;
-        set => SetProperty(ref _selectedFolder, value);
+        get => _templateProjectFolder;
+        set => SetProperty(ref _templateProjectFolder, value);
     }
 
     private string _outputPath;
@@ -49,6 +49,7 @@ public class GenerateCodeViewModel : ObservableRecipient
         if (OutputFolder != null)
         {
             OutputPath = OutputFolder.Path;
+            //todo: save to general settings;
         }
     }
 
