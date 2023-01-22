@@ -4,6 +4,7 @@ using Windows.Storage.Pickers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Netcool.DbToys.WinUI.Helpers;
 using Netcool.DbToys.WinUI.Services;
 
@@ -12,6 +13,16 @@ namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
 public class GenerateCodeViewModel : ObservableRecipient
 {
     private readonly CodeTemplateStorageService _storageService;
+    private readonly UiSettingsService _uiSettingsService;
+
+    public IRelayCommand ConfirmCommand { get; set; }
+
+    private int _selectedProjectIndex;
+    public int SelectedProjectIndex
+    {
+        get => _selectedProjectIndex;
+        set => SetProperty(ref _selectedProjectIndex, value);
+    }
 
     private StorageFolder _templateProjectFolder;
     public StorageFolder TemplateProjectFolder
@@ -20,19 +31,33 @@ public class GenerateCodeViewModel : ObservableRecipient
         set => SetProperty(ref _templateProjectFolder, value);
     }
 
+    public ContentDialogResult DialogResult { get; private set; }
+
     private string _outputPath;
     public string OutputPath { get => _outputPath; set => SetProperty(ref _outputPath, value); }
-
-    public StorageFolder OutputFolder { get; private set; }
 
     public IAsyncRelayCommand PickOutputFolderCommand { get; set; }
 
     public ObservableCollection<StorageFolder> ProjectFolders { get; set; } = new();
 
-    public GenerateCodeViewModel(CodeTemplateStorageService storageService)
+    public GenerateCodeViewModel(CodeTemplateStorageService storageService, UiSettingsService uiSettingsService)
     {
         _storageService = storageService;
+        _uiSettingsService = uiSettingsService;
         PickOutputFolderCommand = new AsyncRelayCommand(PickOutputFolder);
+        ConfirmCommand = new RelayCommand(OnConfirm);
+    }
+
+    private void OnConfirm()
+    {
+        if (_uiSettingsService.CodeGeneratorOutputPath != OutputPath && !string.IsNullOrEmpty(OutputPath))
+            _uiSettingsService.CodeGeneratorOutputPath = OutputPath;
+
+        if (TemplateProjectFolder != null &&
+            _uiSettingsService.CodeGeneratorTemplateProject != TemplateProjectFolder.Name)
+            _uiSettingsService.CodeGeneratorTemplateProject = TemplateProjectFolder.Name;
+
+        DialogResult = ContentDialogResult.Primary;
     }
 
     private async Task PickOutputFolder()
@@ -45,16 +70,16 @@ public class GenerateCodeViewModel : ObservableRecipient
             WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, Win32Helper.GetActiveWindow());
         }
 
-        OutputFolder = await folderPicker.PickSingleFolderAsync();
-        if (OutputFolder != null)
+        var outputFolder = await folderPicker.PickSingleFolderAsync();
+        if (outputFolder != null)
         {
-            OutputPath = OutputFolder.Path;
-            //todo: save to general settings;
+            OutputPath = outputFolder.Path;
         }
     }
 
     protected override async void OnActivated()
     {
+        OutputPath = _uiSettingsService.CodeGeneratorOutputPath;
         var folders = await _storageService.GetProjectFoldersAsync();
         if (folders is { Count: > 0 })
         {
@@ -62,6 +87,15 @@ public class GenerateCodeViewModel : ObservableRecipient
             {
                 ProjectFolders.Add(storageFolder);
             }
+
+            foreach (var fo in ProjectFolders)
+            {
+                if (fo.Name != _uiSettingsService.CodeGeneratorTemplateProject) continue;
+                TemplateProjectFolder = fo;
+                break;
+            }
+
+            if (TemplateProjectFolder == null) TemplateProjectFolder = ProjectFolders[0];
         }
     }
 }

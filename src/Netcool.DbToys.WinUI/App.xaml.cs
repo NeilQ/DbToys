@@ -56,6 +56,7 @@ public partial class App : Application
             // Services
             services.AddSingleton<IDatabaseAccountHistory, DatabaseAccountHistory>();
             services.AddSingleton<GeneralSettingsService>();
+            services.AddSingleton<UiSettingsService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
 

@@ -7,6 +7,8 @@ public static class Constants
         public const string DatabaseHistorySettingsFileName = "database.json";
 
         public const string GeneralSettingsFileName = "settings.json";
+
+        public const string UiSettingsFileName = "ui.json";
     }
 
     public static class Notification
