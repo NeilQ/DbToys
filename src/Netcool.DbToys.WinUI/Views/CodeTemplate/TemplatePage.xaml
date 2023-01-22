@@ -7,10 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid >
-        <!--
-        <TextBlock Text="{x:Bind ViewModel.Text, Mode=TwoWay}"></TextBlock>
-        -->
+    <Grid>
         <WebView2 x:Name="WebView2" VerticalAlignment="Stretch"></WebView2>
     </Grid>
 </Page>

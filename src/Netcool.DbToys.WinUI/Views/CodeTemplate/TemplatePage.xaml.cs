@@ -38,8 +38,8 @@ public sealed partial class TemplatePage : Page
 
         //await WebView2.EnsureCoreWebView2Async(_webEnv);
         //Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", FileSystemHelper.GetDbToysAppDataFolder());
-        await WebView2.EnsureCoreWebView2Async();
 
+        await WebView2.EnsureCoreWebView2Async();
         WebView2.CoreWebView2.SetVirtualHostNameToFolderMapping("monaco-editor", "Assets/Monaco", CoreWebView2HostResourceAccessKind.Allow);
         WebView2.Source = new Uri("http://monaco-editor/monaco.html");
         WebView2.CoreWebView2.AddWebResourceRequestedFilter("http://*", CoreWebView2WebResourceContext.All);

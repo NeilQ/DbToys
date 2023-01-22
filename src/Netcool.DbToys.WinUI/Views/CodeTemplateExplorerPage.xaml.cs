@@ -31,8 +31,8 @@ public sealed partial class CodeTemplateExplorerPage : Page
         ViewModel = App.GetService<CodeTemplateExplorerViewModel>();
         _templateStorageService = App.GetService<CodeTemplateStorageService>();
         ViewModel.ReloadAction = LoadProjectTree;
-        LoadProjectTree();
         InitializeComponent();
+        LoadProjectTree();
     }
 
     private void GridSplitter_OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
@@ -91,10 +91,18 @@ public sealed partial class CodeTemplateExplorerPage : Page
             Header = item.TabDisplayName,
             IconSource = new SymbolIconSource { Symbol = Symbol.Document }
         };
+        var frame = new Frame();
+
+        frame.Navigate(typeof(TemplatePage));
+        (frame.GetPageViewModel() as TemplateViewModel)!.File = item.File;
+        newItem.Content = frame;
+
+        /*
         var page = App.GetService<TemplatePage>();
         page.ViewModel.File = item.File;
         page.Margin = new Thickness(0, 0, 0, 12);
         newItem.Content = page;
+        */
 
         return newItem;
     }
