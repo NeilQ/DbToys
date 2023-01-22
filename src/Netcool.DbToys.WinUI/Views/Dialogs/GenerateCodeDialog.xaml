@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Title="Generate Code"
+    PrimaryButtonCommand="{x:Bind ViewModel.ConfirmCommand}"
     PrimaryButtonText="Generate" PrimaryButtonStyle="{ThemeResource AccentButtonStyle}" CloseButtonText="Cancel"
     Style="{ThemeResource DefaultContentDialogStyle}">
 
@@ -19,7 +20,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Padding="5">
                 <TextBlock Text="Output Location" Width="150" VerticalAlignment="Center"/>
-                <TextBox Width="250" Text="{x:Bind ViewModel.OutputPath, Mode=TwoWay}" IsEnabled="False"/>
+                <TextBox Width="250" Text="{x:Bind ViewModel.OutputPath, Mode=TwoWay}"/>
                 <Button Command="{x:Bind ViewModel.PickOutputFolderCommand}" Margin="{StaticResource XXSmallLeftMargin}">
                     <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe838;"/>
                 </Button>

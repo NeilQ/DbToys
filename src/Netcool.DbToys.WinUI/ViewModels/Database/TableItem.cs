@@ -35,11 +35,18 @@ public class TableItem : TreeItem
     private async Task GenerateCode()
     {
         var dialog = App.GetService<GenerateCodeDialog>();
-        var res = await dialog.ShowAsync();
-        if (res != ContentDialogResult.Primary) return;
+        await dialog.ShowAsync();
+        if (dialog.ViewModel.DialogResult != ContentDialogResult.Primary) return;
 
         var templateFolder = dialog.ViewModel.TemplateProjectFolder;
-        var outputFolder = dialog.ViewModel.OutputFolder;
+        StorageFolder outputFolder = null;
+        try
+        {
+            if (!Directory.Exists(dialog.ViewModel.OutputPath))
+                Directory.CreateDirectory(dialog.ViewModel.OutputPath);
+            outputFolder = await StorageFolder.GetFolderFromPathAsync(dialog.ViewModel.OutputPath);
+        }
+        catch (Exception) {/* ignore */ }
         if (templateFolder == null || outputFolder == null) return;
 
         _loadingService.Value.Active("Generating...");
