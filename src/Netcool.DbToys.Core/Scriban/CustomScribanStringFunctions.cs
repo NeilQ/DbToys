@@ -20,6 +20,7 @@ public class CustomScribanStringFunctions : StringFunctions
     public static string ToCamelCase(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
+        if (text.Length < 2) return text.ToLowerInvariant();
         var sb = new StringBuilder();
         var chars = text.AsSpan();
 
@@ -49,6 +50,7 @@ public class CustomScribanStringFunctions : StringFunctions
     public static string ToPascalCase(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
+        if (text.Length < 2) return text.ToUpperInvariant();
         var sb = new StringBuilder();
         var chars = text.AsSpan();
 

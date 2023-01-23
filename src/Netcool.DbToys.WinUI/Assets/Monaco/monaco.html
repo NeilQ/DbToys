@@ -42,7 +42,7 @@
             });
         const model = editor.getModel();
         var settingText = false;
-        var completions = {};
+        var completions = [];
         model.onDidChangeContent((event) => {
             /*
             if (settingText === false) {
@@ -58,23 +58,25 @@
 
         editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function () {
             window.chrome.webview.postMessage({
-                Type: "Save",
-                Text: editor.getModel().getValue()
+                type: "Save",
+                text: editor.getModel().getValue()
             });
         });
 
         window.chrome.webview.addEventListener('message',
             (event) => {
-                if (event.data.Type === "Setup") {
-                } else if (event.data.Type === "UpdateText") {
+                console.log(event.data)
+                if (event.data.type === "Setup") {
+                } else if (event.data.type === "UpdateText") {
                     settingText = true;
-                    model.setValue(event.data.Text);
-                } else if (event.data.Type === "FontSize") {
+                    model.setValue(event.data.text);
+                } else if (event.data.type === "FontSize") {
                     editor.updateOptions({
                         fontSize: event.data.Size
                     });
-                } else if (event.data.Type === "UpdateCompletions") {
-                    completions = event.data.Completions;
+                } else if (event.data.type === "UpdateCompletions") {
+                    completions = event.data.completions;
+                    console.log(completions)
                 }
 
             });
@@ -83,41 +85,46 @@
         function ShowAutocompletion() {
 
             // Register object that will return autocomplete items
-            monaco.languages.registerCompletionItemProvider('scriban', {
+            monaco.languages.registerCompletionItemProvider('csharp', {
                 // Run this function when the period or open parenthesis is typed (and anything after a space)
                 triggerCharacters: ['.', '('],
 
                 // Function to generate autocompletion results
                 provideCompletionItems: function (model, position, token) {
                     // Split everything the user has typed on the current line up at each space, and only look at the last word
-                    var last_chars = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 0, endLineNumber: position.lineNumber, endColumn: position.column });
-                    var words = last_chars.replace("\t", "").split(" ");
-                    var active_typing = words[words.length - 1]; // What the user is currently typing (everything after the last space)
+                    var lastChars = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 0, endLineNumber: position.lineNumber, endColumn: position.column });
+                    var words = lastChars.replace("/\t\\{\\}|/g", "").split(" ");
+                    var activeTyping = words[words.length - 1]; // What the user is currently typing (everything after the last space)
 
-                    // Array of autocompletion results
                     var result = [];
                     // Create completion object
-                    if (active_typing.length >= 3)
-                        var r = {
+                    if (activeTyping.length >= 3)
+                        var range = {
                             startLineNumber: position.lineNumber,
-                            startColumn: position.column - active_typing.length,
+                            startColumn: position.column - activeTyping.length,
                             endLineNumber: position.lineNumber,
                             endColumn: position.column
                         };
-                    completions.helpers.forEach(function (item) {
-                        if (item.name.startsWith(active_typing)) {
-                            //console.log(item.name);
-                            var to_push = {
-                                label: item.name,
+                    /*
+                    var word = model.getWordUntilPosition(position);
+                    var r = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+                    */
+                    completions.forEach(function (item) {
+                       // if (item.label.startsWith(activeTyping)) {
+                            result.push({
+                                label: item.label,
                                 kind: item.kind,
-                                detail: item.description,
-                                documentation: item.description,
-                                insertText: item.text,
-                                range: r
-                            };
-                            // Add to final results
-                            result.push(to_push);
-                        }
+                                detail: item.documentation,
+                                documentation: item.documentation,
+                                insertText: item.insertText,
+                                range: range
+                            });
+                        //}
                     });
 
                     return {
@@ -133,7 +140,7 @@
         //forcing a layout here seems to help with the white flash slightly
         editor.layout();
         window.chrome.webview.postMessage({
-            Type: "EditorLoaded"
+            type: "EditorLoaded"
         });
 
 

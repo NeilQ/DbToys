@@ -1,6 +1,8 @@
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Netcool.DbToys.WinUI.CodeEditor;
 using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
 
 namespace Netcool.DbToys.WinUI.Views.CodeTemplate;
@@ -11,6 +13,11 @@ public sealed partial class TemplatePage : Page
 
     public bool IsEditorLoaded { get; set; }
 
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
+
     public TemplatePage()
     {
         ViewModel = App.GetService<TemplateViewModel>();
@@ -18,12 +25,26 @@ public sealed partial class TemplatePage : Page
         InitWebView2();
     }
 
-    public void PostCode(string text)
+    private void PostCode(string text)
     {
-        WebView2.CoreWebView2.PostWebMessageAsJson(JsonSerializer.Serialize(new { Type = "UpdateText", Text = text }));
+        WebView2.CoreWebView2.PostWebMessageAsJson(JsonSerializer.Serialize(new { Type = "UpdateText", Text = text },
+            _jsonOptions));
     }
 
-    public async void InitWebView2()
+    private void PostCompletions()
+    {
+        var completions = new List<CompletionItem>();
+        completions.AddRange(CompletionItem.VariableCompletionItems);
+        completions.AddRange(CompletionItem.CustomCompletionItems);
+        completions.AddRange(CompletionItem.ScribanCompletionItems);
+        WebView2.CoreWebView2.PostWebMessageAsJson(JsonSerializer.Serialize(new
+        {
+            Type = "UpdateCompletions",
+            Completions = completions
+        }, _jsonOptions));
+    }
+
+    private async void InitWebView2()
     {
         /*
          * Knows issues
@@ -54,19 +75,20 @@ public sealed partial class TemplatePage : Page
         {
             PostCode(text);
         }
+        PostCompletions();
     }
 
     private void CoreWebView2_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
         var json = JsonDocument.Parse(args.WebMessageAsJson);
-        var type = json.RootElement.GetProperty("Type").GetString();
+        var type = json.RootElement.GetProperty("type").GetString();
         switch (type)
         {
             case "EditorLoaded":
                 OnEditorLoaded();
                 break;
             case "Save":
-                var text = json.RootElement.GetProperty("Text").GetString();
+                var text = json.RootElement.GetProperty("text").GetString();
                 ViewModel.SaveText(text);
                 break;
         }
