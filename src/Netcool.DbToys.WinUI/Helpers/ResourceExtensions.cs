@@ -1,6 +1,6 @@
 ﻿using Microsoft.Windows.ApplicationModel.Resources;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public static class ResourceExtensions
 {

@@ -1,9 +1,9 @@
 ﻿using Windows.Storage;
 using Windows.Storage.Streams;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.Services;
 
-namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
+namespace Netcool.DbToys.ViewModels.CodeTemplate;
 
 public class TemplateViewModel : ObservableObject
 {
@@ -25,9 +25,9 @@ public class TemplateViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            _notificationService.Value.Error($"Save file failed: {ex.Message}", Constants.Notification.DefaultDuration);
+            _notificationService.Value.Error($"Save file failed: {ex.Message}");
             return;
         }
-        _notificationService.Value.Success("File saved", Constants.Notification.ShortDuration);
+        _notificationService.Value.Success("File saved");
     }
 }

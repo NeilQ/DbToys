@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
+namespace Netcool.DbToys.ViewModels.Dialogs;
 
 public class TemplateFilenameViewModel : ObservableObject
 {

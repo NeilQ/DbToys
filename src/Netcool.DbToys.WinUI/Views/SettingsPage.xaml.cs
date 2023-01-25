@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.ViewModels;
+using Netcool.DbToys.ViewModels;
 
-namespace Netcool.DbToys.WinUI.Views;
+namespace Netcool.DbToys.Views;
 
 // TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
 public sealed partial class SettingsPage : Page

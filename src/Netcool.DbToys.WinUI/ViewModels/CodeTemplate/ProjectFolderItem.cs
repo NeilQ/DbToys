@@ -4,11 +4,11 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.Views.Dialogs;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
+namespace Netcool.DbToys.ViewModels.CodeTemplate;
 
 public class ProjectFolderItem : TreeItem
 {
@@ -72,8 +72,7 @@ public class ProjectFolderItem : TreeItem
         }
         catch (Exception ex)
         {
-            _notificationService.Value.Error($"Rename project folder failed with error: {ex.Message}",
-                Constants.Notification.DefaultDuration);
+            _notificationService.Value.Error($"Rename project folder failed with error: {ex.Message}");
             return;
         }
         RenamedAction?.Invoke(new RenamedArgs(oldName, newName, oldPath, Folder.Path));
@@ -107,8 +106,7 @@ public class ProjectFolderItem : TreeItem
         }
         catch (Exception ex)
         {
-            _notificationService.Value.Error($"Create file failed with error: {ex.Message}",
-                Constants.Notification.DefaultDuration);
+            _notificationService.Value.Error($"Create file failed with error: {ex.Message}");
             return;
         }
         TemplateCreatedAction?.Invoke(new TemplateCreatedArg(file));

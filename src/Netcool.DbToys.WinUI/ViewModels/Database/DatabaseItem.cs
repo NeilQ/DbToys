@@ -4,10 +4,10 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Netcool.DbToys.Core.Database;
 using Netcool.DbToys.Core.Excel;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.Services;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Database;
+namespace Netcool.DbToys.ViewModels.Database;
 
 public class DatabaseItem : TreeItem
 {

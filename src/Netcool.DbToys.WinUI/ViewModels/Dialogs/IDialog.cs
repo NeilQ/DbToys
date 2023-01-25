@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
+namespace Netcool.DbToys.ViewModels.Dialogs;
 
 public interface IDialog<TViewModel> where TViewModel : class, INotifyPropertyChanged
 {

@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Windows.Storage;
-using Netcool.DbToys.WinUI.Helpers;
+using Netcool.DbToys.Helpers;
 
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public abstract class SettingsServiceBase : ISettingsService
 {

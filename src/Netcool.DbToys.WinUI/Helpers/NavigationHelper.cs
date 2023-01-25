@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 // Helper class to set the navigation target for a NavigationViewItem.
 //

@@ -1,4 +1,4 @@
-﻿namespace Netcool.DbToys.WinUI.Behaviors;
+﻿namespace Netcool.DbToys.Behaviors;
 
 public enum NavigationViewHeaderMode
 {

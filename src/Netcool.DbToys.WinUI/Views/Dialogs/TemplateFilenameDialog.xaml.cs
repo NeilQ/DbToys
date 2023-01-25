@@ -1,10 +1,10 @@
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.ViewModels.Dialogs;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.ViewModels.Dialogs;
 
-namespace Netcool.DbToys.WinUI.Views.Dialogs
+namespace Netcool.DbToys.Views.Dialogs
 {
     public sealed partial class TemplateFilenameDialog
     {

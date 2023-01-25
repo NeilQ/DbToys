@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.ViewModels.Dialogs;
-using Netcool.DbToys.WinUI.Views.Dialogs;
+using Netcool.DbToys.ViewModels.Dialogs;
+using Netcool.DbToys.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public class DialogFactory
 {

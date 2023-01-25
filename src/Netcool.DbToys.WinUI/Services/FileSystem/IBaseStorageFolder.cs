@@ -3,7 +3,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 
-namespace Netcool.DbToys.WinUI.Services.FileSystem;
+namespace Netcool.DbToys.Services.FileSystem;
 
 public interface IBaseStorageFolder : IStorageItem2, IStorageFolder, IStorageFolder2
     , IStorageItemProperties2, IStorageItemPropertiesWithProvider, IStorageFolderQueryOperations

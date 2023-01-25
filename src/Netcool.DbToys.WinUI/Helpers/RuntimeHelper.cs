@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public class RuntimeHelper
 {

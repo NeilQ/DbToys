@@ -1,4 +1,4 @@
-﻿namespace Netcool.DbToys;
+﻿namespace Netcool.DbToys.Core;
 
 public static class Constants
 {

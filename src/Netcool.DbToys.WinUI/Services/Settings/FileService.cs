@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Netcool.DbToys.WinUI.Helpers;
+using Netcool.DbToys.Helpers;
 
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public class FileService : IFileService
 {

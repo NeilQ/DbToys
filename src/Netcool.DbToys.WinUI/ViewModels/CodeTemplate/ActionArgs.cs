@@ -1,6 +1,6 @@
 ﻿using Windows.Storage;
 
-namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
+namespace Netcool.DbToys.ViewModels.CodeTemplate;
 
 public record RenamedArgs(string OldName, string NewName, string OldPath, string NewPath);
 

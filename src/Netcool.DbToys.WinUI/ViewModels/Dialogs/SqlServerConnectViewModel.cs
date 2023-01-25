@@ -4,10 +4,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Data.SqlClient;
 using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Database;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.Views.Dialogs;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
+namespace Netcool.DbToys.ViewModels.Dialogs;
 
 public class SqlServerConnectViewModel : ObservableRecipient
 {

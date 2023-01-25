@@ -3,10 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MySql.Data.MySqlClient;
 using Netcool.DbToys.Core.Database;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.Views.Dialogs;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
+namespace Netcool.DbToys.ViewModels.Dialogs;
 
 public class MysqlConnectViewModel : ObservableRecipient
 {

@@ -23,7 +23,7 @@ public class ExcelService : IExcelService
     {
         ArgumentException.ThrowIfNullOrEmpty(fileName);
         var styleOptions = ExcelStyleOptions.Default;
-        var wb = new XLWorkbook(XLEventTracking.Disabled);
+        var wb = new XLWorkbook();
 
         if (tableList.Count > 0)
         {

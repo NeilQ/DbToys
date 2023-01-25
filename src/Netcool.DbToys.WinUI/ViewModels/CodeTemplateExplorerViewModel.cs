@@ -5,11 +5,11 @@ using Windows.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.ViewModels.CodeTemplate;
 
-namespace Netcool.DbToys.WinUI.ViewModels;
+namespace Netcool.DbToys.ViewModels;
 
 public class CodeTemplateExplorerViewModel : ObservableRecipient
 {
@@ -48,8 +48,7 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         }
         catch (Win32Exception win32Exception)
         {
-            _notificationService.Error(win32Exception.Message,
-                Constants.Notification.DefaultDuration);
+            _notificationService.Error(win32Exception.Message);
         }
     }
 
@@ -73,8 +72,7 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         }
         catch (Exception ex)
         {
-            _notificationService.Error($"Create project folder failed with error: {ex.Message}",
-                Constants.Notification.DefaultDuration);
+            _notificationService.Error($"Create project folder failed with error: {ex.Message}");
             return;
         }
         var storage = await StorageFolder.GetFolderFromPathAsync(path);

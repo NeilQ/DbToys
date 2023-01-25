@@ -1,9 +1,9 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Activation;
-using Netcool.DbToys.WinUI.Views;
+using Netcool.DbToys.Activation;
+using Netcool.DbToys.Views;
 
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public class ActivationService : IActivationService
 {

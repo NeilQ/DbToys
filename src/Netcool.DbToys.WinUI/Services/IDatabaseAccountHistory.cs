@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Netcool.DbToys.Core.Database;
 
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public class DatabaseAccount
 {

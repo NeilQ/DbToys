@@ -5,7 +5,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 
-namespace Netcool.DbToys.WinUI.Services.FileSystem;
+namespace Netcool.DbToys.Services.FileSystem;
 
 public abstract class BaseStorageFile : IBaseStorageFile
 {

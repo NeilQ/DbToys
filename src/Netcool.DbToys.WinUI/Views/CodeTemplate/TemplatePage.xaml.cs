@@ -2,10 +2,10 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Netcool.DbToys.WinUI.CodeEditor;
-using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
+using Netcool.DbToys.CodeEditor;
+using Netcool.DbToys.ViewModels.CodeTemplate;
 
-namespace Netcool.DbToys.WinUI.Views.CodeTemplate;
+namespace Netcool.DbToys.Views.CodeTemplate;
 
 public sealed partial class TemplatePage : Page
 {

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public static class FileSystemHelper
 {

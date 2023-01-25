@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
-using Netcool.DbToys.WinUI.Helpers;
+using Netcool.DbToys.Helpers;
 
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public class ThemeSelectorService : IThemeSelectorService
 {

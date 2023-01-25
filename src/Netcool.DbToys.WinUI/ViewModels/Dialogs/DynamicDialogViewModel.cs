@@ -5,9 +5,9 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml;
-using Netcool.DbToys.WinUI.Helpers;
+using Netcool.DbToys.Helpers;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
+namespace Netcool.DbToys.ViewModels.Dialogs;
 
 public class DynamicDialogViewModel : ObservableObject
 {

@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.97.0" />
+    <PackageReference Include="ClosedXML" Version="0.100.3" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.1" />
-    <PackageReference Include="MySql.Data" Version="8.0.31" />
-    <PackageReference Include="Npgsql" Version="7.0.0" />
+    <PackageReference Include="MySql.Data" Version="8.0.32" />
+    <PackageReference Include="Npgsql" Version="7.0.1" />
     <PackageReference Include="Scriban" Version="5.5.2" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Navigation;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.Views;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.Views;
 
-namespace Netcool.DbToys.WinUI.ViewModels;
+namespace Netcool.DbToys.ViewModels;
 
 public class ShellViewModel : ObservableRecipient
 {

@@ -4,10 +4,10 @@ using Windows.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.Services;
 
-namespace Netcool.DbToys.WinUI.ViewModels;
+namespace Netcool.DbToys.ViewModels;
 
 public class SettingsViewModel : ObservableRecipient
 {

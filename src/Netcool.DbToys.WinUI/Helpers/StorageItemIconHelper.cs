@@ -1,7 +1,7 @@
 ﻿using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public class StorageItemIconHelper
 {

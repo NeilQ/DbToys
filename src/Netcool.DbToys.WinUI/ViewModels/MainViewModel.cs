@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Netcool.DbToys.WinUI.ViewModels;
+namespace Netcool.DbToys.ViewModels;
 
 public class MainViewModel : ObservableRecipient
 {

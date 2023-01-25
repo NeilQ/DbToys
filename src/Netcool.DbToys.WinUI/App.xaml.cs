@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using Netcool.DbToys.Activation;
 using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Excel;
-using Netcool.DbToys.WinUI.Activation;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.ViewModels;
-using Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
-using Netcool.DbToys.WinUI.ViewModels.Dialogs;
-using Netcool.DbToys.WinUI.Views;
-using Netcool.DbToys.WinUI.Views.CodeTemplate;
-using Netcool.DbToys.WinUI.Views.Dialogs;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.ViewModels;
+using Netcool.DbToys.ViewModels.CodeTemplate;
+using Netcool.DbToys.ViewModels.Dialogs;
+using Netcool.DbToys.Views;
+using Netcool.DbToys.Views.CodeTemplate;
+using Netcool.DbToys.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI;
+namespace Netcool.DbToys;
 
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
@@ -106,7 +106,7 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // TODO: Log and handle exceptions as appropriate.
+        Logger.Error(e.Message, e.Exception);
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 

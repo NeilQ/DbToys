@@ -2,9 +2,9 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Xaml.Interactivity;
-using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.Services;
 
-namespace Netcool.DbToys.WinUI.Behaviors;
+namespace Netcool.DbToys.Behaviors;
 
 public class NavigationViewHeaderBehavior : Behavior<NavigationView>
 {

@@ -1,6 +1,6 @@
 ﻿using Netcool.DbToys.Core.Database;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Database;
+namespace Netcool.DbToys.ViewModels.Database;
 
 public class ConnectionItem : TreeItem
 {

@@ -5,10 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.Services;
 
-namespace Netcool.DbToys.WinUI.ViewModels.Dialogs;
+namespace Netcool.DbToys.ViewModels.Dialogs;
 
 public class GenerateCodeViewModel : ObservableRecipient
 {

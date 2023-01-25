@@ -4,10 +4,10 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.Services;
+using Netcool.DbToys.Helpers;
+using Netcool.DbToys.Services;
 
-namespace Netcool.DbToys.WinUI.ViewModels.CodeTemplate;
+namespace Netcool.DbToys.ViewModels.CodeTemplate;
 
 public class TemplateFileItem : TreeItem
 {
@@ -93,8 +93,7 @@ public class TemplateFileItem : TreeItem
         }
         catch (Exception ex)
         {
-            _notificationService.Value.Error($"Rename template file failed with error: {ex.Message}",
-                Constants.Notification.DefaultDuration);
+            _notificationService.Value.Error($"Rename template file failed with error: {ex.Message}");
             return;
         }
         RenamedAction?.Invoke(new RenamedArgs(oldName, newName, oldPath, File.Path));

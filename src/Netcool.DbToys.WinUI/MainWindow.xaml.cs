@@ -1,6 +1,6 @@
-﻿using Netcool.DbToys.WinUI.Helpers;
+﻿using Netcool.DbToys.Helpers;
 
-namespace Netcool.DbToys.WinUI;
+namespace Netcool.DbToys;
 
 public sealed partial class MainWindow : WindowEx
 {

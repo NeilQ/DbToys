@@ -1,5 +1,5 @@
 ﻿
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public class GeneralSettingsService : SettingsServiceBase
 {

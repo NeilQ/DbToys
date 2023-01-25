@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public static class Json
 {

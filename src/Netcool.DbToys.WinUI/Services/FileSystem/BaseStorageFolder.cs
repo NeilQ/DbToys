@@ -1,4 +1,4 @@
-﻿namespace Netcool.DbToys.WinUI.Services.FileSystem;
+﻿namespace Netcool.DbToys.Services.FileSystem;
 
 public abstract  class BaseStorageFolder
 {

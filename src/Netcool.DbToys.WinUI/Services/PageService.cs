@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Netcool.DbToys.WinUI.ViewModels;
-using Netcool.DbToys.WinUI.Views;
+using Netcool.DbToys.ViewModels;
+using Netcool.DbToys.Views;
 
-namespace Netcool.DbToys.WinUI.Services;
+namespace Netcool.DbToys.Services;
 
 public class PageService : IPageService
 {

@@ -1,4 +1,4 @@
-﻿namespace Netcool.DbToys.WinUI.Activation;
+﻿namespace Netcool.DbToys.Activation;
 
 public interface IActivationHandler
 {

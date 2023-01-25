@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 using Netcool.DbToys.Core.Database;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.ViewModels.Database;
-using Netcool.DbToys.WinUI.Views.Dialogs;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.ViewModels.Database;
+using Netcool.DbToys.Views.Dialogs;
 
-namespace Netcool.DbToys.WinUI.ViewModels;
+namespace Netcool.DbToys.ViewModels;
 
 public class DatabaseViewModel : ObservableObject
 {

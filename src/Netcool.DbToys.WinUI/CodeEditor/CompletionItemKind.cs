@@ -1,4 +1,4 @@
-namespace Netcool.DbToys.WinUI.CodeEditor;
+namespace Netcool.DbToys.CodeEditor;
 
 public enum CompletionItemKind
 {

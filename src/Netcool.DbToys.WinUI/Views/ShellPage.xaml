@@ -1,13 +1,13 @@
 ﻿<Page
-    x:Class="Netcool.DbToys.WinUI.Views.ShellPage"
+    x:Class="Netcool.DbToys.Views.ShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:helpers="using:Netcool.DbToys.WinUI.Helpers"
-    xmlns:behaviors="using:Netcool.DbToys.WinUI.Behaviors"
+    xmlns:helpers="using:Netcool.DbToys.Helpers"
+    xmlns:behaviors="using:Netcool.DbToys.Behaviors"
     Loaded="OnLoaded" Unloaded="OnUnloaded">
 
     <Grid>
@@ -91,12 +91,12 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 -->
-                <NavigationViewItem x:Uid="Shell_Database" helpers:NavigationHelper.NavigateTo="Netcool.DbToys.WinUI.ViewModels.DatabaseViewModel">
+                <NavigationViewItem x:Uid="Shell_Database" helpers:NavigationHelper.NavigateTo="Netcool.DbToys.ViewModels.DatabaseViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe703;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_CodeTemplates" helpers:NavigationHelper.NavigateTo="Netcool.DbToys.WinUI.ViewModels.CodeTemplateExplorerViewModel">
+                <NavigationViewItem x:Uid="Shell_CodeTemplates" helpers:NavigationHelper.NavigateTo="Netcool.DbToys.ViewModels.CodeTemplateExplorerViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe943;"/>
                     </NavigationViewItem.Icon>

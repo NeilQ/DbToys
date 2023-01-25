@@ -5,11 +5,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Netcool.DbToys.WinUI.Helpers;
-using Netcool.DbToys.WinUI.ViewModels;
-using Netcool.DbToys.WinUI.ViewModels.Database;
+using Netcool.DbToys.ViewModels;
+using Netcool.DbToys.ViewModels.Database;
+using Netcool.DbToys.Helpers;
 
-namespace Netcool.DbToys.WinUI.Views;
+namespace Netcool.DbToys.Views;
 
 public sealed partial class DatabasePage
 {

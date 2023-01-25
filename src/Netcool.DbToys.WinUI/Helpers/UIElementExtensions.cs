@@ -2,7 +2,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 
-namespace Netcool.DbToys.WinUI.Helpers;
+namespace Netcool.DbToys.Helpers;
 
 public static class UIElementExtensions
 {

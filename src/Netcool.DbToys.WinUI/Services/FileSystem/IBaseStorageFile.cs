@@ -2,7 +2,7 @@
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Netcool.DbToys.WinUI.Services.FileSystem;
+namespace Netcool.DbToys.Services.FileSystem;
 
 public interface IBaseStorageFile : IStorageItem2, IStorageFile, IStorageFile2
     , IStorageItemProperties2, IStorageItemPropertiesWithProvider, IStorageFilePropertiesWithAvailability

@@ -1,8 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
-using Netcool.DbToys.WinUI.Services;
-using Netcool.DbToys.WinUI.ViewModels;
+using Netcool.DbToys.Services;
+using Netcool.DbToys.ViewModels;
 
-namespace Netcool.DbToys.WinUI.Activation;
+namespace Netcool.DbToys.Activation;
 
 public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {
