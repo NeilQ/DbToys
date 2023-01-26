@@ -73,8 +73,6 @@ public class SqlServerSchemaReader : SchemaReader
         using var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString);
         using var cmd = new SqlCommand(COLUMN_SQL, connection);
 
-        var pks = GetPk(schema, table)?.ToHashSet() ?? new HashSet<string>();
-
         var p = cmd.CreateParameter();
         p.ParameterName = "@tableName";
         p.Value = table;
@@ -97,21 +95,17 @@ public class SqlServerSchemaReader : SchemaReader
                 IsNullable = rdr["IsNullable"].ToString() == "YES",
                 DefaultValue = rdr["DefaultSetting"].ToString(),
                 DbType = rdr["DataType"].ToString(),
-                Description = rdr["Description"].ToString()
+                Description = rdr["Description"].ToString(),
+                IsAutoIncrement = rdr["IsIdentity"].ToString() == "1",
+                IsPk = rdr["IsPrimaryKey"].ToString() == "1"
             };
             col.PropertyName = CleanUp(col.Name);
-            if (!int.TryParse(rdr["MaxLength"].ToString(), out var length))
+            if (int.TryParse(rdr["MaxLength"].ToString(), out var length))
                 col.Length = length;
-            if (!int.TryParse(rdr["IsIdentity"].ToString(), out var autoIncrement))
-                col.IsAutoIncrement = autoIncrement == 1;
-            if (pks.Contains(col.Name))
-                col.IsPk = true;
-
+       
             result.Add(col);
         }
         connection.Close();
-
-        // todo: get pks
 
         return result;
     }
@@ -248,12 +242,13 @@ public class SqlServerSchemaReader : SchemaReader
             DATETIME_PRECISION AS DatePrecision,
             COLUMNPROPERTY(object_id('[' + TABLE_SCHEMA + '].[' + TABLE_NAME + ']'), COLUMN_NAME, 'IsIdentity') AS IsIdentity,
             COLUMNPROPERTY(object_id('[' + TABLE_SCHEMA + '].[' + TABLE_NAME + ']'), COLUMN_NAME, 'IsComputed') as IsComputed,
+            IsNull((Select top 1 1 From INFORMATION_SCHEMA.KEY_COLUMN_USAGE u Where u.Table_Name='person' And u.COLUMN_NAME=cols.COLUMN_NAME),0) IsPrimaryKey,
             s.value as Description
-        FROM  INFORMATION_SCHEMA.COLUMNS
+        FROM  INFORMATION_SCHEMA.COLUMNS cols
         LEFT OUTER JOIN sys.extended_properties s 
         ON 
-            s.major_id = OBJECT_ID(INFORMATION_SCHEMA.COLUMNS.TABLE_SCHEMA+'.'+INFORMATION_SCHEMA.COLUMNS.TABLE_NAME) 
-            AND s.minor_id = INFORMATION_SCHEMA.COLUMNS.ORDINAL_POSITION 
+            s.major_id = OBJECT_ID(cols.TABLE_SCHEMA+'.'+cols.TABLE_NAME) 
+            AND s.minor_id = cols.ORDINAL_POSITION 
             AND s.name = 'MS_Description' 
         WHERE TABLE_NAME=@tableName AND TABLE_SCHEMA=@schemaName
         ORDER BY OrdinalPosition ASC";

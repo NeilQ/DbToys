@@ -4,7 +4,6 @@ using System.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Controls;
 using Netcool.DbToys.Core.Database;
 using Netcool.DbToys.Services;
 using Netcool.DbToys.ViewModels.Database;
@@ -77,8 +76,7 @@ public class DatabaseViewModel : ObservableObject
                     }
                     catch (Exception ex)
                     {
-                        _notificationService.Error(ex.InnerException == null ? ex.Message : ex.InnerException.Message,
-                            "Read column info failed");
+                        _notificationService.Error(ex.Message,"Read column info failed");
                     }
 
                     dispatcherQueue.TryEnqueue(() =>
@@ -145,6 +143,7 @@ public class DatabaseViewModel : ObservableObject
 
     private void LoadDatabaseTreeNode(ISchemaReader schemaReader, DatabaseType dbType)
     {
+        // issue: may case crash https://github.com/microsoft/microsoft-ui-xaml/issues/2121
         ConnectionItems.Clear();
         var item = new ConnectionItem(schemaReader.GetServerName(), dbType);
         try
@@ -157,8 +156,7 @@ public class DatabaseViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            _notificationService.QueueNotification(new Notification("Read database schema failed",
-                ex.InnerException == null ? ex.Message : ex.InnerException.Message, InfoBarSeverity.Error, 5000));
+            _notificationService.Error(ex.Message, "Read database schema failed");
         }
         ConnectionItems.Add(item);
         item.ExpandPath();

@@ -27,15 +27,14 @@ public class LogViewModel : ObservableRecipient, INavigationAware
 
     public async void ReadLogAsync()
     {
-        if (_folder == null)
-        {
-             _folder = await StorageFolder.GetFolderFromPathAsync(Logger.ApplicationLogPath);
-        }
-
-        if (_folder == null) return;
-
         try
         {
+            if (_folder == null)
+            {
+                _folder = await StorageFolder.GetFolderFromPathAsync(Logger.ApplicationLogPath);
+            }
+
+            if (_folder == null) return;
             var files = await _folder.GetFilesAsync(CommonFileQuery.OrderByName, 0, 1);
             if (files == null || files.Count == 0) return;
             var logFile = files.First();

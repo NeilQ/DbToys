@@ -85,7 +85,7 @@ public class PostgreSqlSchemaReader : SchemaReader
         using var cmd = new NpgsqlCommand { Connection = connection, CommandText = COLUMN_SQL };
 
         cmd.Parameters.AddWithValue("tableName", NpgsqlDbType.Text, table);
-        var pks = GetPk(schema, table)?.ToHashSet() ?? new HashSet<string>();
+        cmd.Parameters.AddWithValue("schema", NpgsqlDbType.Text, schema);
 
         var result = new List<Column>();
         connection.Open();
@@ -95,18 +95,17 @@ public class PostgreSqlSchemaReader : SchemaReader
             var col = new Column
             {
                 Name = rdr["column_name"].ToString(),
-                IsNullable = rdr["is_nullable"].ToString() == "YES",
-                IsAutoIncrement = rdr["column_default"].ToString()?.StartsWith("nextval(") ?? false,
+                IsNullable = rdr["is_nullable"].ToString() == "1",
+                IsAutoIncrement =rdr["is_identity"].ToString()=="YES" || rdr["auto_increment"].ToString() == "1",
                 DefaultValue = rdr["column_default"].ToString(),
                 DbType = rdr["udt_name"].ToString(),
-                Description = rdr["column_comment"].ToString()
+                Description = rdr["description"].ToString(),
+                IsPk = rdr["is_primary_key"].ToString() == "1",
             };
             col.PropertyName = ToPascalCase(CleanUp(col.Name));
-            col.PropertyType = GetPropertyType(rdr["udt_name"].ToString());
-            if (int.TryParse(rdr["character_maximum_length"].ToString(), out var length))
+            col.PropertyType = GetPropertyType(col.DbType);
+            if (int.TryParse(rdr["data_length"].ToString(), out var length) && length > 0)
                 col.Length = length;
-            if (pks.Contains(col.Name))
-                col.IsPk = true;
 
             result.Add(col);
         }
@@ -200,11 +199,30 @@ public class PostgreSqlSchemaReader : SchemaReader
                 AND table_schema NOT IN ('pg_catalog', 'information_schema');";
 
     const string COLUMN_SQL = @"
-            SELECT cols.column_name, cols.is_nullable, cols.udt_name, cols.column_default, cols.character_maximum_length,
-                (SELECT pg_catalog.col_description(c.oid, cols.ordinal_position::int)
-                 FROM pg_catalog.pg_class c
-                 WHERE c.relname = cols.table_name
-                ) AS column_comment 
-            FROM information_schema.columns cols
-            WHERE cols.table_name=@tableName;";
+              SELECT
+      a.attname AS column_name,
+      col.udt_name AS udt_name,
+      COALESCE ( col.character_maximum_length, col.numeric_precision,- 1 ) AS data_length,
+      col.numeric_scale AS scale,
+      ( CASE a.attnotnull WHEN 't' THEN 0 ELSE 1 END ) AS is_nullable,
+      ( CASE a.attnum WHEN cs.conkey [ 1 ] THEN 1 ELSE 0 END ) AS is_primary_key,
+      ( CASE WHEN position( 'nextval' IN col.column_default ) > 0 THEN 1 ELSE 0 END ) AS auto_increment,
+      col_description ( a.attrelid, a.attnum ) AS description,
+      col.column_default,
+      col.is_identity
+      FROM
+      pg_attribute a
+      LEFT JOIN pg_class c ON a.attrelid = c.oid
+      LEFT JOIN pg_constraint cs ON cs.conrelid = c.oid
+      AND cs.contype = 'p'
+      LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+      LEFT JOIN information_schema.COLUMNS col ON col.table_schema = n.nspname
+      AND col.table_name = c.relname
+      AND col.column_name = a.attname
+      WHERE
+      a.attnum > 0
+      AND col.udt_name IS NOT NULL
+      AND c.relname = @tableName
+      AND n.nspname = @schema
+      order by a.attnum asc";
 }
