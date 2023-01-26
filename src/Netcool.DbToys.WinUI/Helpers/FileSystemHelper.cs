@@ -1,4 +1,4 @@
-﻿
+﻿using Netcool.DbToys.Core;
 
 namespace Netcool.DbToys.Helpers;
 
@@ -14,6 +14,15 @@ public static class FileSystemHelper
         "LPT3", "LPT4", "LPT5",
         "LPT6", "LPT7", "LPT8", "LPT9"
     };
+    
+    public static string GetDbToysLogFolder()
+    {
+        var folder =  Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            Constants.FileSystem.DefaultApplicationDataFolderPath, "Logs");
+        if (!Directory.Exists(folder))
+            Directory.CreateDirectory(folder);
+        return folder;
+    }
 
     public static string GetDbToysAppDataFolder()
     {

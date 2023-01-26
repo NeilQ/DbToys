@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Options;
+using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Database;
 
 namespace Netcool.DbToys.Services;

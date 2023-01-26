@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System.Threading.Channels;
-using Netcool.DbToys.Core;
+using Netcool.DbToys.Core.Log;
 
 namespace Netcool.DbToys.Services;
 

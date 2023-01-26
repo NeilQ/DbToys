@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Netcool.DbToys.Activation;
 using Netcool.DbToys.Core;
 using Netcool.DbToys.Core.Excel;
+using Netcool.DbToys.Core.Log;
 using Netcool.DbToys.Services;
 using Netcool.DbToys.ViewModels;
 using Netcool.DbToys.ViewModels.CodeTemplate;
@@ -79,6 +80,8 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+            services.AddSingleton<LogPage>();
+            services.AddSingleton<LogViewModel>();
             services.AddSingleton<DatabasePage>();
             services.AddSingleton<DatabaseViewModel>();
             services.AddSingleton<CodeTemplateExplorerPage>();

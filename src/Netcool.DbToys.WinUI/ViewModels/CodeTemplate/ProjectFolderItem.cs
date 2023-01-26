@@ -4,9 +4,9 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Netcool.DbToys.Core;
 using Netcool.DbToys.Helpers;
 using Netcool.DbToys.Services;
-using Netcool.DbToys.Views.Dialogs;
 
 namespace Netcool.DbToys.ViewModels.CodeTemplate;
 

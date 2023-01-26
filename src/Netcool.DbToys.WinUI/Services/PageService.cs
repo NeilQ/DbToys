@@ -14,6 +14,7 @@ public class PageService : IPageService
         Configure<MainViewModel, MainPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<DatabaseViewModel, DatabasePage>();
+        Configure<LogViewModel, LogPage>();
         Configure<CodeTemplateExplorerViewModel, CodeTemplateExplorerPage>();
     }
 

@@ -20,7 +20,7 @@ public static class Constants
     public static class FileSystem
     {
         public const string CachedEmptyItemName = "fileicon_cache";
-        public const string DefaultApplicationDataFolderPath = "Netcool/DbToys";
+        public const string DefaultApplicationDataFolderPath = "Netcool\\DbToys";
         public const string DefaultCodeTemplateFolderPath = "DbToys\\CodeTemplates";
         public const string CodeTemplateFileExtension = ".tpl";
     }

@@ -1,5 +1,6 @@
 ﻿using Windows.Storage;
 using Windows.Storage.Search;
+using Netcool.DbToys.Core;
 
 namespace Netcool.DbToys.Services;
 

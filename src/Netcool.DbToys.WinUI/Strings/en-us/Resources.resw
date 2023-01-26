@@ -168,4 +168,7 @@
   <data name="ConnectButton.Content" xml:space="preserve">
     <value>Connect</value>
   </data>
+  <data name="Shell_Log.Content" xml:space="preserve">
+    <value>Log</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Netcool.DbToys.Core;
 
 namespace Netcool.DbToys.Helpers;
 
