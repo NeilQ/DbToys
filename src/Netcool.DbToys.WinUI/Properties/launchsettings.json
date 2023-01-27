@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "Netcool.DbToys.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    },
+    "Netcool.DbToys.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

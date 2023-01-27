@@ -17,8 +17,9 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockTitleBold}">Columns</TextBlock>
-        <DataGrid x:Name="ColumnsGrid" Grid.Row="1" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="20" RowHeaderWidth="50"
-                  HeadersVisibility="All" AutoGenerateColumns="false" hc:DataGridAttach.ShowRowNumber="True">
+        <DataGrid x:Name="ColumnsGrid" Grid.Row="1" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="20"
+                  HeadersVisibility="All" AutoGenerateColumns="false" hc:DataGridAttach.ShowRowNumber="True"
+                  EnableColumnVirtualization="false" EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="true" VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name}" Width="120" Header="Name"/>
                 <DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="90" Header="PrimaryKey"/>
@@ -31,6 +32,13 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Style="{StaticResource TextBlockTitleBold}">Recent Data</TextBlock>
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Style="{StaticResource TextBlockTitleBold}">ResultSet</TextBlock>
+        <DataGrid x:Name="ResultSetGrid" Grid.Row="3" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="20"
+                  Style="{StaticResource DataGrid.Small}"
+                  HeadersVisibility="All" AutoGenerateColumns="true" hc:DataGridAttach.ShowRowNumber="True"
+                  AutoGeneratingColumn="ResultSetGrid_OnAutoGeneratingColumn"
+                >
+        </DataGrid>
+
     </Grid>
 </reactiveUi:ReactiveUserControl>

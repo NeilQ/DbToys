@@ -10,17 +10,17 @@ namespace Netcool.Coding.ViewModels
 {
     public class PostgreSqlLoginViewModel : ReactiveObject
     {
-        [Reactive] public string ServerIp { get; set; } = "127.0.0.1";
+    [Reactive] public string ServerIp { get; set; } = "127.0.0.1";
 
-        [Reactive] public int Port { get; set; } = 5432;
+    [Reactive] public int Port { get; set; } = 5432;
 
-        public Action CloseAction { get; set; }
+    public Action CloseAction { get; set; }
 
-        [Reactive] public string Username { get; set; } = "postgres";
+    [Reactive] public string Username { get; set; } = "postgres";
 
-      public string Password { get; set; }
+    public string Password { get; set; }
 
-        [Reactive] public bool IsConnecting { get; set; }
+    [Reactive] public bool IsConnecting { get; set; }
 
         public ReactiveCommand<Unit, NpgsqlConnectionStringBuilder> Connect { get; set; }
 
@@ -28,7 +28,7 @@ namespace Netcool.Coding.ViewModels
 
         public PostgreSqlLoginViewModel()
         {
-            Cancel = ReactiveCommand.Create(() =>
+            Cancel=ReactiveCommand.Create(() =>
             {
                 CloseAction?.Invoke();
             });
@@ -39,21 +39,21 @@ namespace Netcool.Coding.ViewModels
                     !string.IsNullOrEmpty(ip) && !string.IsNullOrEmpty(username) && port > 0 && !isConnecting);
             */
 
-            Connect = ReactiveCommand.Create(() =>
+            Connect=ReactiveCommand.Create(() =>
             {
                 var builder = new NpgsqlConnectionStringBuilder
                 {
-                    Host = ServerIp,
-                    Port = Port,
-                    PersistSecurityInfo = true,
-                    Username = Username,
-                    Password = Password,
-                    ClientEncoding = "utf8"
+                    Host=ServerIp,
+                    Port=Port,
+                    PersistSecurityInfo=true,
+                    Username=Username,
+                    Password=Password,
+                    ClientEncoding="utf8"
                 };
-                IsConnecting = true;
+                IsConnecting=true;
                 using var sqlConn = new NpgsqlConnection(builder.ConnectionString);
                 sqlConn.Open();
-                IsConnecting = false;
+                IsConnecting=false;
                 Growl.Success("PostgreSql Connected");
                 CloseAction?.Invoke();
                 return builder;
@@ -61,12 +61,12 @@ namespace Netcool.Coding.ViewModels
 
             Connect.ThrownExceptions.Subscribe(ex =>
             {
-                IsConnecting = false;
+                IsConnecting=false;
                 Growl.Error(new GrowlInfo
                 {
-                    IsCustom = true,
-                    Message = $"Connect failed: {(ex.InnerException == null ? ex.Message : ex.InnerException.Message)}",
-                    WaitTime = 5
+                    IsCustom=true,
+                    Message=$"Connect failed: {(ex.InnerException==null ? ex.Message : ex.InnerException.Message)}",
+                    WaitTime=5
                 });
             });
         }

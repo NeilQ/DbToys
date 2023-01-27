@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="HandyControl" Version="3.3.0" />
-    <PackageReference Include="Npgsql" Version="6.0.7" />
+    <PackageReference Include="Npgsql" Version="7.0.1" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />
     <PackageReference Include="ReactiveUI.WPF" Version="18.3.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Netcool.Coding.Core\Netcool.Coding.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+    <ProjectReference Include="..\Netcool.DbToys.Core\Netcool.DbToys.Core.csproj" />
   </ItemGroup>
 
 </Project>

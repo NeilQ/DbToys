@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
 using DynamicData.Binding;
-using Netcool.Coding.Core.Database;
+using HandyControl.Controls;
+using HandyControl.Data;
 using Netcool.Coding.Events;
+using Netcool.DbToys.Core.Database;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Splat;
@@ -20,26 +24,52 @@ public class DataTableViewModel : ReactiveObject, IRoutableViewModel, IActivatab
 
     [Reactive]
     public IObservableCollection<Column> Columns { get; set; } = new ObservableCollectionExtended<Column>();
+
+    [Reactive]
+    public DataTable ResultSet { get; set; }
+
     public DataTableViewModel(IScreen screen = null)
     {
         HostScreen = screen ?? Locator.Current.GetService<IScreen>();
         this.WhenActivated(d =>
         {
             MessageBus.Current.Listen<TableSelectedEvent>()
-                .Throttle(TimeSpan.FromMilliseconds(300))
+                .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(e =>
                 {
-                    if (e == null || string.IsNullOrEmpty(e.Database) || string.IsNullOrEmpty(e.TableName)) return;
+                    if (e == null || e.Table == null || string.IsNullOrEmpty(e.Table.Database) || string.IsNullOrEmpty(e.Table.Name)) return;
                     var schemaReader = Locator.Current.GetService<ISchemaReader>();
-                    var columns = schemaReader?.ReadColumns(e.Database, e.TableName);
+
+                    List<Column> columns=null;
+                    DataTable resultSet=null;
+                    try
+                    {
+                        columns = schemaReader?.ReadColumns(e.Table.Database, e.Table.Schema, e.Table.Name);
+                        e.Table.Columns = columns;
+                        resultSet = schemaReader?.GetResultSet(e.Table, 30);
+                    }
+                    catch (Exception ex)
+                    {
+                        Growl.Error(new GrowlInfo
+                        {
+                            IsCustom = true,
+                            Message =
+                                $"Read column info failed: {(ex.InnerException == null ? ex.Message : ex.InnerException.Message)}",
+                            WaitTime = 5
+                        });
+                    }
+
                     Application.Current.Dispatcher.BeginInvoke(() =>
                     {
                         if (columns == null || columns.Count == 0)
                             Columns.Clear();
                         else
+                        {
                             Columns.Load(columns);
-
+                            ResultSet = resultSet;
+                        }
                     });
+
                 }).DisposeWith(d);
         });
 

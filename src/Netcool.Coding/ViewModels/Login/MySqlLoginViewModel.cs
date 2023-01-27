@@ -28,26 +28,26 @@ public class MySqlLoginViewModel : ReactiveObject
 
     public MySqlLoginViewModel()
     {
-        Cancel = ReactiveCommand.Create(() =>
+        Cancel=ReactiveCommand.Create(() =>
         {
             CloseAction?.Invoke();
         });
 
-      
-        Connect = ReactiveCommand.Create(() =>
+
+        Connect=ReactiveCommand.Create(() =>
         {
             var builder = new MySqlConnectionStringBuilder
             {
-                Server = ServerIp,
-                Port = (uint)Port,
-                PersistSecurityInfo = true,
-                UserID = Username,
-                Password = Password,
+                Server=ServerIp,
+                Port=(uint)Port,
+                PersistSecurityInfo=true,
+                UserID=Username,
+                Password=Password,
             };
-            IsConnecting = true;
+            IsConnecting=true;
             using var sqlConn = new MySqlConnection(builder.ConnectionString);
             sqlConn.Open();
-            IsConnecting = false;
+            IsConnecting=false;
             Growl.Success("MySql Connected");
             CloseAction?.Invoke();
             return builder;
@@ -55,12 +55,12 @@ public class MySqlLoginViewModel : ReactiveObject
 
         Connect.ThrownExceptions.Subscribe(ex =>
         {
-            IsConnecting = false;
+            IsConnecting=false;
             Growl.Error(new GrowlInfo
             {
-                IsCustom = true,
-                Message = $"Connect failed: {(ex.InnerException == null ? ex.Message : ex.InnerException.Message)}",
-                WaitTime = 5
+                IsCustom=true,
+                Message=$"Connect failed: {(ex.InnerException==null ? ex.Message : ex.InnerException.Message)}",
+                WaitTime=5
             });
         });
     }

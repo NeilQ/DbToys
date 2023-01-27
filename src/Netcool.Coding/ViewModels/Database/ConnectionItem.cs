@@ -1,4 +1,4 @@
-﻿using Netcool.Coding.Core.Database;
+﻿using Netcool.DbToys.Core.Database;
 using ReactiveUI.Fody.Helpers;
 
 namespace Netcool.Coding.ViewModels.Database
@@ -6,11 +6,11 @@ namespace Netcool.Coding.ViewModels.Database
     public class ConnectionItem : TreeItem
     {
         [Reactive]
-        public DataBaseType DataBaseType { get; set; }
+        public DatabaseType DatabaseType { get; set; }
 
-        public ConnectionItem(string name, DataBaseType databaseType) : base(name, false)
+        public ConnectionItem(string name, DatabaseType databaseType) : base(name, false)
         {
-            DataBaseType = databaseType;
+            DatabaseType = databaseType;
         }
 
     }
