@@ -75,6 +75,7 @@ public class DialogFactory
         {
             Title = dialogTitle,
             SubTitle = dialogSubTitle,
+            AdditionalData = originFilename,
             DisplayControl = new Grid
             {
                 MinWidth = 300d,

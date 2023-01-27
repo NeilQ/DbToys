@@ -31,9 +31,12 @@ public sealed partial class CodeTemplateExplorerPage : Page
         ViewModel = App.GetService<CodeTemplateExplorerViewModel>();
         _templateStorageService = App.GetService<CodeTemplateStorageService>();
         ViewModel.ReloadAction = LoadProjectTree;
+        ViewModel.ProjectCreatedAction = OnProjectCreated;
         InitializeComponent();
         LoadProjectTree();
     }
+
+
 
     private void GridSplitter_OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
     {
@@ -143,6 +146,17 @@ public sealed partial class CodeTemplateExplorerPage : Page
         projectItem.AddChild(templateItem);
     }
 
+    private void OnProjectCreated(ProjectCreatedArg args)
+    {
+        var vm = new ProjectFolderItem(args.Folder, false)
+        {
+            RenamedAction = OnProjectFolderRenamed,
+            TemplateCreatedAction = OnTemplateFileCreated,
+            DeletedAction = OnProjectFolderDeleted
+        };
+        ViewModel.TreeItems.Add(vm);
+    }
+
     private void OnTemplateFileCreated(TemplateCreatedArg args)
     {
         var folderName = args.File.Path.Split('\\')[^2];
@@ -150,6 +164,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
         if (projectItem == null) return;
 
         AddTemplateFileItem(projectItem, args.File);
+        projectItem.IsExpanded = true;
     }
 
     private async void OnTemplateFileRenamed(RenamedArgs args)

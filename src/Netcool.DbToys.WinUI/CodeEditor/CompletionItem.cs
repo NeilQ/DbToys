@@ -43,8 +43,9 @@ public class CompletionItem
         new("string.to_camal_case"),
         new("string.to_pascal_case"),
         new("string.to_snake_case"),
-        new("string.to_singlar"),
+        new("string.to_singular"),
         new("string.to_plural"),
+        new("string.to_kebab_case")
     };
 
     public static List<CompletionItem> VariableCompletionItems = new()

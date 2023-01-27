@@ -31,6 +31,8 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
 
     public Action ReloadAction { get; set; }
 
+    public Action<ProjectCreatedArg> ProjectCreatedAction { get; set; }
+
     public CodeTemplateExplorerViewModel(INotificationService notificationService, CodeTemplateStorageService templateStorageService)
     {
         _notificationService = notificationService;
@@ -76,8 +78,7 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
             return;
         }
         var storage = await StorageFolder.GetFolderFromPathAsync(path);
-        var vm = new ProjectFolderItem(storage, false);
-        TreeItems.Add(vm);
+        ProjectCreatedAction?.Invoke(new ProjectCreatedArg(storage));
     }
 
     public void ReloadProjectTree()

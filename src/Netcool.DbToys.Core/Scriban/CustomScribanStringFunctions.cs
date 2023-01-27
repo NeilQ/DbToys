@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Text.Json;
 using Netcool.DbToys.Core.Database;
 using Scriban.Functions;
 
@@ -29,7 +28,7 @@ public class CustomScribanStringFunctions : StringFunctions
         for (var i = 1; i < chars.Length; ++i)
         {
             var c = chars[i];
-            if (c is '_' or ' ')
+            if (c is '_' or '-'  or ' ')
             {
                 newWords = true;
                 continue;
@@ -59,7 +58,7 @@ public class CustomScribanStringFunctions : StringFunctions
         for (var i = 1; i < chars.Length; ++i)
         {
             var c = chars[i];
-            if (c is '_' or ' ')
+            if (c is '_' or '-' or ' ')
             {
                 newWords = true;
                 continue;
@@ -79,18 +78,44 @@ public class CustomScribanStringFunctions : StringFunctions
 
     public static string ToSnakeCase(string text)
     {
+        return JoinWords(text, '_');
+    }
+
+    public static string ToKebabCase(string text)
+    {
+        return JoinWords(text, '-');
+    }
+
+    public static string JoinWords(string text, char splitter)
+    {
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
         if (text.Length < 2) return text;
         var sb = new StringBuilder();
         var chars = text.AsSpan();
 
+        var newWords = false;
         sb.Append(char.ToLowerInvariant(chars[0]));
         for (var i = 1; i < chars.Length; ++i)
         {
             var c = chars[i];
+
+            if (c is '_' or '-' or ' ')
+            {
+                newWords = true;
+                continue;
+            }
+
+            if (newWords && char.IsAsciiLetter(c))
+            {
+                sb.Append(splitter);
+                sb.Append(char.ToLowerInvariant(c));
+                newWords = false;
+                continue;
+            }
+
             if (char.IsUpper(c))
             {
-                sb.Append('_');
+                sb.Append(splitter);
                 sb.Append(char.ToLowerInvariant(c));
             }
             else
