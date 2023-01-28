@@ -1,4 +1,9 @@
+using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Media;
 using Netcool.DbToys.ViewModels;
 
 namespace Netcool.DbToys.Views;
@@ -12,5 +17,4 @@ public sealed partial class LogPage : Page
         ViewModel = App.GetService<LogViewModel>();
         InitializeComponent();
     }
-
 }

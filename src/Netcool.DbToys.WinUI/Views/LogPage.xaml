@@ -5,10 +5,19 @@
     xmlns:local="using:Netcool.DbToys.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d" NavigationCacheMode="Required">
-    <Grid>
-        <TextBox  Text="{x:Bind ViewModel.Message, Mode=TwoWay}"
-            TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="False" MinWidth="400" />
-    </Grid>
+    <ScrollViewer>
+        <controls:MarkdownTextBlock x:Name="MarkdownText"
+                                    Margin="6"
+                                    Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Text="{x:Bind ViewModel.Message, Mode=TwoWay}"
+                                   />
+        <!--
+        <TextBlock  Text="{x:Bind ViewModel.Message, Mode=TwoWay}"
+            TextWrapping="Wrap" MinWidth="400" />
+            -->
+    </ScrollViewer>
+
 
 </Page>

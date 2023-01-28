@@ -35,9 +35,9 @@ public class LogViewModel : ObservableRecipient, INavigationAware
             }
 
             if (_folder == null) return;
-            var files = await _folder.GetFilesAsync(CommonFileQuery.OrderByName, 0, 1);
+            var files = await _folder.GetFilesAsync(CommonFileQuery.OrderByName);
             if (files == null || files.Count == 0) return;
-            var logFile = files.First();
+            var logFile = files.Last();
             Message = await FileIO.ReadTextAsync(logFile);
         }
         catch (Exception ex)

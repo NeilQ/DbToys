@@ -17,12 +17,12 @@ public static class Logger
 
     static Logger()
     {
-        var logFilePath = Path.Combine(ApplicationLogPath, ".txt");
+        var logFilePath = Path.Combine(ApplicationLogPath, ".md");
         Serilog.Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Information()
              .WriteTo.Debug()
              //.WriteTo.Sink(Sink)
-             .WriteTo.File(logFilePath,
+             .WriteTo.File(new MarkdownFormatter(), logFilePath,
                  rollingInterval: RollingInterval.Day,
                  rollOnFileSizeLimit: true)
              .CreateLogger();
@@ -56,6 +56,28 @@ public static class Logger
     public static void Warning(string message)
     {
         Serilog.Log.Logger.Warning(message);
+    }
+}
+
+class MarkdownFormatter : ITextFormatter
+{
+    public void Format(LogEvent logEvent, TextWriter output)
+    {
+        output.Write($"**{logEvent.Timestamp.ToLocalTime().ToString($"yyyy-MM-dd HH:mm:ss.fff zzz")}** ");
+        if (logEvent.Level == LogEventLevel.Error || logEvent.Level == LogEventLevel.Fatal)
+        {
+            output.Write($"***[{logEvent.Level}]*** ");
+        }
+        else
+        {
+            output.Write($"**[{logEvent.Level}]** ");
+        }
+        output.WriteLine($"{logEvent.RenderMessage()}  ");
+        if (logEvent.Exception != null)
+        {
+            output.WriteLine($"{logEvent.Exception}  ");
+        }
+        output.Flush();
     }
 }
 
