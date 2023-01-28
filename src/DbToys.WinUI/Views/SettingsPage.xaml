@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="DbToys.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xaml="using:Microsoft.UI.Xaml"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:helpers="using:DbToys.Helpers"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </Page.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Stretch" MaxWidth="1000">
+            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <labs:SettingsCard x:Uid="Settings_Theme" Margin="{StaticResource SmallTopMargin}"
+                HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE790;}">
+                <ComboBox
+                    MinWidth="100"
+                    SelectedIndex="{x:Bind Mode=TwoWay, Path=ViewModel.ThemeIndex}">
+                    <ComboBoxItem x:Uid="Settings_Theme_Light" />
+                    <ComboBoxItem x:Uid="Settings_Theme_Dark" />
+                    <ComboBoxItem x:Uid="Settings_Theme_Default" />
+                </ComboBox>
+            </labs:SettingsCard>
+
+            <TextBlock x:Uid="Settings_About" Margin="{StaticResource SmallTopMargin}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+            <labs:SettingsCard x:Uid="Settings_OpenLogs" Margin="{StaticResource SmallTopMargin}"
+                               HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE8A5;}">
+                <Button Command="{x:Bind ViewModel.OpenLogsCommand}">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8A7;"/>
+                </Button>
+            </labs:SettingsCard>
+
+            <labs:SettingsCard Margin="{StaticResource SmallTopMargin}"
+                               Header="{x:Bind ViewModel.AppDisplayName}" Description="{x:Bind ViewModel.VersionDescription}">
+                <labs:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="/Assets/Square44x44Logo.targetsize-24_altform-unplated.png" Height="16" />
+                </labs:SettingsCard.HeaderIcon>
+            </labs:SettingsCard>
+
+            <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                <!-- 
+                <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                -->
+                <HyperlinkButton x:Uid="SettingsPage_RepositoryLink" NavigateUri="https://github.com/NeilQ/Netcool.DbToys" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,46 @@
+<ContentDialog
+    x:Class="DbToys.Views.Dialogs.MysqlConnectDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="MysqlContentDialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"  Title="Mysql" Closed="OnClosed" Style="{ThemeResource DefaultContentDialogStyle}">
+
+    <Grid Margin="0,20">
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+            <InfoBar Severity="Error" Width="400" 
+                     IsOpen="{x:Bind ViewModel.HasError, Mode=TwoWay}"
+                     Message="{x:Bind ViewModel.ErrorMessage, Mode=TwoWay}"
+                     IsClosable="True" />
+            <StackPanel Orientation="Horizontal" Padding="5">
+                <TextBlock Text="Server" Width="100" VerticalAlignment="Center"/>
+                <ComboBox IsEditable="True" Width="200"  ItemsSource="{x:Bind ViewModel.Accounts}"
+                          SelectedValuePath="Server" DisplayMemberPath="Server" 
+                          SelectedIndex="{x:Bind ViewModel.SelectedAccountIndex, Mode=TwoWay}"
+                          Text="{x:Bind ViewModel.Server, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Padding="5">
+                <TextBlock Text="Port" Width="100" VerticalAlignment="Center"/>
+                <NumberBox  Width="200" Value="{x:Bind ViewModel.Port, Mode=TwoWay}" Minimum="1" Maximum="65535"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Padding="5">
+                <TextBlock Text="Username" Width="100" VerticalAlignment="Center"/>
+                <TextBox Width="200" Text="{x:Bind ViewModel.Username, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Padding="5">
+                <TextBlock Text="Password" Width="100" VerticalAlignment="Center"/>
+                <PasswordBox x:Name="PasswordBox" Width="200" PasswordChanged="PasswordBox_OnPasswordChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Padding="5" Margin="100,0,0,0" VerticalAlignment="Center">
+                <CheckBox VerticalAlignment="Center" Width="200" IsChecked="{x:Bind ViewModel.SavePassword, Mode=TwoWay}" Content="Save password"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                <Button x:Uid="ConnectButton" Style="{ThemeResource AccentButtonStyle}" Command="{x:Bind ViewModel.ConnectCommand}"
+                CommandParameter="{Binding ElementName=MysqlContentDialog}" Width="100" />
+                <Button x:Uid="CancelButton" Style="{ThemeResource DefaultButtonStyle}"  Command="{x:Bind ViewModel.CancelCommand}"
+                    CommandParameter="{Binding ElementName=MysqlContentDialog}" Margin="{StaticResource SmallLeftMargin}" Width="100" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

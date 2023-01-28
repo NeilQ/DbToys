@@ -1,0 +1,30 @@
+<ContentDialog
+    x:Class="DbToys.Views.Dialogs.GenerateCodeDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Netcool.DbToys.Views.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Title="Generate Code"
+    PrimaryButtonCommand="{x:Bind ViewModel.ConfirmCommand}"
+    PrimaryButtonText="Generate" PrimaryButtonStyle="{ThemeResource AccentButtonStyle}" CloseButtonText="Cancel"
+    Style="{ThemeResource DefaultContentDialogStyle}">
+
+    <Grid Margin="{StaticResource MediumLeftRightMargin}">
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Padding="5">
+                <TextBlock Text="Template Project" Width="150" VerticalAlignment="Center"/>
+                <ComboBox Width="250" ItemsSource="{x:Bind ViewModel.ProjectFolders}"
+                      DisplayMemberPath="Name" 
+                      SelectedItem="{x:Bind ViewModel.TemplateProjectFolder, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Padding="5">
+                <TextBlock Text="Output Location" Width="150" VerticalAlignment="Center"/>
+                <TextBox Width="250" Text="{x:Bind ViewModel.OutputPath, Mode=TwoWay}"/>
+                <Button Command="{x:Bind ViewModel.PickOutputFolderCommand}" Margin="{StaticResource XXSmallLeftMargin}">
+                    <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe838;"/>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</ContentDialog>
