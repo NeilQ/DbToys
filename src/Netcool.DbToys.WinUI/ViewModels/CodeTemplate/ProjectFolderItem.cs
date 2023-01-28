@@ -103,6 +103,7 @@ public class ProjectFolderItem : TreeItem
         try
         {
             file = await Folder.CreateFileAsync(fileName, CreationCollisionOption.FailIfExists);
+            await FileIO.WriteTextAsync(file, Constants.CodeTemplate.InitialTemplateText);
         }
         catch (Exception ex)
         {
