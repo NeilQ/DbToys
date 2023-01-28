@@ -33,6 +33,7 @@ public static class Constants
 {{~ filename = (table.clean_name | string.to_pascal_case | string.to_singular) + "".cs"" ~}} 
 {{~ classname = table.clean_name | string.to_pascal_case | string.to_singular ~}}
 {{~ # Samples link: https://github.com/NeilQ/DbToys/blob/master/SampleTemplates ~}}
+{{~ # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction ~}}
 ";
     }
 }
