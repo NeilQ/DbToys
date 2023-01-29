@@ -75,7 +75,6 @@ end ~}}
 end ~}}
 {{~ ignoredCols=["id","create_time","create_user_id","update_time","update_user_id","is_deleted","delete_time","delete_user_id"] ~}}
 using System;
-using System.ComponentModel.DataAnnotations;
 using Netcool.Core.Services.Dto;
 
 namespace Netcool.Api.Domain.{{ classname }}

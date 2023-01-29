@@ -44,6 +44,10 @@
         const model = editor.getModel();
         var settingText = false;
         var completions = [];
+
+        window.addEventListener('resize', (event) => {
+            editor.layout();
+        });
         model.onDidChangeContent((event) => {
             /*
             if (settingText === false) {
@@ -67,6 +71,7 @@
         window.chrome.webview.addEventListener('message',
             (event) => {
                 if (event.data.type === "Setup") {
+                    editor.layout();
                 } else if (event.data.type === "UpdateText") {
                     settingText = true;
                     model.setValue(event.data.text);

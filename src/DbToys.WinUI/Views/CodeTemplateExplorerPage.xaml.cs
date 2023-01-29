@@ -1,5 +1,7 @@
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Core;
+using ABI.Windows.UI;
 using DbToys.Helpers;
 using DbToys.Services;
 using DbToys.ViewModels;
@@ -9,6 +11,8 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Color = Windows.UI.Color;
 
 namespace DbToys.Views;
 
@@ -84,6 +88,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
 
     private void TabView_OnTabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
     {
+        ((args.Tab.Content as Frame)!.Content as TemplatePage)?.CloseWebView2();
         sender.TabItems.Remove(args.Tab);
     }
 

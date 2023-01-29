@@ -19,13 +19,6 @@ public class Table
         get { return Columns?.FirstOrDefault(x => x.IsPk); }
     }
 
-    public Column GetColumn(string columnName)
-    {
-        return Columns.Single(x => string.Compare(x.Name, columnName, StringComparison.OrdinalIgnoreCase) == 0);
-    }
-
-    public Column this[string columnName] => GetColumn(columnName);
-
     public override string ToString()
     {
         return (Schema ?? "default") + "." + Name;
