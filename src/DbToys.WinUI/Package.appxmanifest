@@ -11,12 +11,12 @@
 
   <Identity
     Name="1A060E08-7234-4D20-8D05-97AC21E5639B"
-    Publisher="CN=neil_"
-    Version="1.0.0.0" />
+    Publisher="CN=邱尘"
+    Version="0.1.0.0" />
 
   <Properties>
-    <DisplayName>Netcool.DbToys.WinUI</DisplayName>
-    <PublisherDisplayName>neil_</PublisherDisplayName>
+    <DisplayName>DbToys</DisplayName>
+    <PublisherDisplayName>邱尘</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

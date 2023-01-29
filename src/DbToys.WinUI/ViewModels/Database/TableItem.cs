@@ -25,10 +25,12 @@ public class TableItem : TreeItem
     private readonly Lazy<ICodeGenerator> _codeGenerator = new(App.GetService<ICodeGenerator>());
     private readonly Lazy<ILoadingService> _loadingService = new(App.GetService<ILoadingService>());
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>());
+    private readonly ISchemaReader _schemaReader;
 
-    public TableItem(Table table) : base(table.DisplayName, false)
+    public TableItem(Table table, ISchemaReader schemaReader) : base(table.DisplayName, false)
     {
         Table = table;
+        _schemaReader = schemaReader;
         GenerateCodeCommand = new AsyncRelayCommand(GenerateCode);
     }
 
@@ -54,6 +56,7 @@ public class TableItem : TreeItem
 #pragma warning disable CS4014
         Task.Run(async () =>
         {
+            Table.Columns = _schemaReader.ReadColumns(Table.Database, Table.Schema, Table.Name);
             var files = await _storageService.Value.GetTemplateFilesAsync(templateFolder);
             if (files == null) return;
 

@@ -2,6 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using DbToys.CodeEditor;
 using DbToys.ViewModels.CodeTemplate;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 
@@ -10,12 +11,14 @@ namespace DbToys.Views.CodeTemplate;
 public sealed partial class TemplatePage : Page
 {
     public TemplateViewModel ViewModel { get; }
+    public WebView2 WebView2 = new() { VerticalAlignment = VerticalAlignment.Stretch };
 
     public bool IsEditorLoaded { get; set; }
 
     private static readonly JsonSerializerOptions _jsonOptions = new()
     {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
 
     public TemplatePage()
@@ -23,6 +26,11 @@ public sealed partial class TemplatePage : Page
         ViewModel = App.GetService<TemplateViewModel>();
         InitializeComponent();
         InitWebView2();
+    }
+
+    public void CloseWebView2()
+    {
+        WebView2.Close();
     }
 
     private void PostCode(string text)
@@ -76,6 +84,13 @@ public sealed partial class TemplatePage : Page
             PostCode(text);
         }
         PostCompletions();
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            // add webview2 after page loaded, or it will case page flash
+            // https://github.com/MicrosoftEdge/WebView2Feedback/issues/1412
+            ContextArea.Children.RemoveAt(0);
+            ContextArea.Children.Add(WebView2);
+        });
     }
 
     private void CoreWebView2_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
