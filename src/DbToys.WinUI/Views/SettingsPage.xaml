@@ -29,16 +29,23 @@
             <TextBlock x:Uid="Settings_About" Margin="{StaticResource SmallTopMargin}" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <labs:SettingsCard x:Uid="Settings_OpenLogs" Margin="{StaticResource SmallTopMargin}"
-                               HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE8A5;}">
+                               HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE8A5;}"
+                               IsClickEnabled="True" Command="{x:Bind ViewModel.OpenLogsCommand}">
+                <labs:SettingsCard.ActionIcon>
+                    <FontIcon FontSize="12"
+                              Glyph="&#xE8A7;" />
+                </labs:SettingsCard.ActionIcon>
+                <!--
                 <Button Command="{x:Bind ViewModel.OpenLogsCommand}">
                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8A7;"/>
                 </Button>
+                -->
             </labs:SettingsCard>
 
             <labs:SettingsCard Margin="{StaticResource SmallTopMargin}"
                                Header="{x:Bind ViewModel.AppDisplayName}" Description="{x:Bind ViewModel.VersionDescription}">
                 <labs:SettingsCard.HeaderIcon>
-                    <ImageIcon Source="/Assets/Square44x44Logo.targetsize-24_altform-unplated.png" Height="16" />
+                    <ImageIcon Source="/Assets/Square44x44Logo.targetsize-24_altform-unplated.png" Height="24" />
                 </labs:SettingsCard.HeaderIcon>
             </labs:SettingsCard>
 
