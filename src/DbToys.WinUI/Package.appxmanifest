@@ -49,17 +49,6 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-          <desktop:Extension Category="windows.toastNotificationActivation">
-              <desktop:ToastNotificationActivation ToastActivatorCLSID="30AD9159-6FA5-46AE-9432-2289D9A2D9E7" />
-          </desktop:Extension>
-
-          <com:Extension Category="windows.comServer">
-              <com:ComServer>
-                  <com:ExeServer Executable="DbToys.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
-                      <com:Class Id="30AD9159-6FA5-46AE-9432-2289D9A2D9E7" DisplayName="Toast activator"/>
-                  </com:ExeServer>
-              </com:ComServer>
-          </com:Extension>
       </Extensions>
     </Application>
   </Applications>

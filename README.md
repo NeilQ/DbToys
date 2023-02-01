@@ -4,9 +4,31 @@
 
 DbToys offers a set of utilities around database like view table design, exporting data dictionary, code generator.
 
-![DbToys1](/images/screenshot1.png)
+Supported databases:
+ - Sql Server
+ - Mysql
+ - Postgresql
 
-![DbToys2](/images/screenshot2.png)
+ Features:
+- Database
+	+ View table design
+	+ View Sample result data of table
+	+ Export data dictionary to excel
+	+ Code generation
+- Code Templates
+	+ Read/Create/Delete/Rename code templates
+	+ Open template folder to explorer.
+
+![DbToys1](./images/screen1.png)
+
+![DbToys2](./images/screen2.png)
+
+# Next Steps
+
+- Code Templates
+	+ define global template variable
+- Code Generation
+	+ inject custom context variable 
 
 # How to install
 
