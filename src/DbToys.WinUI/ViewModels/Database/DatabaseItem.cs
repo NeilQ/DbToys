@@ -61,7 +61,7 @@ public class DatabaseItem : TreeItem
                 {
                     foreach (var table in Tables)
                     {
-                        AddChild(new TableItem(table));
+                        AddChild(new TableItem(table, _schemaReader));
                     }
 
                 }

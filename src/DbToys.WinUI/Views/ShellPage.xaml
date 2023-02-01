@@ -15,15 +15,15 @@
               Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
               IsHitTestVisible="True"
               VerticalAlignment="Top">
-            <Image Source="/Assets/WindowIcon.ico"
+            <Image Source="/Assets/Square44x44Logo.targetsize-20_altform-unplated.png"
                    HorizontalAlignment="Left"
-                   Width="16"
-                   Height="16" />
+                   Width="20"
+                   Height="20" />
             <TextBlock x:Name="AppTitleBarText"
                        VerticalAlignment="Center"
                        TextWrapping="NoWrap"
                        Style="{StaticResource CaptionTextBlockStyle}"
-                       Margin="28,0,0,0"/>
+                       Margin="30,0,0,0"/>
         </Grid>
         <controls:Loading x:Name="LoadingToast" MinWidth="200" IsLoading="False" Canvas.ZIndex="99"
                        VerticalAlignment="Bottom" Margin="0,0,0,10" Background="Transparent">

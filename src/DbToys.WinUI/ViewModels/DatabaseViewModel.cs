@@ -71,12 +71,11 @@ public class DatabaseViewModel : ObservableObject
                     try
                     {
                         columns = SchemaReader?.ReadColumns(tableItem.Table.Database, tableItem.Table.Schema, tableItem.Table.Name);
-                        tableItem.Table.Columns = columns;
                         resultSet = SchemaReader?.GetResultSet(tableItem.Table, 30);
                     }
                     catch (Exception ex)
                     {
-                        _notificationService.Error(ex.Message,"Read column info failed");
+                        _notificationService.Error(ex.Message, "Read column info failed");
                     }
 
                     dispatcherQueue.TryEnqueue(() =>

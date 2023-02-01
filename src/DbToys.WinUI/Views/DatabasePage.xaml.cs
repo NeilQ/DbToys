@@ -72,8 +72,6 @@ public class DatabaseTreeItemTemplateSelector : DataTemplateSelector
 
     protected override DataTemplate SelectTemplateCore(object item)
     {
-
-        //return FileTemplate;
         if (item is ConnectionItem) return ConnectionTemplate;
         if (item is DatabaseItem) return DatabaseTemplate;
         if (item is TableItem) return TableTemplate;
