@@ -33,11 +33,11 @@ Supported databases:
 # How to install
 
 ## Prerequisite
-* You need Windows 10 build 1903+ or later.
+* You need Windows 10 build 17763+ or later.
 * [Microsoft Edge WebView2 Runtime](https://go.microsoft.com/fwlink/p/?LinkId=2124703) should be installed.
 
-## Via Release
-todo
+## Via Microsoft Store
+[DbToys](https://apps.microsoft.com/store/detail/dbtoys/9NKCGCMR2W99)
 
 # Known issues
 * [Flash when using Multiple WebViews in Tab Controls](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1412)
