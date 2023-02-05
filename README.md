@@ -39,6 +39,10 @@ Supported databases:
 ## Via Microsoft Store
 [DbToys](https://apps.microsoft.com/store/detail/dbtoys/9NKCGCMR2W99)
 
+## Via Release
+Go to [GitHub releases page](https://github.com/NeilQ/DbToys/releases), click on Assets at the bottom to show the files available in the release.
+**(Cannot autoupdate)**
+
 # Known issues
 * [Flash when using Multiple WebViews in Tab Controls](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1412)
 * [WinUI3 WebView2 mouse stop working while keyboard is still working.](https://github.com/MicrosoftEdge/WebView2Feedback/issues/3003#issuecomment-1407131599)
