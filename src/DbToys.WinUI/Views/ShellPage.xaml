@@ -7,6 +7,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:helpers="using:DbToys.Helpers"
+    xmlns:services="using:DbToys.Services"
     Loaded="OnLoaded" Unloaded="OnUnloaded">
 
     <Grid>
@@ -49,16 +50,23 @@
                                     VerticalAlignment="Top" Margin="0,30">
             <!-- InAppNotification content -->
             <controls:InAppNotification.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <InfoBar MinWidth="300"
-                                 Margin="0,0,-50,0"
-                                 Severity="{Binding Severity}"
-                                 IsOpen="True"
-                                 IsClosable="False"
-                                 Title="{Binding Title}"
-                                 Message="{Binding Message}" />
-                    </StackPanel>
+                <DataTemplate x:DataType="services:Notification">
+                    <Grid Padding="4" Margin="0,0,-55,0" MinWidth="300"
+                              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                              BorderBrush="{x:Bind StrokeColor}" BorderThickness="4,1,1,1" CornerRadius="5">
+                        <Grid>
+                            <StackPanel	MinHeight="48" Orientation="Vertical" 
+                                        Margin="{StaticResource XXSmallLeftMargin}" Padding="0,0,0,0"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <TextBlock FontSize="14" FontWeight="Medium"
+                                           Text="{x:Bind Title, Mode=OneWay}" />
+                                <TextBlock FontSize="14" MaxLines="3" FontWeight="Normal"
+                                           Text="{x:Bind Message}"
+                                           TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords"
+								           ToolTipService.ToolTip="{x:Bind Message}" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
                 </DataTemplate>
             </controls:InAppNotification.ContentTemplate>
         </controls:InAppNotification>

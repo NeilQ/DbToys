@@ -1,7 +1,9 @@
 ﻿using System.Threading.Channels;
 using DbToys.Core;
 using DbToys.Core.Log;
+using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace DbToys.Services;
 
@@ -11,28 +13,78 @@ public class Notification
     public string Message { get; set; }
     public InfoBarSeverity Severity { get; set; }
     public int Duration { get; set; }
+    public SolidColorBrush StrokeColor { get; private set; } = new(Colors.DeepSkyBlue);
 
     public Notification() { }
 
     public Notification(string title, string message)
     {
-        Title = title;
         Message = message;
+        Severity = InfoBarSeverity.Informational;
+        UpdateTitle(title);
+        UpdateColor();
     }
 
     public Notification(string title, string message, InfoBarSeverity severity)
     {
-        Title = title;
         Message = message;
         Severity = severity;
+        UpdateTitle(title);
+        UpdateColor();
     }
 
     public Notification(string title, string message, InfoBarSeverity severity, int duration)
     {
-        Title = title;
         Message = message;
         Severity = severity;
         Duration = duration;
+        UpdateTitle(title);
+        UpdateColor();
+    }
+
+    private void UpdateTitle(string title)
+    {
+        if (string.IsNullOrEmpty(title))
+        {
+            switch (Severity)
+            {
+                case InfoBarSeverity.Informational:
+                    Title = "Info";
+                    break;
+                case InfoBarSeverity.Success:
+                    Title = "Success";
+                    break;
+                case InfoBarSeverity.Warning:
+                    Title = "Warning";
+                    break;
+                case InfoBarSeverity.Error:
+                    Title = "Error";
+                    break;
+            }
+        }
+        else
+        {
+            Title=title;
+        }
+    }
+
+    private void UpdateColor()
+    {
+        switch (Severity)
+        {
+            case InfoBarSeverity.Informational:
+                StrokeColor = new SolidColorBrush(Colors.Blue);
+                break;
+            case InfoBarSeverity.Success:
+                StrokeColor = new SolidColorBrush(Colors.Green);
+                break;
+            case InfoBarSeverity.Warning:
+                StrokeColor = new SolidColorBrush(Colors.Yellow);
+                break;
+            case InfoBarSeverity.Error:
+                StrokeColor = new SolidColorBrush(Colors.Red);
+                break;
+        }
     }
 }
 public interface INotificationService

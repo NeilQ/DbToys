@@ -5,6 +5,7 @@ using DbToys.Core;
 using DbToys.Core.Database;
 using DbToys.Services;
 using DbToys.Views.Dialogs;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 
 namespace DbToys.ViewModels.Database;
@@ -52,6 +53,7 @@ public class TableItem : TreeItem
         if (templateFolder == null || outputFolder == null) return;
 
         _loadingService.Value.Active("Generating...");
+        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 #pragma warning disable CS4014
         Task.Run(async () =>
@@ -70,7 +72,11 @@ public class TableItem : TreeItem
                     if (result == null) continue;
                     if (string.IsNullOrEmpty(result.Filename))
                     {
-                        _notificationService.Value.Error($"Generate template {file.Name} failed: filename not defined.");
+                        dispatcherQueue.TryEnqueue(() =>
+                        {
+                            _notificationService.Value.Error(
+                                $"Generate template {file.Name} failed: filename not defined.");
+                        });
                         continue;
                     }
 
@@ -81,7 +87,10 @@ public class TableItem : TreeItem
                 }
                 catch (Exception ex)
                 {
-                    _notificationService.Value.Error($"Generate template {file.Name} failed: {ex.Message}");
+                    dispatcherQueue.TryEnqueue(() =>
+                    {
+                        _notificationService.Value.Error($"Generate template {file.Name} failed: {ex.Message}");
+                    });
                 }
             }
 
