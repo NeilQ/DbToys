@@ -2,15 +2,12 @@
     x:Class="DbToys.Views.DatabasePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Netcool.DbToys.Views"
+    xmlns:local="using:DbToys.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:views="using:Netcool.DbToys.Views"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:database1="using:DbToys.ViewModels.Database"
-    xmlns:views1="using:DbToys.Views"
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Page.Resources>
@@ -28,13 +25,21 @@
                 <TreeViewItem.ContextFlyout>
                     <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
                         <CommandBarFlyout.SecondaryCommands>
-                        <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" Icon="Refresh" ToolTipService.ToolTip="Refresh" />
-                            <AppBarButton Label="Export data dictionary" Command="{Binding ExportCommand}" Icon="{ui:FontIcon Glyph=&#xEDE1;}" ToolTipService.ToolTip="Export to excel file" />
+                            <AppBarButton Label="Refresh" Command="{Binding RefreshCommand}" ToolTipService.ToolTip="Refresh" >
+                                <AppBarButton.Icon>
+                                    <ImageIcon Source="/Assets/Icons/refresh.png"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+                            <AppBarButton Label="Export data dictionary" Command="{Binding ExportCommand}" ToolTipService.ToolTip="Export to excel file" >
+                                <AppBarButton.Icon>
+                                    <ImageIcon Source="/Assets/Icons/microsoft_excel.png"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE94;"/>
+                    <ImageIcon Source="/Assets/Icons/database.png" Width="16"/>
                     <TextBlock Text="{x:Bind Name}" Margin="{StaticResource XXSmallLeftMargin}"/>
                     <ProgressRing Height="16" Width="16" Margin="{StaticResource XXSmallLeftMargin}" IsActive="{x:Bind Expanding, Mode=TwoWay}"/>
                 </StackPanel>
@@ -46,13 +51,17 @@
                 <TreeViewItem.ContextFlyout>
                     <CommandBarFlyout Placement="Bottom" AlwaysExpanded="True">
                         <CommandBarFlyout.SecondaryCommands>
-                            <AppBarButton Label="Generate Code" Command="{Binding GenerateCodeCommand}" Icon="{ui:FontIcon Glyph=&#xe945;}" ToolTipService.ToolTip="Refresh" />
+                            <AppBarButton Label="Generate Code" Command="{Binding GenerateCodeCommand}" ToolTipService.ToolTip="Generate code" >
+                                <AppBarButton.Icon>
+                                    <ImageIcon Source="/Assets/Icons/flash_on.png" Width="16"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
                         </CommandBarFlyout.SecondaryCommands>
                     </CommandBarFlyout>
                 </TreeViewItem.ContextFlyout>
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon FontSize="16" FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE80A;" Margin="0,0,5,0"/>
-                    <TextBlock Text="{x:Bind Name}">
+                    <ImageIcon Source="/Assets/Icons/table.png" Width="16"/>
+                    <TextBlock Text="{x:Bind Name}" Margin="{StaticResource XXSmallLeftMargin}">
                         <ToolTipService.ToolTip>
                             <ToolTip Content="{x:Bind Name}"/>
                         </ToolTipService.ToolTip>
@@ -62,7 +71,7 @@
             </TreeViewItem>
         </DataTemplate>
 
-        <views1:DatabaseTreeItemTemplateSelector x:Key="DatabaseTreeItemTemplateSelector"
+        <local:DatabaseTreeItemTemplateSelector x:Key="DatabaseTreeItemTemplateSelector"
             ConnectionTemplate="{StaticResource ConnectionTemplate}"
             DatabaseTemplate="{StaticResource DatabaseTemplate}"
             TableTemplate="{StaticResource TableTemplate}"/>
@@ -80,17 +89,29 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <CommandBar DefaultLabelPosition="Right">
-                    <AppBarButton x:Uid="DataBase_AppBarButton_Connect">
+                <CommandBar DefaultLabelPosition="Right" >
+                    <AppBarButton x:Uid="DataBase_AppBarButton_Connect" >
                         <AppBarButton.Icon>
-                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe836;"/>
+                            <ImageIcon Source="/Assets/Icons/broken_link.png" />
                         </AppBarButton.Icon>
 
                         <AppBarButton.Flyout >
                             <MenuFlyout Placement="RightEdgeAlignedTop">
-                                <MenuFlyoutItem Text="SqlServer" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="SqlServer"/>
-                                <MenuFlyoutItem Text="MySql" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="MySql"/>
-                                <MenuFlyoutItem Text="PostgreSql" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="PostgreSql"/>
+                                <MenuFlyoutItem Text="SqlServer" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="SqlServer">
+                                    <MenuFlyoutItem.Icon>
+                                        <ImageIcon Source="/Assets/Icons/microsoft_sql_server.png" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="MySql" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="MySql">
+                                    <MenuFlyoutItem.Icon>
+                                        <ImageIcon Source="/Assets/Icons/mysql.png" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="PostgreSql" Command="{x:Bind ViewModel.ConnectCommand}" CommandParameter="PostgreSql">
+                                    <MenuFlyoutItem.Icon>
+                                        <ImageIcon Source="/Assets/Icons/postgresql.png" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>

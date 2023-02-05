@@ -15,8 +15,10 @@
     <Grid>
         <StackPanel HorizontalAlignment="Stretch" MaxWidth="1000">
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <labs:SettingsCard x:Uid="Settings_Theme" Margin="{StaticResource SmallTopMargin}"
-                HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE790;}">
+            <labs:SettingsCard x:Uid="Settings_Theme" Margin="{StaticResource SmallTopMargin}"  >
+                <labs:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="/Assets/Icons/paint_palette.png"/>
+                </labs:SettingsCard.HeaderIcon>
                 <ComboBox
                     MinWidth="100"
                     SelectedIndex="{x:Bind Mode=TwoWay, Path=ViewModel.ThemeIndex}">
@@ -29,17 +31,15 @@
             <TextBlock x:Uid="Settings_About" Margin="{StaticResource SmallTopMargin}" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <labs:SettingsCard x:Uid="Settings_OpenLogs" Margin="{StaticResource SmallTopMargin}"
-                               HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE8A5;}"
                                IsClickEnabled="True" Command="{x:Bind ViewModel.OpenLogsCommand}">
+
+                <labs:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="/Assets/Icons/document.png" />
+                </labs:SettingsCard.HeaderIcon>
                 <labs:SettingsCard.ActionIcon>
                     <FontIcon FontSize="12"
                               Glyph="&#xE8A7;" />
                 </labs:SettingsCard.ActionIcon>
-                <!--
-                <Button Command="{x:Bind ViewModel.OpenLogsCommand}">
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8A7;"/>
-                </Button>
-                -->
             </labs:SettingsCard>
 
             <labs:SettingsCard Margin="{StaticResource SmallTopMargin}"
@@ -50,9 +50,6 @@
             </labs:SettingsCard>
 
             <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <!-- 
-                <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
-                -->
                 <HyperlinkButton x:Uid="SettingsPage_RepositoryLink" NavigateUri="https://github.com/NeilQ/Netcool.DbToys" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
             </StackPanel>
         </StackPanel>

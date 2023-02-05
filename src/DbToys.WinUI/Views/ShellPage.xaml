@@ -74,6 +74,9 @@
             <!--
             Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}"
             -->
+            <NavigationView.Resources>
+                <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">20</x:Double>
+            </NavigationView.Resources>
             <NavigationView.MenuItems>
 
                 <!--
@@ -92,17 +95,17 @@
                 -->
                 <NavigationViewItem x:Uid="Shell_Database" helpers:NavigationHelper.NavigateTo="DbToys.ViewModels.DatabaseViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe703;"/>
+                        <ImageIcon Source="/Assets/Icons/database_server.png" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_CodeTemplates" helpers:NavigationHelper.NavigateTo="DbToys.ViewModels.CodeTemplateExplorerViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe943;"/>
+                        <ImageIcon Source="/Assets/Icons/source_code.png" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_Log" helpers:NavigationHelper.NavigateTo="DbToys.ViewModels.LogViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8bd;"/>
+                        <ImageIcon Source="/Assets/Icons/sms.png" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
