@@ -41,7 +41,7 @@ Supported databases:
 
 ## Via Release
 Go to [GitHub releases page](https://github.com/NeilQ/DbToys/releases), click on Assets at the bottom to show the files available in the release.
-**(Cannot autoupdate)**
+**(No autoupdate)**
 
 # Known issues
 * [Flash when using Multiple WebViews in Tab Controls](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1412)
