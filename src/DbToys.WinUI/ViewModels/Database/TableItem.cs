@@ -49,7 +49,10 @@ public class TableItem : TreeItem
                 Directory.CreateDirectory(dialog.ViewModel.OutputPath);
             outputFolder = await StorageFolder.GetFolderFromPathAsync(dialog.ViewModel.OutputPath);
         }
-        catch (Exception) {/* ignore */ }
+        catch (Exception ex)
+        {
+            _notificationService.Value.Error($"Generate Code failed: {ex.Message}");
+        }
         if (templateFolder == null || outputFolder == null) return;
 
         _loadingService.Value.Active("Generating...");

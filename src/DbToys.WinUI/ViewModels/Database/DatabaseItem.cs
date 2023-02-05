@@ -52,7 +52,14 @@ public class DatabaseItem : TreeItem
                 var tables = _schemaReader.ReadTables(Name).OrderBy(t => t.DisplayName).ToList();
                 Tables = tables.ToList();
             }
-            catch (Exception) {/* ignore */ }
+            catch (Exception ex)
+            {
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    Expanding = true;
+                    _notificationService.Value.Error($"Read table schema failed: {ex.Message}");
+                });
+            }
 
             dispatcherQueue.TryEnqueue(() =>
             {
@@ -63,7 +70,6 @@ public class DatabaseItem : TreeItem
                     {
                         AddChild(new TableItem(table, _schemaReader));
                     }
-
                 }
                 HasUnrealizedChildren = false;
                 Expanding = false;
