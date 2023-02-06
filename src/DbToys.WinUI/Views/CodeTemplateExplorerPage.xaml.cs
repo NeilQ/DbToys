@@ -189,7 +189,8 @@ public sealed partial class CodeTemplateExplorerPage : Page
         if (tabItem == null) return;
         tabItem.Tag = args.NewPath;
         tabItem.Header = fileItem.TabDisplayName;
-        (tabItem.Content as TemplatePage)!.ViewModel.File = fileItem.File;
+        var frame = tabItem.Content as Frame;
+        (frame.GetPageViewModel() as TemplateViewModel)!.File  = fileItem.File;
     }
 
     private void OnTemplateFileDeleted(TemplateDeletedArg args)
