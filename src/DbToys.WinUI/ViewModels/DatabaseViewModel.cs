@@ -75,7 +75,10 @@ public class DatabaseViewModel : ObservableObject
                     }
                     catch (Exception ex)
                     {
-                        _notificationService.Error(ex.Message, "Read column info failed");
+                        dispatcherQueue.TryEnqueue(() =>
+                        {
+                            _notificationService.Error(ex.Message, "Read column info failed");
+                        });
                     }
 
                     dispatcherQueue.TryEnqueue(() =>

@@ -24,6 +24,7 @@ public static class Logger
              //.WriteTo.Sink(Sink)
              .WriteTo.File(new MarkdownFormatter(), logFilePath,
                  rollingInterval: RollingInterval.Day,
+                 retainedFileCountLimit:3,
                  rollOnFileSizeLimit: true)
              .CreateLogger();
     }

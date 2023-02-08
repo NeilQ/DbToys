@@ -1,7 +1,5 @@
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Core;
-using ABI.Windows.UI;
 using DbToys.Helpers;
 using DbToys.Services;
 using DbToys.ViewModels;
@@ -11,8 +9,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Color = Windows.UI.Color;
 
 namespace DbToys.Views;
 
@@ -189,7 +185,8 @@ public sealed partial class CodeTemplateExplorerPage : Page
         if (tabItem == null) return;
         tabItem.Tag = args.NewPath;
         tabItem.Header = fileItem.TabDisplayName;
-        (tabItem.Content as TemplatePage)!.ViewModel.File = fileItem.File;
+        var frame = tabItem.Content as Frame;
+        (frame.GetPageViewModel() as TemplateViewModel)!.File  = fileItem.File;
     }
 
     private void OnTemplateFileDeleted(TemplateDeletedArg args)

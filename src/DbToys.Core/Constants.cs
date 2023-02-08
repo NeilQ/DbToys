@@ -28,8 +28,7 @@ public static class Constants
 
     public static class CodeTemplate
     {
-        public const string InitialTemplateText = @"
-{{~ # Required: Defines the output filename here. ~}}
+        public const string InitialTemplateText = @"{{~ # Required: Defines the output filename here. ~}}
 {{~ filename = (table.clean_name | string.to_pascal_case | string.to_singular) + "".cs"" ~}} 
 {{~ classname = table.clean_name | string.to_pascal_case | string.to_singular ~}}
 {{~ # Samples link: https://github.com/NeilQ/DbToys/blob/master/SampleTemplates ~}}

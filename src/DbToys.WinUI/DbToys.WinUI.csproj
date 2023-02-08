@@ -19,6 +19,12 @@
     <AssemblyName>DbToys</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\Icons\database_server.png" />
+    <Content Remove="Assets\Icons\github.png" />
+    <Content Remove="Assets\Icons\sms.png" />
+    <Content Remove="Assets\Icons\source_code.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
     <None Remove="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
     <None Remove="Assets\StoreLogo.scale-400.png" />
