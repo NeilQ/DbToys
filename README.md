@@ -29,7 +29,7 @@ Sometimes we just want to view the column definition and see the sample data by 
 - Customize your own code templates
 - Generate code files according the selected data table and the code templates 
 
-### Screenshots
+## Screenshots
 
 ![DbToys1](./images/screen1.png)
 
@@ -42,7 +42,7 @@ Sometimes we just want to view the column definition and see the sample data by 
 - Code Generation
 	+ inject custom context variable 
 
-### How to install
+## How to install
 
 ### Prerequisite
 - You need Windows 10 build 17763+ or later.
