@@ -64,7 +64,7 @@ public class Notification
         }
         else
         {
-            Title=title;
+            Title = title;
         }
     }
 
@@ -167,8 +167,9 @@ public class NotificationService : INotificationService
         switch (notification.Severity)
         {
             case InfoBarSeverity.Informational:
-            case InfoBarSeverity.Success:
                 Logger.Information(notification.Message);
+                break;
+            case InfoBarSeverity.Success:
                 break;
             case InfoBarSeverity.Warning:
                 Logger.Warning(notification.Message);
