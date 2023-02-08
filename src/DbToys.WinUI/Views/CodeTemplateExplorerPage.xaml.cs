@@ -1,7 +1,5 @@
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Core;
-using ABI.Windows.UI;
 using DbToys.Helpers;
 using DbToys.Services;
 using DbToys.ViewModels;
@@ -11,8 +9,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Color = Windows.UI.Color;
 
 namespace DbToys.Views;
 
