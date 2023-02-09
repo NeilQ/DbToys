@@ -7,7 +7,7 @@
   xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/templatestudio"
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-  IgnorableNamespaces="uap rescap genTemplate mp">
+  IgnorableNamespaces="uap rescap genTemplate">
 
   <Identity
     Name="147519809FC86.DbToys"
