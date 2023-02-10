@@ -13,6 +13,13 @@ namespace DbToys.ViewModels.CodeTemplate;
 public class ProjectFolderItem : TreeItem
 {
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>);
+    private readonly Lazy<CodeTemplateStorageService> _templateStorageService = new(App.GetService<CodeTemplateStorageService>);
+
+    private bool _canDelete = true;
+    public bool CanDelete { get => _canDelete; set => SetProperty(ref _canDelete, value); }
+
+    private bool _canRename = true;
+    public bool CanRename { get => _canRename; set => SetProperty(ref _canRename, value); }
 
     private ImageSource _icon;
     public ImageSource Icon { get => _icon; set => SetProperty(ref _icon, value); }
@@ -34,6 +41,12 @@ public class ProjectFolderItem : TreeItem
     public ProjectFolderItem(StorageFolder folder, bool lazyLoadChildren) : base(folder.Name, lazyLoadChildren)
     {
         Folder = folder;
+        if (folder.Name == Constants.CodeTemplate.DefaultGlobalTemplateFolderName)
+        {
+            Name = "Global";
+            CanDelete = false;
+            CanRename = false;
+        }
         CreateTemplateCommand = new AsyncRelayCommand(CreateTemplateFile);
         RenameCommand = new AsyncRelayCommand(RenameAsync);
         DeleteCommand = new AsyncRelayCommand(DeleteAsync);
@@ -102,8 +115,8 @@ public class ProjectFolderItem : TreeItem
         StorageFile file;
         try
         {
-            file = await Folder.CreateFileAsync(fileName, CreationCollisionOption.FailIfExists);
-            await FileIO.WriteTextAsync(file, Constants.CodeTemplate.InitialTemplateText);
+            file = await _templateStorageService.Value.CreateTemplateFile(Folder, fileName,
+                Constants.CodeTemplate.InitialTemplateText);
         }
         catch (Exception ex)
         {
@@ -115,9 +128,16 @@ public class ProjectFolderItem : TreeItem
 
     public async void LoadIcon()
     {
-        var thumbnail = await Folder.GetThumbnailAsync(ThumbnailMode.ListView, 32, ThumbnailOptions.UseCurrentScale);
         var img = new BitmapImage();
-        img.SetSource(thumbnail);
+        if (Folder.Name == Constants.CodeTemplate.DefaultGlobalTemplateFolderName)
+        {
+            img.UriSource = new Uri("ms-appx:///Assets/Icons/chain_start.png");
+        }
+        else
+        {
+            var thumbnail = await Folder.GetThumbnailAsync(ThumbnailMode.ListView, 32, ThumbnailOptions.UseCurrentScale);
+            img.SetSource(thumbnail);
+        }
         Icon = img;
     }
 }

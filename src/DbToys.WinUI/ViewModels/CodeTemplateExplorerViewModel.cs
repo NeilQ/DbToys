@@ -28,7 +28,6 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
     public IRelayCommand ReloadCommand { get; set; }
     public IAsyncRelayCommand CreateProjectCommand { get; set; }
     public IRelayCommand ExplorerCommand { get; set; }
-    public IRelayCommand OpenHelpPageCommand { get; set; }
 
     public Action ReloadAction { get; set; }
 
@@ -67,19 +66,18 @@ public class CodeTemplateExplorerViewModel : ObservableRecipient
         else return;
 
         if (string.IsNullOrEmpty(folderName)) return;
-        var path = Path.Join(_templateStorageService.TemplateFolderPath, folderName);
-        if (Directory.Exists(path)) return;
+        StorageFolder folder;
         try
         {
-            Directory.CreateDirectory(path);
+            folder = await _templateStorageService.CreateProjectFolder(folderName);
         }
         catch (Exception ex)
         {
             _notificationService.Error($"Create project folder failed with error: {ex.Message}");
             return;
         }
-        var storage = await StorageFolder.GetFolderFromPathAsync(path);
-        ProjectCreatedAction?.Invoke(new ProjectCreatedArg(storage));
+        if(folder == null ) return;
+        ProjectCreatedAction?.Invoke(new ProjectCreatedArg(folder));
     }
 
     public void ReloadProjectTree()

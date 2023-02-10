@@ -23,13 +23,6 @@ public class DatabaseViewModel : ObservableObject
 
     public ObservableCollection<Column> TableColumns { get; set; } = new();
 
-    private bool _loadingTable;
-    public bool LoadingTable
-    {
-        get => _loadingTable;
-        set => SetProperty(ref _loadingTable, value);
-    }
-
     private ObservableCollection<TreeItem> _connectionItems = new();
     public ObservableCollection<TreeItem> ConnectionItems
     {

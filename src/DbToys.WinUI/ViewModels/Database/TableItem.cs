@@ -61,15 +61,41 @@ public class TableItem : TreeItem
 #pragma warning disable CS4014
         Task.Run(async () =>
         {
-            Table.Columns = _schemaReader.ReadColumns(Table.Database, Table.Schema, Table.Name);
-            var files = await _storageService.Value.GetTemplateFilesAsync(templateFolder);
-            if (files == null) return;
+            try
+            {
+                Table.Columns = _schemaReader.ReadColumns(Table.Database, Table.Schema, Table.Name);
+            }
+            catch (Exception ex)
+            {
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    _notificationService.Value.Error($"Read columns failed: {ex.Message}");
+                });
+                return;
+            }
+
+            List<StorageFile> files;
+            string globalTemplate;
+            try
+            {
+                files = await _storageService.Value.GetTemplateFilesAsync(templateFolder);
+                if (files == null) return;
+                globalTemplate = await _storageService.Value.GetGlobalTemplateText() ?? string.Empty;
+            }
+            catch (Exception ex)
+            {
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    _notificationService.Value.Error($"Read templates failed: {ex.Message}");
+                });
+                return;
+            }
 
             foreach (var file in files)
             {
                 try
                 {
-                    var templateText = await FileIO.ReadTextAsync(file);
+                    var templateText = globalTemplate + await FileIO.ReadTextAsync(file);
 
                     var result = _codeGenerator.Value.GenerateFromTable(Table, templateText);
                     if (result == null) continue;

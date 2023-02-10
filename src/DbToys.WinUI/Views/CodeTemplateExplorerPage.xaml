@@ -19,12 +19,12 @@
                                     <ImageIcon Source="/Assets/Icons/add_file.png" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
-                            <AppBarButton Label="Rename" ToolTipService.ToolTip="Rename"  Command="{Binding RenameCommand}">
+                            <AppBarButton Label="Rename" Visibility="{x:Bind CanRename, Mode=OneWay}" ToolTipService.ToolTip="Rename" Command="{Binding RenameCommand}">
                                 <AppBarButton.Icon>
                                     <ImageIcon Source="/Assets/Icons/rename.png" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
-                            <AppBarButton Label="Delete" ToolTipService.ToolTip="Delete"  Command="{Binding DeleteCommand}">
+                            <AppBarButton Label="Delete" Visibility="{x:Bind CanDelete, Mode=OneWay}" ToolTipService.ToolTip="Delete" Command="{Binding DeleteCommand}">
                                 <AppBarButton.Icon>
                                     <ImageIcon Source="/Assets/Icons/remove.png"/>
                                 </AppBarButton.Icon>

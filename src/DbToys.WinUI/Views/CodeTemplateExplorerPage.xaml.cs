@@ -101,13 +101,6 @@ public sealed partial class CodeTemplateExplorerPage : Page
         (frame.GetPageViewModel() as TemplateViewModel)!.File = item.File;
         newItem.Content = frame;
 
-        /*
-        var page = App.GetService<TemplatePage>();
-        page.ViewModel.File = item.File;
-        page.Margin = new Thickness(0, 0, 0, 12);
-        newItem.Content = page;
-        */
-
         return newItem;
     }
 
@@ -115,6 +108,7 @@ public sealed partial class CodeTemplateExplorerPage : Page
     {
         ViewModel.TreeItems.Clear();
         var folders = await _templateStorageService.GetProjectFoldersAsync();
+
         foreach (var folder in folders)
         {
             var projectItem = new ProjectFolderItem(folder, false)

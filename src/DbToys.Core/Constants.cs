@@ -34,5 +34,7 @@ public static class Constants
 {{~ # Samples link: https://github.com/NeilQ/DbToys/blob/master/SampleTemplates ~}}
 {{~ # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction ~}}
 ";
+
+        public const string DefaultGlobalTemplateFolderName = "$Global";
     }
 }
