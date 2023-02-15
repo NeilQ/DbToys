@@ -110,7 +110,7 @@ public class SqlServerSchemaReader : SchemaReader
         return result;
     }
 
-    public override DataTable GetResultSet(Table table, int limit)
+    public override DataTable GetResultSet(Table table, int limit, string sort)
     {
         ArgumentNullException.ThrowIfNull(table);
         ConnectionStringBuilder.InitialCatalog = table.Database;
@@ -118,9 +118,7 @@ public class SqlServerSchemaReader : SchemaReader
         using var conn = new SqlConnection(ConnectionStringBuilder.ConnectionString);
         conn.Open();
         var sql = $"select top {limit} * from {Escape(table.Name)}";
-        if (table.Pk != null)
-            sql += $" order by {Escape(table.Pk.Name)} desc";
-
+        if (!string.IsNullOrEmpty(sort)) sql += $" order by {sort}";
         var cmd = new SqlCommand(sql, conn);
         var adp = new SqlDataAdapter(cmd);
         adp.Fill(dtResult);

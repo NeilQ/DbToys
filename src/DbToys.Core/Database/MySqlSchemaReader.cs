@@ -109,7 +109,7 @@ namespace DbToys.Core.Database
             return result;
         }
 
-        public override DataTable GetResultSet(Table table, int limit)
+        public override DataTable GetResultSet(Table table, int limit, string sort)
         {
             ArgumentNullException.ThrowIfNull(table);
             ConnectionStringBuilder.Database = table.Database;
@@ -117,7 +117,7 @@ namespace DbToys.Core.Database
             using var conn = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
             conn.Open();
             var sql = $"select * from {Escape(table.Name)}";
-            if (table.Pk != null) sql += $" order by {Escape(table.Pk.Name)} desc";
+            if (!string.IsNullOrEmpty(sort)) sql += $" order by {sort}";
             sql += $" limit {limit}";
             var cmd = new MySqlCommand(sql, conn);
             var adp = new MySqlDataAdapter(cmd);

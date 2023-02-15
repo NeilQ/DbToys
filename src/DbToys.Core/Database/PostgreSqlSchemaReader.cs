@@ -114,7 +114,7 @@ public class PostgreSqlSchemaReader : SchemaReader
         return result;
     }
 
-    public override DataTable GetResultSet(Table table, int limit)
+    public override DataTable GetResultSet(Table table, int limit, string sort)
     {
         ArgumentNullException.ThrowIfNull(table);
         ConnectionStringBuilder.Database = table.Database;
@@ -122,7 +122,7 @@ public class PostgreSqlSchemaReader : SchemaReader
         using var conn = new NpgsqlConnection(ConnectionStringBuilder.ConnectionString);
         conn.Open();
         var sql = $"select * from {table.Schema}.{Escape(table.Name)}";
-        if (table.Pk != null) sql += $" order by {Escape(table.Pk.Name)} desc";
+        if (!string.IsNullOrEmpty(sort)) sql += $" order by {sort}";
         sql += $" limit {limit}";
 
         var cmd = new NpgsqlCommand(sql, conn);

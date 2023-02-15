@@ -64,7 +64,9 @@ public class DatabaseViewModel : ObservableObject
                     try
                     {
                         columns = SchemaReader?.ReadColumns(tableItem.Table.Database, tableItem.Table.Schema, tableItem.Table.Name);
-                        resultSet = SchemaReader?.GetResultSet(tableItem.Table, 30);
+                        var firstPk = columns?.FirstOrDefault(t => t.IsPk);
+                        var sort = firstPk == null ? null : firstPk.Name + " desc";
+                        resultSet = SchemaReader?.GetResultSet(tableItem.Table, 30, sort);
                     }
                     catch (Exception ex)
                     {
