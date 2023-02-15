@@ -2,7 +2,7 @@
 
 {{~ func get_property_type_of_pgsql(db_type)
     case db_type
-        when "int","int2","int8"
+        when "int","int2","int4","int8"
             ret "int"
         when "bytea"
             ret "byte[]"

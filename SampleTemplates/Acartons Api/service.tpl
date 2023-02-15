@@ -5,7 +5,7 @@
 {{~ # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction ~}}
 using Acartons.Core.Services;
 
-namespace Acartons.Domain.{{ classname | string.to_plural }}
+namespace Acartons.Domain.{{ classname | string.to_plural }};
 
 public interface I{{ classname }}Service : ICrudService<{{classname}}, {{classname}}Dto, {{classname}}Save>
 { 

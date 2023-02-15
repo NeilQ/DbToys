@@ -7,7 +7,7 @@ using Acartons.Core.Repositories;
 using Acartons.Core.Sessions;
 using NPoco;
 
-namespace Acartons.Domain.{{ classname | string.to_plural }}
+namespace Acartons.Domain.{{ classname | string.to_plural }};
 
 public interface I{{ classname }}Repo : INPocoRepository<{{classname}}>
 { 
