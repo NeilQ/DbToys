@@ -12,6 +12,7 @@
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Page.Resources>
+        <StaticResource x:Key="CheckBoxCheckBackgroundFillCheckedDisabled" ResourceKey="SystemControlBackgroundAccentBrush" />
         <Style x:Key="DataGridCellStyle" TargetType="controls:DataGridCell">
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="MinHeight" Value="20"/>
@@ -21,6 +22,7 @@
         <Style x:Key="DataGridRowStyle" TargetType="controls:DataGridRow">
             <Setter Property="Height" Value="25"/>
         </Style>
+
         <DataTemplate x:Key="ConnectionTemplate" x:DataType="database1:ConnectionItem">
             <TreeViewItem ItemsSource="{x:Bind Children, Mode=TwoWay}" IsExpanded="True">
                 <StackPanel Orientation="Horizontal">
@@ -157,11 +159,11 @@
                                CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn Binding="{Binding Name}" Width="150" Header="Name"/>
-                    <controls:DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="120" Header="PrimaryKey"/>
-                    <controls:DataGridTextColumn Binding="{Binding DbType}" Width="120" Header="DataType"/>
-                    <controls:DataGridCheckBoxColumn Binding="{Binding IsNullable}" Width="120" Header="IsNullable"/>
-                    <controls:DataGridTextColumn Binding="{Binding Length}" Width="120" Header="Length"/>
-                    <controls:DataGridCheckBoxColumn Binding="{Binding IsAutoIncrement}" Width="120" Header="AutoIncrement"/>
+                    <controls:DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="110" Header="PrimaryKey"/>
+                    <controls:DataGridTextColumn Binding="{Binding DbType}" Width="100" Header="DataType"/>
+                    <controls:DataGridCheckBoxColumn Binding="{Binding IsNullable}" Width="110" Header="IsNullable"/>
+                    <controls:DataGridTextColumn Binding="{Binding Length}" Width="100" Header="Length"/>
+                    <controls:DataGridCheckBoxColumn Binding="{Binding IsAutoIncrement}" Width="125" Header="AutoIncrement"/>
                     <controls:DataGridTextColumn Binding="{Binding DefaultValue}" Width="120" Header="DefaultValue"/>
                     <controls:DataGridTextColumn Binding="{Binding Description}" Header="Description"/>
                 </controls:DataGrid.Columns>
