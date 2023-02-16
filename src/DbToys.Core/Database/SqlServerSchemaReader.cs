@@ -53,6 +53,7 @@ public class SqlServerSchemaReader : SchemaReader
                 Database = database,
                 Name = rdr["TABLE_NAME"].ToString(),
                 Schema = rdr["TABLE_SCHEMA"].ToString(),
+                Description = rdr["Description"].ToString(),
                 IsView =
                     string.Compare(rdr["TABLE_TYPE"].ToString(), "View", StringComparison.OrdinalIgnoreCase) ==
                     0
@@ -223,8 +224,10 @@ public class SqlServerSchemaReader : SchemaReader
         return sysType;
     }
 
-    const string TABLE_SQL = @"SELECT *
-        FROM  INFORMATION_SCHEMA.TABLES
+    const string TABLE_SQL = @"SELECT t.*,s.value as Description
+        FROM  INFORMATION_SCHEMA.TABLES t
+        LEFT JOIN Sys.Extended_Properties s 
+        ON s.major_id= OBJECT_ID(t.TABLE_SCHEMA+'.'+t.TABLE_NAME)  AND s.minor_id=0 AND s.name='MS_Description'
         WHERE TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW'
         ORDER BY TABLE_SCHEMA,TABLE_TYPE,TABLE_NAME";
 

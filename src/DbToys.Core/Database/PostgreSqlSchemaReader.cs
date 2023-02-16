@@ -63,6 +63,7 @@ public class PostgreSqlSchemaReader : SchemaReader
             {
                 Database = database,
                 Name = rdr["table_name"].ToString(),
+                Description = rdr["table_description"].ToString(),
                 Schema = rdr["table_schema"].ToString(),
                 IsView =
                     string.Compare(rdr["table_type"].ToString(), "View", StringComparison.OrdinalIgnoreCase) ==
@@ -193,8 +194,9 @@ public class PostgreSqlSchemaReader : SchemaReader
     }
 
     const string TABLE_SQL = @"
-            SELECT table_name, table_schema, table_type
-            FROM information_schema.tables 
+            SELECT t.table_name, t.table_schema,t.table_type,obj_description(c.oid) As table_description
+            FROM information_schema.tables t
+            LEFT JOIN pg_class c ON c.relname = t.table_name AND c.relkind = 'r'
             WHERE (table_type='BASE TABLE' OR table_type='VIEW')
                 AND table_schema NOT IN ('pg_catalog', 'information_schema');";
 

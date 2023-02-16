@@ -60,6 +60,7 @@ namespace DbToys.Core.Database
                 {
                     Database = database,
                     Name = rdr["TABLE_NAME"].ToString(),
+                    Description = rdr["TABLE_COMMENT"].ToString(),
                     Schema = rdr["TABLE_SCHEMA"].ToString(),
                     IsView = string.Compare(rdr["TABLE_TYPE"].ToString(), "View",
                         StringComparison.OrdinalIgnoreCase) == 0

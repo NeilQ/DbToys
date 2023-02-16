@@ -9,6 +9,7 @@ public class Table
     public string CleanName { get; set; }
     public string ClassName { get; set; }
     public string Database { get; set; }
+    public string Description { get; set; }
 
     public string DisplayName { get; set; }
 

@@ -28,7 +28,8 @@ public class TableItem : TreeItem
     private readonly Lazy<INotificationService> _notificationService = new(App.GetService<INotificationService>());
     private readonly ISchemaReader _schemaReader;
 
-    public TableItem(Table table, ISchemaReader schemaReader) : base(table.DisplayName, false)
+    public TableItem(Table table, ISchemaReader schemaReader)
+        : base(string.IsNullOrEmpty(table.Description) ? table.DisplayName : $"{table.DisplayName} ({table.Description})", false)
     {
         Table = table;
         _schemaReader = schemaReader;
