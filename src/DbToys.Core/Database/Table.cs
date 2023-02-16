@@ -8,8 +8,6 @@ public class Table
     public bool IsView { get; set; }
     public string CleanName { get; set; }
     public string ClassName { get; set; }
-    public string SequenceName { get; set; }
-    public bool Ignore { get; set; }
     public string Database { get; set; }
 
     public string DisplayName { get; set; }
@@ -33,8 +31,6 @@ public class Column
     public bool IsPk { get; set; }
     public bool IsNullable { get; set; }
     public bool IsAutoIncrement { get; set; }
-    public bool Ignore { get; set; }
-
     public string DbType { get; set; }
     public int? Length { get; set; }
     public string Description { get; set; }
