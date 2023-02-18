@@ -26,6 +26,7 @@ Sometimes we just want to view the column definition and see the sample data by 
 - more to continue...
 
 ### Code Generation
+- Global templates
 - Customize your own code templates
 - Generate code files according the selected data table and the code templates 
 
@@ -34,13 +35,6 @@ Sometimes we just want to view the column definition and see the sample data by 
 ![DbToys1](./images/screen1.png)
 
 ![DbToys2](./images/screen2.png)
-
-## Next Steps
-
-- Code Templates
-	+ define global template variable
-- Code Generation
-	+ inject custom context variable 
 
 ## How to install
 
