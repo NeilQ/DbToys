@@ -40,13 +40,16 @@ public class ExcelService : IExcelService
                 tableWorksheet.Style.Font.FontName = styleOptions.FontFamily;
                 tableWorksheet.RowHeight = 30;
 
-                indexWorksheet.Cell(k + 1, 1).Value = tableList[k].DisplayName;
-                indexWorksheet.Cell(k + 1, 1).SetHyperlink(new XLHyperlink($"'{tableSheetName}'!A1", tableList[k].DisplayName));
+                var tableTitle = string.IsNullOrWhiteSpace(tableList[k].Description)
+                    ? tableList[k].DisplayName
+                    : $"{tableList[k].DisplayName} ({tableList[k].Description})";
+                indexWorksheet.Cell(k + 1, 1).Value = tableTitle;
+                indexWorksheet.Cell(k + 1, 1).SetHyperlink(new XLHyperlink($"'{tableSheetName}'!A1", tableTitle));
 
                 // title
                 tableWorksheet.Row(1).Height = 30;
                 var titleCell = tableWorksheet.Cell(1, 1);
-                titleCell.Value = tableList[k].DisplayName;
+                titleCell.Value = tableTitle;
                 titleCell.Style.Font.FontColor = styleOptions.TitleFontColor;
                 titleCell.Style.Font.FontSize = styleOptions.TitleFontSize;
                 titleCell.Style.Font.Bold = true;
