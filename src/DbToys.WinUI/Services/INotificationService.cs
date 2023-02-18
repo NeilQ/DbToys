@@ -13,7 +13,7 @@ public class Notification
     public string Message { get; set; }
     public InfoBarSeverity Severity { get; set; }
     public int Duration { get; set; }
-    public SolidColorBrush StrokeColor { get; private set; } = new(Colors.DeepSkyBlue);
+    public SolidColorBrush StrokeColor { get; private set; }
 
     public Notification() { }
 
@@ -22,7 +22,7 @@ public class Notification
         Message = message;
         Severity = InfoBarSeverity.Informational;
         UpdateTitle(title);
-        UpdateColor();
+        App.MainWindow.DispatcherQueue.TryEnqueue(UpdateColor);
     }
 
     public Notification(string title, string message, InfoBarSeverity severity)
@@ -30,7 +30,7 @@ public class Notification
         Message = message;
         Severity = severity;
         UpdateTitle(title);
-        UpdateColor();
+        App.MainWindow.DispatcherQueue.TryEnqueue(UpdateColor);
     }
 
     public Notification(string title, string message, InfoBarSeverity severity, int duration)
@@ -39,7 +39,7 @@ public class Notification
         Severity = severity;
         Duration = duration;
         UpdateTitle(title);
-        UpdateColor();
+        App.MainWindow.DispatcherQueue.TryEnqueue(UpdateColor);
     }
 
     private void UpdateTitle(string title)
@@ -83,6 +83,9 @@ public class Notification
                 break;
             case InfoBarSeverity.Error:
                 StrokeColor = new SolidColorBrush(Colors.Red);
+                break;
+            default:
+                StrokeColor = new SolidColorBrush(Colors.DeepSkyBlue);
                 break;
         }
     }
