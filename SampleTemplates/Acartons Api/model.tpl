@@ -7,7 +7,7 @@
 cols= table.columns | array.map "name" 
 ignoredCols=["add_user","add_time","update_time","update_user","marked_for_delete","delete_time","delete_user"]
 hasDeleteFields= (cols | array.contains "delete_user") && (cols | array.contains "delete_time")
-hasUpdateFields= (cols | array.contains "update_user") && (cols | array.contains "upate_time")
+hasUpdateFields= (cols | array.contains "update_user") && (cols | array.contains "update_time")
 hasAddFields= (cols | array.contains "add_user") && (cols | array.contains "add_time")
 
 func get_base_type()
