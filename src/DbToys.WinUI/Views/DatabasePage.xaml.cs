@@ -57,7 +57,7 @@ public sealed partial class DatabasePage
 
     private void TreeView_OnItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
     {
-        if (args.InvokedItem  is DatabaseItem item)
+        if (args.InvokedItem is DatabaseItem item)
         {
             item.IsExpanded = !item.IsExpanded;
         }
