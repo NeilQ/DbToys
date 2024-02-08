@@ -116,6 +116,7 @@
                                ResizeDirection="Auto">
         </controls:GridSplitter>
 
-        <TabView x:Name="TemplateTabView" Grid.Column="1" VerticalAlignment="Stretch" IsAddTabButtonVisible="False" TabCloseRequested="TabView_OnTabCloseRequested"/>
+        <TabView x:Name="TemplateTabView" Grid.Column="1" TabWidthMode="SizeToContent"
+                 VerticalAlignment="Stretch" IsAddTabButtonVisible="False" TabCloseRequested="TabView_OnTabCloseRequested"/>
     </Grid>
 </Page>
