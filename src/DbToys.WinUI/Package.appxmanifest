@@ -12,7 +12,7 @@
   <Identity
     Name="147519809FC86.DbToys"
     Publisher="CN=B25CC0DB-A7EE-4E58-8B8F-D5DF4CCA750B"
-    Version="0.3.0.0" />
+    Version="0.4.0.0" />
 
   <Properties>
     <DisplayName>DbToys</DisplayName>
