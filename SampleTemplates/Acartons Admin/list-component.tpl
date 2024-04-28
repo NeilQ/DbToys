@@ -1,42 +1,41 @@
 {{~ # Required: Defines the output filename here. ~}}
 {{~ filename = (table.clean_name | regex.replace "^[a-zA-Z0-9]+_" "" | string.to_kebab_case | string.to_singular) + ".component.ts" ~}} 
 {{~ classname = table.clean_name | regex.replace "^[a-zA-Z0-9]+_" "" | string.to_pascal_case | string.to_singular ~}}
-{{~ # Samples link: https://github.com/NeilQ/DbToys/blob/master/SampleTemplates ~}}
-{{~ # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction ~}}
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CrudTableComponentBase, {{classname}}, IdNamePair } from '@models';
 import { AuthService, {{classname}}Service, NotificationsService } from '@services';
 import { NzModalService } from "ng-zorro-antd/modal";
+import { {{classname}}EditComponent } from "./edit/{{classname | string.to_kebab_case}}-edit.component";
 
 @Component({
   selector: '{{classname | string.to_kebab_case}}',
-  templateUrl: '{{classname | string.to_kebab_case}}.html',
+  templateUrl: '{{classname | string.to_kebab_case}}.component.html',
   encapsulation: ViewEncapsulation.None
 })
 export class {{classname}}Component extends CrudTableComponentBase<{{classname}}> {
 
-	query = {
+  query = {
     companyId: null,
   };
 
-	constructor(
+  constructor(
     protected apiService: {{classname}}Service,
     protected notifyService: NotificationsService,
     protected modalService: NzModalService,
     protected authService: AuthService) {
-    super(authService, notifyService, apiService);
+    super(authService, notifyService, apiService, modalService);
   }
 
-	ngOnInit(): void {
+  ngOnInit(): void {
     super.ngOnInit();
-		this.editTitle = "";
+    this.editTitle = "";
     //this.editModalWidth = 600;
-		//this.deleteMessage = "";
+    //this.deleteMessage = "";
     this.editComponent = {{classname}}EditComponent;
     this.editComponentParams = {companyId: this.companyId};
   }
 
-	onCompanyChanged(company: IdNamePair) {
+  onCompanyChanged(company: IdNamePair) {
     super.onCompanyChanged(company);
   }
 

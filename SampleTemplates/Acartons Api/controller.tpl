@@ -13,8 +13,8 @@ namespace Acartons.Api.Controllers;
 [Route("api/{{ classname | string.to_plural | string.to_snake_case }}")]
 [ApiExplorerSettings(GroupName = "")]
 [Authorize]
-public class {{classname | string.to_plural}}Controller
-    : CrudControllerBase<{{classname}}, {{classname}}Dto, {{classname}}Query, {{classname}}Save>
+public class {{classname | string.to_plural}}Controller :
+    CrudControllerBase<{{classname}}, {{classname}}Dto, {{classname}}Query, {{classname}}Save>
 {
     public {{classname | string.to_plural}}Controller(I{{classname}}Service service, IControllerDependencies dependencies)
         : base(service, dependencies)

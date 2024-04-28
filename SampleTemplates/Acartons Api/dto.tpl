@@ -6,7 +6,6 @@
 {{~ 
 ignoredCols=["id","add_user","add_time","update_time","update_user","marked_for_delete","delete_time","delete_user"]
 ~}}
-
 namespace Acartons.Domain.{{ classname | string.to_plural }};
 
 public class {{ classname }}Save
@@ -31,4 +30,15 @@ public class {{ classname }}Dto : {{ classname }}Save
 
 public class {{ classname }}Query
 {
+     {{~ for col in table.columns ~}}   
+      {{~ if !(ignoredCols | array.contains col.name) && (col.name | string.ends_with "id") && col.name!="id" ~}}
+        {{~ if col.description && col.description!="" ~}}
+    /// <summary> 
+    /// {{col.description}}
+    /// </summary>
+        {{~ end ~}}
+    public {{ col.db_type | get_property_type_of_pgsql }}? {{ col.property_name | string.to_pascal_case }} { get; set; }
+
+      {{~ end ~}}
+    {{~ end ~}}
 }

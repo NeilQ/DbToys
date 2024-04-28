@@ -5,7 +5,7 @@
 {{~ # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction ~}}
 {{~ 
 cols= table.columns | array.map "name" 
-ignoredCols=["add_user","add_time","update_time","update_user","marked_for_delete","delete_time","delete_user"]
+ignoredCols=["id","add_user","add_time","update_time","update_user","marked_for_delete","delete_time","delete_user"]
 hasDeleteFields= (cols | array.contains "delete_user") && (cols | array.contains "delete_time")
 hasUpdateFields= (cols | array.contains "update_user") && (cols | array.contains "update_time")
 hasAddFields= (cols | array.contains "add_user") && (cols | array.contains "add_time")
@@ -22,14 +22,12 @@ func get_base_type()
     end
 end
 ~}}
-using System;
-using NPoco;
+using System.ComponentModel.DataAnnotations.Schema;
 using Acartons.Core.Entities;
 
 namespace Acartons.Domain.{{ classname | string.to_plural }};
 
-[TableName("{{ table.clean_name }}")]
-[PrimaryKey("id")]
+[Table("{{ table.clean_name }}")]
 public class {{ classname }} : {{get_base_type}}
 { 
     {{~ for col in table.columns ~}}   

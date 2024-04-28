@@ -1,5 +1,5 @@
 {{~ # Required: Defines the output filename here. ~}}
-{{~ filename = (table.clean_name | regex.replace "^[a-zA-Z0-9]+_" "" | string.to_kebab_case | string.to_singular) + ".html" ~}} 
+{{~ filename = (table.clean_name | regex.replace "^[a-zA-Z0-9]+_" "" | string.to_kebab_case | string.to_singular) + ".component.html" ~}} 
 {{~ classname = table.clean_name | regex.replace "^[a-zA-Z0-9]+_" "" | string.to_pascal_case | string.to_singular ~}}
 {{~ 
 # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction 
@@ -28,7 +28,7 @@ ignoredCols=["id","add_user","add_time","update_time","update_user","marked_for_
           </button>
         </li>
         <li>
-          <button type="button" (click)="loadLazy()" class="btn btn-primary">
+          <button type="button" (click)="queryData()" class="btn btn-primary">
             <i class="fa fa-search"></i>
           </button>
         </li>
@@ -59,6 +59,8 @@ ignoredCols=["id","add_user","add_time","update_time","update_user","marked_for_
         </thead>
         <tbody>
         <tr *ngFor="let data of ajaxTable.data">
+          <td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled"
+              (nzCheckedChange)="refreshStatus()"></td>
             {{~ for col in table.columns ~}}   
             {{~ if !(ignoredCols | array.contains col.name) && !(col.name | string.ends_with "id") ~}}
           <td>{%{{{}%}data.{{col.property_name | string.to_camel_case}}{%{}}}%}</td>

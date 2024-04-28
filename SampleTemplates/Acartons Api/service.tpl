@@ -11,9 +11,9 @@ public interface I{{ classname }}Service : ICrudService<{{classname}}, {{classna
 { 
 } 
 
-public class {{classname}}Service : CrudServiceBase<{{classname}}, {{classname}}Dto, {{classname}}Save>, I{{classname}}Service
+public class {{classname}}Service : UowCrudServiceBase<{{classname}}, {{classname}}Dto, {{classname}}Save>, I{{classname}}Service
 {
-    public {{classname}}Service(I{{classname}}Repo repository, IServiceDependencies dependencies): 
+    public {{classname}}Service(I{{classname}}Repo repository, IUowServiceDependencies dependencies): 
             base(repository, dependencies)
     {
     }
