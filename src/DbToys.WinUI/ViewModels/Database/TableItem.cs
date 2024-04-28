@@ -14,12 +14,6 @@ public class TableItem : TreeItem
 {
     public Table Table { get; set; }
 
-    private bool _loadingColumns;
-    public bool LoadingColumns
-    {
-        get => _loadingColumns;
-        set => SetProperty(ref _loadingColumns, value);
-    }
     public IAsyncRelayCommand GenerateCodeCommand { get; set; }
 
     private readonly Lazy<CodeTemplateStorageService> _storageService = new(App.GetService<CodeTemplateStorageService>);

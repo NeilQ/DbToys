@@ -3,6 +3,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DbToys.Core;
 using DbToys.Helpers;
 using DbToys.Services;
 using DbToys.Services.Settings;
@@ -86,6 +87,7 @@ public class GenerateCodeViewModel : ObservableRecipient
         {
             foreach (var storageFolder in folders)
             {
+                if (storageFolder.Name == Constants.CodeTemplate.DefaultGlobalTemplateFolderName) continue;
                 ProjectFolders.Add(storageFolder);
             }
 

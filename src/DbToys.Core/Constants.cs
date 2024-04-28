@@ -31,8 +31,11 @@ public static class Constants
         public const string InitialTemplateText = @"{{~ # Required: Defines the output filename here. ~}}
 {{~ filename = (table.clean_name | string.to_pascal_case | string.to_singular) + "".cs"" ~}} 
 {{~ classname = table.clean_name | string.to_pascal_case | string.to_singular ~}}
-{{~ # Samples link: https://github.com/NeilQ/DbToys/blob/master/SampleTemplates ~}}
-{{~ # How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction ~}}
+{{~ 
+# How to write template: https://github.com/NeilQ/DbToys/wiki/Code-template-instruction 
+# Samples link: https://github.com/NeilQ/DbToys/blob/master/SampleTemplates
+# Press 'F1' to show editor commands
+~}}
 ";
 
         public const string DefaultGlobalTemplateFolderName = "$Global";

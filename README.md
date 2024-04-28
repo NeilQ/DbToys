@@ -51,6 +51,6 @@ Go to [GitHub releases page](https://github.com/NeilQ/DbToys/releases), click on
 
 ## Known issues
 - [Flash when using Multiple WebViews in Tab Controls](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1412)
-- [WinUI3 WebView2 mouse stop working while keyboard is still working.](https://github.com/MicrosoftEdge/WebView2Feedback/issues/3003#issuecomment-1407131599)
+- [Working with CoreWebView2 in MAUI Blazor (hybrid) in combination with Identity results in compile errors](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/issues/3583)
 - [TreeView with DataTemplateSelector not reliably using selected DataTemplate](https://github.com/microsoft/microsoft-ui-xaml/issues/2121)
 

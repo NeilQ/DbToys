@@ -33,7 +33,7 @@
                     <AcrylicBrush TintColor="Black" TintOpacity="0.4"/>
                 </Border.Background>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                    <ProgressRing Height="20" Width="20" IsActive="True" Foreground="{ThemeResource BrushGrey05}" />
+                    <ProgressRing Height="20" Width="20" IsActive="True" Foreground="{ThemeResource BrushGrey03}" />
                     <TextBlock x:Name="LoadingTextBlock" Margin="{StaticResource SmallLeftMargin}" Foreground="{ThemeResource BrushGrey05}"></TextBlock>
                 </StackPanel>
             </Border>

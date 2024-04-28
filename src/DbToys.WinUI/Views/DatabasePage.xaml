@@ -76,7 +76,9 @@
                             <ToolTip Content="{x:Bind Name}"/>
                         </ToolTipService.ToolTip>
                     </TextBlock>
+                    <!--
                     <ProgressRing Height="16" Width="16" Margin="{StaticResource XXSmallLeftMargin}" IsActive="{x:Bind LoadingColumns, Mode=TwoWay}"/>
+                    -->
                 </StackPanel>
             </TreeViewItem>
         </DataTemplate>
@@ -144,37 +146,9 @@
                                ResizeDirection="Auto">
         </controls:GridSplitter>
 
-        <Grid Margin="{StaticResource SmallLeftMargin}" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <TextBlock HorizontalAlignment="Left" Text="Columns" Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <controls:DataGrid Grid.Row="1" IsReadOnly="True" ColumnHeaderHeight="32" AutoGenerateColumns="False"
-                               ItemsSource="{x:Bind ViewModel.TableColumns}" GridLinesVisibility="All" FrozenColumnCount="1"
-                               CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}">
-                <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Binding="{Binding Name}" Width="150" Header="Name"/>
-                    <controls:DataGridCheckBoxColumn Binding="{Binding IsPk}" Width="110" Header="PrimaryKey"/>
-                    <controls:DataGridTextColumn Binding="{Binding DbType}" Width="100" Header="DataType"/>
-                    <controls:DataGridCheckBoxColumn Binding="{Binding IsNullable}" Width="110" Header="IsNullable"/>
-                    <controls:DataGridTextColumn Binding="{Binding Length}" Width="100" Header="Length"/>
-                    <controls:DataGridCheckBoxColumn Binding="{Binding IsAutoIncrement}" Width="125" Header="AutoIncrement"/>
-                    <controls:DataGridTextColumn Binding="{Binding DefaultValue}" Width="120" Header="DefaultValue"/>
-                    <controls:DataGridTextColumn Binding="{Binding Description}" Header="Description"/>
-                </controls:DataGrid.Columns>
-            </controls:DataGrid>
-            <TextBlock Grid.Row="2" Text="ResultSet" HorizontalAlignment="Left" Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <controls:DataGrid x:Name="ResultSetGrid" AutoGenerateColumns="False" Grid.Row="3" RowHeight="30" IsReadOnly="True" ColumnHeaderHeight="32"
-                      ItemsSource="{x:Bind ViewModel.TableResultSet}"  GridLinesVisibility="All"
-                      CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}">
-                <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn Width="150" Header="Result"/>
-                </controls:DataGrid.Columns>
-            </controls:DataGrid>
+        <TabView x:Name="TableDetailTabView" Grid.Column="1" VerticalAlignment="Stretch" 
+                 TabWidthMode="SizeToContent"
+                 IsAddTabButtonVisible="False" TabCloseRequested="TabView_OnTabCloseRequested"/>
 
-        </Grid>
     </Grid>
 </Page>

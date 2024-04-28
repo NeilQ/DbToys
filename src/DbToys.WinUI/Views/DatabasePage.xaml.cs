@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using DbToys.Views.CodeTemplate;
 
 namespace DbToys.Views;
 
@@ -21,23 +22,12 @@ public sealed partial class DatabasePage
 
     public DatabaseViewModel ViewModel { get; }
 
+    private const int MaxTabCapacity = 6;
+
     public DatabasePage()
     {
         ViewModel = App.GetService<DatabaseViewModel>();
         InitializeComponent();
-        ViewModel.OnResultSetLoaded += columns =>
-        {
-            ResultSetGrid.Columns.Clear();
-            if (columns == null) return;
-            for (var i = 0; i < columns.Count; i++)
-            {
-                ResultSetGrid.Columns.Add(new DataGridTextColumn
-                {
-                    Header = columns[i].ColumnName,
-                    Binding = new Binding { Path = new PropertyPath("[" + i.ToString() + "]") }
-                });
-            }
-        };
     }
 
     private void GridSplitter_OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
@@ -55,11 +45,60 @@ public sealed partial class DatabasePage
         (sender as UIElement)?.ChangeCursor(_resizeCursor);
     }
 
+    private void TabView_OnTabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+    {
+        ((args.Tab.Content as Frame)!.Content as TableDetailPage)!.ViewModel.IsActive = false;
+        sender.TabItems.Remove(args.Tab);
+    }
+    private TabViewItem CreateNewTab(TableItem item)
+    {
+        var newItem = new TabViewItem
+        {
+            Header = item.Table.DisplayName,
+            IconSource = new SymbolIconSource { Symbol = Symbol.Document }
+        };
+        var frame = new Frame();
+
+        frame.Navigate(typeof(TableDetailPage));
+
+        var viewModel = frame.GetPageViewModel() as TableDetailViewModel;
+        viewModel!.SchemaReader = ViewModel.SchemaReader;
+        viewModel.SelectedTable = item.Table;
+        viewModel.IsActive = true;
+        newItem.Content = frame;
+
+        return newItem;
+    }
+
     private void TreeView_OnItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
     {
-        if (args.InvokedItem  is DatabaseItem item)
+        if (args.InvokedItem is DatabaseItem item)
         {
             item.IsExpanded = !item.IsExpanded;
+        }
+        else if (args.InvokedItem is TableItem tableItem)
+        {
+            var openedView = TableDetailTabView.TabItems.FirstOrDefault(t =>
+                (string)(t as TabViewItem)!.Tag! == tableItem.Table.DisplayName);
+            if (openedView != null)
+            {
+                TableDetailTabView.SelectedItem = openedView;
+            }
+            else
+            {
+                var view = CreateNewTab(tableItem);
+                view.Tag = tableItem.Table.DisplayName;
+                TableDetailTabView.TabItems.Add(view);
+                TableDetailTabView.SelectedItem = view;
+
+                if (TableDetailTabView.TabItems.Count > MaxTabCapacity)
+                {
+
+                    (((TableDetailTabView.TabItems[0] as TabViewItem)!.Content as Frame)!.Content as TableDetailPage)!
+                        .ViewModel.IsActive = false;
+                    TableDetailTabView.TabItems.RemoveAt(0);
+                }
+            }
         }
     }
 }

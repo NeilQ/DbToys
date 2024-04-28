@@ -93,7 +93,7 @@ public sealed partial class TemplatePage : Page
         });
     }
 
-    private void CoreWebView2_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+    private void CoreWebView2_WebMessageReceived(Microsoft.Web.WebView2.Core.CoreWebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
     {
         var json = JsonDocument.Parse(args.WebMessageAsJson);
         var type = json.RootElement.GetProperty("type").GetString();

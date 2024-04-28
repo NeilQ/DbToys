@@ -93,6 +93,7 @@ public partial class App : Application
             services.AddSingleton<MysqlConnectViewModel>();
             services.AddTransient<SqlServerConnectDialog>();
             services.AddSingleton<SqlServerConnectViewModel>();
+            services.AddTransient<TableDetailViewModel>();
             services.AddTransient<TemplateViewModel>();
             services.AddTransient<TemplatePage>();
             services.AddTransient<GenerateCodeDialog>();

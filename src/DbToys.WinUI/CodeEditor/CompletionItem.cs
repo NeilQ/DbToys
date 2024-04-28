@@ -40,7 +40,7 @@ public class CompletionItem
 
     public static List<CompletionItem> CustomCompletionItems = new()
     {
-        new("string.to_camal_case"),
+        new("string.to_camel_case"),
         new("string.to_pascal_case"),
         new("string.to_snake_case"),
         new("string.to_singular"),
